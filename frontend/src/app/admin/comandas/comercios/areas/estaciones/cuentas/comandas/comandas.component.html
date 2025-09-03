@@ -1,0 +1,345 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Comercios / {{cuenta?.estacion?.area?.comercio?.nombre}} / {{cuenta?.estacion?.area?.nombre}} /
+        {{cuenta?.estacion?.nombre}} / {{cuenta?.nombre}}</h4>
+      <h6>Control de comandas</h6>
+      <span class="badges"
+        [ngClass]="{'bg-primary': cuenta?.estado == 'ABIERTA', 'bg-danger': cuenta?.estado == 'CERRADA'}">{{cuenta?.estado}}
+      </span>
+    </div>
+    <div class="page-btn">
+      <button class="btn btn-primary" style="float: left; margin-right: 10px;" data-bs-toggle="offcanvas"
+        data-bs-target="#impresoras">
+        <i class="fas fa-print"></i>
+      </button>
+      @if(cuenta?.estado == 'ABIERTA') {
+      <button class="btn btn-dark green" style="float: left; margin-right: 10px;" data-bs-toggle="offcanvas"
+        data-bs-target="#documentos" (click)="getDocumentos('venta')">
+        <i class="fas fa-check-double"></i>
+      </button>
+      <button class="btn btn-dark orange" style="float: left; margin-right: 10px;" data-bs-toggle="offcanvas"
+        data-bs-target="#mover-cuenta" (click)="getAllComerciosArbol()">
+        <i class="fas fa-arrows-up-down-left-right"></i>
+      </button>
+      @if(getTotalCuenta() == 0) {
+      <button class="btn btn-danger" style="float: left; margin-right: 10px;" (click)="deleteCuenta()"
+        permiso="eliminar-cuenta">
+        <i class="fas fa-trash"></i>
+      </button>
+      }
+      }
+    </div>
+    <div class="page-btn">
+      <button routerLink="../../" class="btn btn-cancel" style="float: left; margin-right: 10px;">
+        <i class="fas fa-reply"></i> Regresar
+      </button>
+      @if(cuenta?.estado == 'ABIERTA') {
+      <button class="btn btn-submit" (click)="getDocumentos('comanda')" permiso="agregar-comanda">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Comanda
+      </button>
+      }
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      @for (c of cuenta?.comandas; track c) {
+      <div class="card">
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 5%;"></th>
+                <th style="width: 50%;">COMANDA {{c.serie}}-{{c.correlativo}}</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-end">Precio</th>
+                <th class="text-end">SubTotal</th>
+                @if(cuenta?.estado == 'ABIERTA') {
+                <th class="text-end">Acciones</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (d of c.comandas_detalles; track d) {
+              <tr>
+                <td>
+                  @if(cuenta?.estado == 'ABIERTA') {
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="d.selected">
+                    <label class="form-check-label" [for]="d.id"></label>
+                  </div>
+                  }
+                </td>
+                <td>
+                  <div class="productimg">
+                    <div class="productimgs">
+                      <img [src]="d.producto.logo ? d.producto.logo : 'assets/img/blank.jpg'" alt="img"
+                        style="width: 30px; height: 20px;">
+                    </div>
+                    <div class="productcontet">
+                      <h4>{{d.descripcion}}
+                        @if(d.comentario) {
+                        <span class="text-danger">***{{d.comentario}}</span>
+                        }
+                      </h4>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center">{{d.cantidad}} {{d.medida.simbolo}}</td>
+                <td class="text-end">{{d.precio_unitario | number: '.2-2'}}</td>
+                <td class="text-end">{{d.precio | number: '.2-2'}}</td>
+                @if(cuenta?.estado == 'ABIERTA') {
+                <td class="text-end">
+                  <a class="text-primary" style="margin-right: 10px;" data-bs-toggle="offcanvas"
+                    data-bs-target="#comentario">
+                    <i class="fa fa-comment" style="font-size: 16px;"></i>
+                  </a>
+                  @if(!d.finalizado) {
+                  <a (click)="deleteComandaDetalle(d)" href="javascript:void(0);" class="text-danger"
+                    permiso="eliminar-comanda">
+                    <i class="fa fa-trash" style="font-size: 16px;"></i>
+                  </a>
+                  } @else {
+                  <a class="text-danger disabled" permiso="eliminar-comanda">
+                    <i class="fa fa-trash" style="font-size: 16px;"></i>
+                  </a>
+                  }
+                </td>
+                }
+              </tr>
+              }
+            </tbody>
+            <thead>
+              <tr>
+                <th colspan="4" class="text-end"></th>
+                <th class="text-end">{{getTotalComanda(c.comandas_detalles) | number: '.2-2'}}</th>
+                <th></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      } @empty {
+      @if(!loading) {
+      <div class="col-12" style="text-align: center; margin-top: 50px;">
+        <img class="fa-bounce" id="robot" src="https://api.kairosgt.com/public/robots/busqueda.png" width="100">
+        <h4>No existen items</h4>
+      </div>
+      }
+      }
+
+      <div class="row">
+        <div class="col-8">
+
+        </div>
+        <div class="col-lg-4 col-12">
+          <div class="card">
+            <div class="card-body text-center">
+              <h4>TOTAL: {{getTotalCuenta() | moneda: 'Q. '}}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      @if(loading) {
+      <div class="text-center">
+        <i class="fad fa-spinner-third fa-spin fa-4x text-primary"></i>
+      </div>
+      }
+    </div>
+
+  </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="documentos">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Selecciona un Documento</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="row">
+
+      @for (d of documentos; track d.id) {
+      <div id="seleccionar-documento" class="col-6" (click)="setDocumento(d)">
+        <i class="fad fa-file-invoice-dollar fa-6x" [ngStyle]="{'color': d.color}"></i>
+        <br>
+        <p>
+          <span [ngStyle]="{'color': d.color}">{{d.serie}}-{{d.correlativo}}</span>
+          <br>
+          {{d.nombre}}
+        </p>
+        <br>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="carrito">
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+      (click)="closeDocumento()"></button>
+  </div>
+  <div class="offcanvas-body">
+    @if (documento) {
+    <app-carrito [sucursal_id]="documento?.sucursal_id" [bodega_id]="documento?.bodega_id" [documento_id]="documento_id"
+      [documento]="documento" (newItemEvent)="updateCarrito()" [moneda_id]="1"
+      [tipo_cambio]="1" [moneda_simbolo]="'Q. '">
+    </app-carrito>
+    }
+
+    <div class="setvalue text-end">
+      <div class="btn-group">
+        <a class="btn btn-cancel me-2" (click)="closeOC()" (click)="closeDocumento()">
+          <i class="fas fa-reply"></i> Regresar
+        </a>
+        <a class="btn btn-submit me-2" (click)="postComanda()" permiso="agregar-comanda">
+          <i class="fas fa-save"></i> Guardar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mover-cuenta">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Mover Cuenta</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="nav nav-tabs nav-tabs-solid nav-justified" id="comerciosTabs" role="tablist">
+          @for (c of comercios; track c.id) {
+          <button class="nav-link" [ngClass]="{'active': $index == 0}" data-bs-toggle="tab"
+            [attr.data-bs-target]="'#comercio' + c.id" type="button" role="tab">
+            {{c.nombre}}
+          </button>
+          }
+        </div>
+        <div class="tab-content" id="comerciosTabsContent">
+          @for (c of comercios; track c.id) {
+          <div class="tab-pane fade" [ngClass]="{'show active': $index == 0}" id="comercio{{c.id}}" role="tabpanel">
+
+            <div class="accordion" [id]="'accordionAreas-' + c.id">
+
+              @for (a of c.areas; track a.id) {
+              <div class="accordion-item">
+                <h2 class="accordion-header" [id]="a.id + '-headingOne'">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    [attr.data-bs-target]="'#id-' + a.id" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseOne">
+                    {{a.nombre}}
+                  </button>
+                </h2>
+                <div [id]="'id-' + a.id" class="accordion-collapse collapse"
+                  [attr.aria-labelledby]="a.id + '-headingOne'" [attr.data-bs-parent]="'#accordionAreas-' + c.id">
+                  <div class="accordion-body">
+                    <div class="row">
+                      @for (e of a.estaciones; track e.id) {
+                      <div class="col-lg-4">
+                        <div class="card gray">
+                          <a class="card-header">
+                            <div class="row">
+                              <div class="col-lg-7 col-md-6" (click)="moverCuenta(e, a, c)">
+                                <h5 class="card-title mb-0 text-white" style="font-size: 14px;">{{e.nombre}}</h5>
+                              </div>
+                              <div class="col-lg-5 col-md-6 text-end">
+                                <div class="dropdown">
+                                  <span class="badges" style="min-width: 20px;" data-bs-toggle="dropdown"
+                                    [ngClass]="{'bg-success': !e.cuentas.length, 'bg-danger': e.cuentas.length}">
+                                    <i class="fas fa-receipt"></i> {{e.cuentas.length}}
+                                  </span>
+                                  <div class="dropdown-menu">
+                                    @for (cu of e.cuentas; track cu.id) {
+                                    <a class="dropdown-item" href="javascript:void(0);"
+                                      (click)="moverProductos(cu, e, a, c)">{{cu.nombre}}</a>
+                                    }
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                      } @empty {
+                      <div class="col-12" style="text-align: center;">
+                        <img class="fa-bounce" id="robot" src="https://api.kairosgt.com/public/robots/busqueda.png"
+                          width="100">
+                        <h4>No existen items</h4>
+                      </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
+
+            </div>
+
+          </div>
+          }
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="impresoras">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Selecciona Impresora</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>IP</th>
+                <th>Tabs</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (i of impresoras; track i.id) {
+              <tr style="line-height: 50px;" (click)="printPrecuenta(i)">
+                <td>
+                  <a class="link">
+                    {{i.nombre}}
+                  </a>
+                </td>
+                <td>{{i.ip}}</td>
+                <td>{{i.tabs}}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="comentario">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Comentario</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="form-group">
+      <label for="comentario">Comentario</label>
+      <textarea class="form-control" id="comentario" rows="3" [(ngModel)]="comentario"></textarea>
+    </div>
+    <div class="form-group text-end">
+      <button class="btn btn-submit" (click)="putComentario()">Guardar</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,251 @@
+<div class="content">
+  <div [hidden]="oc" class="page-header">
+    <div class="page-title">
+      <h4>Editar Presupuesto</h4>
+      <h6>Completa el formulario</h6>
+      <label>Presupuesto ID: {{presupuesto_id}}</label>
+    </div>
+    <h4>
+      Estado:
+      <span
+        [ngClass]="estado === 'Aprobado' ? 'text-success' : 'text-warning'"
+      >
+        {{ estado }}
+      </span>
+    </h4>
+  </div>
+  <div class="row">
+    <div [hidden]="oc" class="col-lg-6 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div [formGroup]="presupuestoForm" class="row">
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="form-group">
+                <label>Numero</label>
+                <input id="numero" class="form-control" formControlName="numero" type="number">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input formControlName="nombre" type="text" />
+              </div>
+            </div>
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Fecha de inicio</label>
+              <input id="fecha_inicio" class="form-control" formControlName="fecha_inicio" type="date">
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Fecha final</label>
+              <input id="fecha_fin" class="form-control" formControlName="fecha_fin" type="date">
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Monto</label>
+              <input id="monto" class="form-control" formControlName="monto" type="number">
+            </div>
+          </div>
+          <div class="col-lg col-sm-12 col-12">
+            <div class="form-group">
+              <label>Tipo</label>
+              <ng-multiselect-dropdown formControlName="tipo" [placeholder]="'Selecciona tipo'" [settings]="selectS"
+                [data]="tipos">
+              </ng-multiselect-dropdown>
+            </div>
+          </div> 
+          <div class="col-lg col-sm-12 col-12">
+            <div class="form-group">
+              <label>Centro de Costo</label>
+              <select
+                class="form-control"
+                formControlName="centro_costo_id"
+              >
+              <option value="">Seleccione un centro de costo</option>
+              <option *ngFor="let centro of centrosCostos" [value]="centro.id" (onCentroCostoSelect)="onCentroCostoSelect($event)">
+                {{ centro.numero }} - {{ centro.nombre }} - {{ centro.tipo }}
+              </option>
+              </select>
+            </div>
+          </div>
+            <div [hidden]="oc" class="col-12" class="text-end">
+              <a routerLink="/admin/contabilidad/presupuestos/" class="btn btn-cancel me-2">
+                <i class="fas fa-reply"></i> Regresar
+              </a>
+              <a
+                (click)="putPresupuesto()"
+                [ngClass]="{ disabled: presupuestoForm.invalid }"
+                class="btn btn-submit me-2"
+                permiso="editar-presupuesto"
+              >
+                @if (loading) {
+                <span class="spinner-border spinner-border-sm"></span>
+                } @else {
+                <i class="fas fa-save"></i> Guardar }
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div [hidden]="oc" class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12 col-sm-6 col-12">
+              <a>Lista de rubros</a>
+              <br /><br />
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 6%;">Número</th>
+                      <th>Nombre</th>
+                      <th style="width: 6%;">Nivel</th>
+                      <th style="width: 6%;">Tipo</th>
+                      <th style="width: 6%;">Monto</th>
+                      <th style="width: 10%;" class="text-end">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let c of rubros; let i = index">
+                      <ng-container *ngTemplateOutlet="recursiveTemplate; context: { $implicit: c, level: 0 }"></ng-container>
+                    </ng-container>
+                    <ng-template #recursiveTemplate let-c let-level="level">
+                      <tr>
+                        <td>{{c.numero}}</td>
+                        <td>
+                          <a class="link" [routerLink]="['/admin/contabilidad/rubros/editar', c.id]"  
+                            [ngStyle]="{'margin-left': level * margin_left + 'px'}">
+                            {{c.nombre}}
+                          </a>
+                        </td>
+                        <td>{{c.nivel}}</td>
+                        <td>{{c.tipo}}</td>
+                        <td>{{c.monto | number: '1.2-2'}}</td>
+                        <td class="text-end">
+                            <a class="me-2" permiso="agregar-rubro" [routerLink]="['/admin/contabilidad/rubros/agregar', c.id]"
+                              [ngClass]="{'disabled': niv_nom == c.nivel}">
+                              <i class="fas fa-plus"></i>
+                            </a>
+                            <a id="btn_editar" class="me-2" [routerLink]="['/admin/contabilidad/rubros/editar', c.id]" permiso="editar-rubro">
+                              <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a id="btn_eliminar" class="me-2" (click)="deleteRubro(c)"
+                              permiso="eliminar-rubro">
+                              <i class="fas fa-trash-alt"></i>
+                            </a>
+
+                        </td>
+                      </tr>
+                      <ng-container *ngFor="let child of c.rubros_hijos">
+                        <ng-container
+                          *ngTemplateOutlet="recursiveTemplate; context: { $implicit: child, level: level + 1 }"></ng-container>
+                      </ng-container>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </div>
+              <thead>
+                <th>Total Rubros: </th>
+                <th>
+                  <span [ngClass]="{'text-success': getTotalRubros()}">
+                    {{ getTotalRubros() }}  
+                  </span>  
+                </th>
+              </thead>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg col-sm col-12">
+      <div class="card">
+        <div class="card-body" style="margin-bottom: 6%">
+          <div [formGroup]="rubroForm" class="row">
+            <div class="col-lg-12 col-sm-12 col-12">
+              <div class="form-group">
+                <label>
+                  <span *ngIf="!rubro_id">Agregar rubro a: </span>
+                  <span *ngIf="rubro_id">Editar</span>
+                  {{ presupuestoForm.value.nombre }}</label
+                >
+                <div class="col-lg-12 col-sm-12 col-12">
+                  <div class="form-group">
+                    <label>Numero</label>
+                    <input
+                      id="numero"
+                      class="form-control"
+                      formControlName="numero"
+                      type="number"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-12">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input formControlName="nombre" type="text" />
+                  </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-12">
+                  <div class="form-group">
+                    <label>Nivel</label>
+                    <input
+                      id="nivel"
+                      class="form-control"
+                      formControlName="nivel"
+                      type="number"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-12">
+                  <div class="form-group">
+                    <label>Tipo</label>
+                    <ng-multiselect-dropdown formControlName="tipo" [placeholder]="'Selecciona tipo'" [settings]="selectS"
+                      [data]="tipos" (onSelect)="onTipoRubroSelect($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-12">
+                  <div class="form-group">
+                    <label>Monto</label>
+                    <input
+                      id="monto"
+                      class="form-control"
+                      formControlName="monto"
+                      type="number"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 col-12">
+              <a
+                (click)="rubro_id ? putRubro() : postRubro() "
+                class="btn btn-primary me-2"
+                permiso="editar-presupuesto"
+              >
+                <i class="fas fa-save"></i> Guardar
+              </a>
+              <a
+                *ngIf="rubro_id"
+                (click)="
+                  rubro_id = null;
+                  rubroForm.controls['numero'].setValue(null);
+                  rubroForm.controls['nombre'].setValue(null);
+                  rubroForm.controls['nivel'].setValue(null);
+                  rubroForm.controls['tipo'].setValue(null);
+                  rubroForm.controls['monto'].setValue(null)
+                "
+                class="btn btn-danger me-2"
+              >
+                <i class="fas fa-cancel"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

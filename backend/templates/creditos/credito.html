@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Credito #{{credito_id}}</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid invoice-container">
+
+    <header>
+      <div class="row gy-3">
+        <div class="col-3">
+          <img id="logo"
+            v-bind:src="credito.credito_detalle.categoria.logo ? credito.credito_detalle.categoria.logo : empresa.logo"
+            style="width: 90px">
+        </div>
+        <div class="col-6" style="text-align: center; font-size: 12px;">
+          <h6>{{credito.credito_detalle.categoria.nombre}}</h6>
+          <p class="lh-base mb-0">PROYECCION DE CUOTAS (CAPITAL + INTERESES)</p>
+          <p class="lh-base mb-0">CREDITO No.: {{credito.id}}</p>
+        </div>
+        <div class="col-3" style="text-align: right;">
+          <img id="logo" v-bind:src="empresa.logo" style="width: 90px">
+        </div>
+        <div class="col-6" style="text-align: left;">
+          <strong>Fecha:</strong>
+          {{formatoFecha(credito.fecha, 'DD/MM/YYYY HH:mm')}} <br>
+        </div>
+        <div class="col-6" style="text-align: right;">
+          <strong>Estado:</strong>
+          {{credito.estado}} <br>
+        </div>
+        <hr>
+    </header>
+
+    <main>
+      <div class="row gy-4">
+        <div class="col-3">
+          <p class="mb-1"><b>Total:</b> {{moneda(credito.total, 'Q. ')}}</p>
+          <p class="mb-1"><b>Enganche:</b> {{moneda(credito.enganche, 'Q. ')}}</p>
+          <p class="mb-1"><b>Capital:</b> {{moneda(credito.capital, 'Q. ')}}</p>
+        </div>
+        <div class="col-3">
+          <p class="mb-1"><b>Plazo:</b> {{credito.plazo_meses}} meses</p>
+          <p class="mb-1"><b>Fecha Inicio:</b> {{formatoFecha(credito.fecha_inicio, 'DD/MM/yyyy')}}</p>
+          <p class="mb-1"><b>Fecha Fin:</b> {{formatoFecha(credito.fecha_fin, 'DD/MM/yyyy')}}</p>
+        </div>
+        <div class="col-3">
+          <p class="mb-1"><b>Interes:</b> {{credito.interes_anual}}% Anual</p>
+          <p class="mb-1"><b>Total Interes:</b> {{moneda(credito.interes, 'Q. ')}}</p>
+          <p class="mb-1"><b>Total Cuota:</b> {{moneda(credito.cuota, 'Q. ')}}</p>
+        </div>
+        <div class="col-3">
+          <p class="mb-1"><b>Tipo de Cuota:</b> {{credito.tipo_cuota}}</p>
+          <p class="mb-1"><b>Dias:</b> {{credito.dias}}</p>
+          <p class="mb-1" v-if="credito.venta"><b>Venta:</b> {{credito.venta.serie}}-{{credito.venta.correlativo}}</p>
+        </div>
+      </div>
+      <hr>
+      <div class="table-responsive">
+        <table class="table border mb-0" style="line-height: 0px; width: 100%;">
+          <thead>
+            <tr class="bg-dark">
+              <td style="width: 2%;"><strong>No.</strong></td>
+              <td style="width: 12%;"><strong>Fecha Inicio</strong></td>
+              <td style="width: 10%;"><strong>Fecha Fin</strong></td>
+              <td class="text-end" style="width: 3%;"><strong>Dias</strong></td>
+              <td class="text-end" style="width: 19%;"><strong>Capital</strong></td>
+              <td class="text-end" style="width: 19%;"><strong>Interes</strong></td>
+              <td class="text-end" style="width: 19%;"><strong>Cuota</strong></td>
+              <td class="text-end" style="width: 19%;"><strong>Saldo</strong></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="c in credito.cuotas">
+              <td style="width: 2% !important;">{{c.numero}}</td>
+              <td style="width: 12% !important; text-transform: capitalize;">{{formatoFecha(c.fecha_inicio,
+                'DD/MM/yyyy')}}</td>
+              <td style="width: 10%; text-transform: capitalize;">{{formatoFecha(c.fecha_fin, 'DD/MM/yyyy')}}</td>
+              <td class="text-end" style="width: 3%;">{{c.dias}}</td>
+              <td class="text-end" style="width: 19%;">{{moneda(c.capital, 'Q. ')}}</td>
+              <td class="text-end" style="width: 19%;">{{moneda(c.interes, 'Q. ')}}</td>
+              <td class="text-end" style="width: 19%;">{{moneda(c.cuota, 'Q. ')}}</td>
+              <td class="text-end" style="width: 19%;">{{moneda(c.saldo_final, 'Q. ')}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="bg-light" style="font-weight: 700;">
+              <td colspan="3"></td>
+              <td class="text-end" style="width: 3%;">{{credito.dias}}</td>
+              <td class="text-end" style="width: 18%;">{{moneda(getTotalCuotas('capital'), 'Q. ')}}</td>
+              <td class="text-end" style="width: 18%;">{{moneda(getTotalCuotas('interes'), 'Q. ')}}</td>
+              <td class="text-end" style="width: 18%;">{{moneda(getTotalCuotas('cuota'), 'Q. ')}}</td>
+              <td class="text-end"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </main>
+    <footer class="mt-2">
+      <div class="text-center">
+        <div class="btn-group btn-group-sm d-print-none"> <a href="javascript:window.print()"
+            class="btn btn-light border text-black-50 shadow-none"><i class="fas fa-print"></i> Imprimir y Descargar</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/moment-with-locales.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+  
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let credito = ref(___credito)
+        let empresa = ref(___empresa)
+        let cuotas = ref(___cuotas)
+        return {
+          credito,
+          empresa,
+          cuotas
+        }
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          moment.locale('es')
+          return moment(date).format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        getTotalCuotas(campo) {
+          let total = 0;
+          this.cuotas.forEach((c) => {
+            if (campo === 'capital') {
+              total += parseFloat(c.capital);
+            } else if (campo === 'interes') {
+              total += parseFloat(c.interes);
+            } else if (campo === 'cuota') {
+              total += parseFloat(c.cuota);
+            }
+          });
+          return total;
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,776 @@
+<main class="main">
+
+  @if(getValor('tipo_slider') == '1') {
+  <div class="hero-section hs-1 pb-100">
+    <div class="container">
+      <div class="hero-slider owl-carousel owl-theme">
+        <div class="hero-single">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <div class="hero-content">
+                  <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Bienvenido a
+                    {{empresa?.nombre}}</h6>
+                  <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                    We offers modern <span>furniture</span> for you
+                  </h1>
+                  <p data-animation="fadeInLeft" data-delay=".75s">
+                    There are many variations of passages orem psum available but the majority
+                    have suffered alteration in some form by injected humour.
+                  </p>
+                  <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="#" v-on:click="view = 'tienda'" class="theme-btn">
+                      Ir a la tienda <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#" v-on:click="view = 'nosotros'" class="theme-btn theme-btn2">
+                      Nosotros<i class="fas fa-arrow-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="hero-right" data-animation="fadeInRight" data-delay=".25s">
+                  <div class="hero-img">
+                    <div class="hero-img-item">
+                      <button type="button"><i class="far fa-plus"></i></button>
+                      <div class="hero-img-content">
+                        <img src="assets/img/hero/01.png" alt="">
+                        <div class="hero-img-info">
+                          <h6><a href="#">Modern Chair</a></h6>
+                          <p>Price: <span>$230</span></p>
+                          <a href="#" class="theme-btn">Buy Now<i class="fas fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                    <img src="assets/img/hero/01.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-single">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <div class="hero-content">
+                  <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Welcome to fameo!</h6>
+                  <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                    We offers modern <span>furniture</span> for you
+                  </h1>
+                  <p data-animation="fadeInLeft" data-delay=".75s">
+                    There are many variations of passages orem psum available but the majority
+                    have suffered alteration in some form by injected humour.
+                  </p>
+                  <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="shop-grid.html" class="theme-btn">Shop Now<i class="fas fa-arrow-right"></i></a>
+                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="hero-right" data-animation="fadeInRight" data-delay=".25s">
+                  <div class="hero-img">
+                    <div class="hero-img-item">
+                      <button type="button"><i class="far fa-plus"></i></button>
+                      <div class="hero-img-content">
+                        <img src="assets/img/hero/02.png" alt="">
+                        <div class="hero-img-info">
+                          <h6><a href="#">Modern Chair</a></h6>
+                          <p>Price: <span>$230</span></p>
+                          <a href="#" class="theme-btn">Buy Now<i class="fas fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                    <img src="assets/img/hero/02.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-single">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <div class="hero-content">
+                  <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Welcome to fameo!</h6>
+                  <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                    We offers modern <span>furniture</span> for you
+                  </h1>
+                  <p data-animation="fadeInLeft" data-delay=".75s">
+                    There are many variations of passages orem psum available but the majority
+                    have suffered alteration in some form by injected humour.
+                  </p>
+                  <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="shop-grid.html" class="theme-btn">Shop Now<i class="fas fa-arrow-right"></i></a>
+                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="hero-right" data-animation="fadeInRight" data-delay=".25s">
+                  <div class="hero-img">
+                    <div class="hero-img-item">
+                      <button type="button"><i class="far fa-plus"></i></button>
+                      <div class="hero-img-content">
+                        <img src="assets/img/hero/03.png" alt="">
+                        <div class="hero-img-info">
+                          <h6><a href="#">Modern Chair</a></h6>
+                          <p>Price: <span>$230</span></p>
+                          <a href="#" class="theme-btn">Buy Now<i class="fas fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                    <img src="assets/img/hero/03.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+  
+  @if(getValor('tipo_slider') == '2') {
+  <div class="hero-section hs-2">
+    <div class="hero-text-shape">
+      <p class="text-1">furniture</p>
+      <p class="text-2">shop</p>
+    </div>
+    <div class="container">
+      <div class="hero-slider owl-carousel owl-theme">
+        <div class="hero-single">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <div class="hero-content">
+                  <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Welcome to fameo!</h6>
+                  <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                    Discover modern <span>furniture</span> for your every room
+                  </h1>
+                  <p data-animation="fadeInLeft" data-delay=".75s">
+                    There are many variations of passages orem psum available but the majority
+                    have suffered alteration in some form by injected humour.
+                  </p>
+                  <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="shop-grid.html" class="theme-btn">Shop Now<i class="fas fa-arrow-right"></i></a>
+                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="hero-right" data-animation="fadeInRight" data-delay=".25s">
+                  <div class="hero-img">
+                    <img src="assets/img/hero/01.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-single">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <div class="hero-content">
+                  <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Welcome to fameo!</h6>
+                  <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                    Discover modern <span>furniture</span> for your every room
+                  </h1>
+                  <p data-animation="fadeInLeft" data-delay=".75s">
+                    There are many variations of passages orem psum available but the majority
+                    have suffered alteration in some form by injected humour.
+                  </p>
+                  <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="shop-grid.html" class="theme-btn">Shop Now<i class="fas fa-arrow-right"></i></a>
+                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="hero-right" data-animation="fadeInRight" data-delay=".25s">
+                  <div class="hero-img">
+                    <img src="assets/img/hero/02.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-single">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <div class="hero-content">
+                  <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Welcome to fameo!</h6>
+                  <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                    Discover modern <span>furniture</span> for your every room
+                  </h1>
+                  <p data-animation="fadeInLeft" data-delay=".75s">
+                    There are many variations of passages orem psum available but the majority
+                    have suffered alteration in some form by injected humour.
+                  </p>
+                  <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="shop-grid.html" class="theme-btn">Shop Now<i class="fas fa-arrow-right"></i></a>
+                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="hero-right" data-animation="fadeInRight" data-delay=".25s">
+                  <div class="hero-img">
+                    <img src="assets/img/hero/03.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if(getValor('tipo_slider') == '3') {
+  <div class="hero-section hs-3">
+    <div class="container-fluid px-0">
+      <div class="hero-slider owl-carousel owl-theme">
+        <div class="hero-single">
+          <div class="hero-single-bg" style="background-image: url(assets/img/hero/slider-1.jpg)"></div>
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-md-12 col-lg-8 col-xl-6">
+                <div class="hero-content">
+                  <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Welcome to fameo!</h6>
+                  <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                    Discover modern <span>furniture</span> for your every room
+                  </h1>
+                  <p data-animation="fadeInLeft" data-delay=".75s">
+                    There are many variations of passages orem psum available but the majority have
+                    suffered are going to use a passage alteration in some form by injected humour.
+                  </p>
+                  <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="shop-grid.html" class="theme-btn">Shop Now<i class="fas fa-arrow-right"></i></a>
+                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-single">
+          <div class="hero-single-bg" style="background-image: url(assets/img/hero/slider-2.jpg)"></div>
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-md-12 col-lg-8 col-xl-6">
+                <div class="hero-content">
+                  <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Welcome to fameo!</h6>
+                  <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                    Discover modern <span>furniture</span> for your every room
+                  </h1>
+                  <p data-animation="fadeInLeft" data-delay=".75s">
+                    There are many variations of passages orem psum available but the majority have
+                    suffered are going to use a passage alteration in some form by injected humour.
+                  </p>
+                  <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="shop-grid.html" class="theme-btn">Shop Now<i class="fas fa-arrow-right"></i></a>
+                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-single">
+          <div class="hero-single-bg" style="background-image: url(assets/img/hero/slider-3.jpg)"></div>
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-md-12 col-lg-8 col-xl-6">
+                <div class="hero-content">
+                  <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Welcome to fameo!</h6>
+                  <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                    Discover modern <span>furniture</span> for your every room
+                  </h1>
+                  <p data-animation="fadeInLeft" data-delay=".75s">
+                    There are many variations of passages orem psum available but the majority have
+                    suffered are going to use a passage alteration in some form by injected humour.
+                  </p>
+                  <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="shop-grid.html" class="theme-btn">Shop Now<i class="fas fa-arrow-right"></i></a>
+                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- about area -->
+  <div class="about-area pt-100 pb-120 mb-30">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="about-left wow fadeInLeft" data-wow-delay=".25s">
+            <div class="about-img">
+              <img class="img-1" src="assets/img/about/01.jpg" alt="">
+              <img class="img-2" src="assets/img/about/02.jpg" alt="">
+              <img class="img-3" src="assets/img/about/03.jpg" alt="">
+            </div>  
+            <div class="about-shape">
+              <img src="assets/img/shape/01.png" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="about-right wow fadeInRight" data-wow-delay=".25s">
+            <div class="site-heading mb-3">
+              <span class="site-title-tagline justify-content-start">
+                <i class="flaticon-drive"></i> {{getValor('titulo')}}
+              </span>
+              <h2 class="site-title">
+                {{getValor('subtitulo')}}
+              </h2>
+            </div>
+            <p>
+              {{getValor('descripcion')}}
+            </p>
+            <div class="about-list">
+              <ul>
+                <li><i class="fas fa-check-double"></i> {{getValor('check1')}}</li>
+                <li><i class="fas fa-check-double"></i> {{getValor('check2')}}</li>
+                <li><i class="fas fa-check-double"></i> {{getValor('check3')}}</li>
+                <li><i class="fas fa-check-double"></i> {{getValor('check4')}}</li>
+              </ul>
+            </div>
+            <a routerLink="nosotros" class="theme-btn mt-4">{{getValor('boton')}}<i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- about area end -->
+
+  <!-- choose-area -->
+  <div class="choose-area pb-100">
+    <div class="container">
+      <div class="row g-4 align-items-center wow fadeInDown" data-wow-delay=".25s">
+        <div class="col-lg-4">
+          <span class="site-title-tagline">Why Choose Us</span>
+          <h2 class="site-title">We Provide Premium Quality Furniture For You</h2>
+        </div>
+        <div class="col-lg-4">
+          <p>There are many variations of passages available but the majority have suffered you are going
+            to use a passage you need to be sure alteration in some form by injected humour randomised
+            words even slightly believable.</p>
+        </div>
+        <div class="col-lg-4">
+          <div class="choose-img">
+            <img src="assets/img/choose/01.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="choose-content wow fadeInUp" data-wow-delay=".25s">
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="choose-item">
+              <div class="choose-icon">
+                <img src="assets/img/icon/warranty.svg" alt="">
+              </div>
+              <div class="choose-info">
+                <h4>3 Years Warranty</h4>
+                <p>It is a long established fact that a reader will be distracted by the readable
+                  content of a page when looking at its layout.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="choose-item">
+              <div class="choose-icon">
+                <img src="assets/img/icon/price.svg" alt="">
+              </div>
+              <div class="choose-info">
+                <h4>Affordable Price</h4>
+                <p>It is a long established fact that a reader will be distracted by the readable
+                  content of a page when looking at its layout.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="choose-item">
+              <div class="choose-icon">
+                <img src="assets/img/icon/delivery.svg" alt="">
+              </div>
+              <div class="choose-info">
+                <h4>Free Shipping</h4>
+                <p>It is a long established fact that a reader will be distracted by the readable
+                  content of a page when looking at its layout.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- choose-area end-->
+
+  <!-- brand area -->
+  <div class="brand-area bg pt-50 pb-50">
+    <div class="container wow fadeInUp" data-wow-delay=".25s">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center">
+            <h2 class="site-title">Trusted by over <span>3.2k+</span> companies</h2>
+          </div>
+        </div>
+      </div>
+      <div class="brand-slider owl-carousel owl-theme">
+        <div class="brand-item">
+          <img src="assets/img/brand/01.png" alt="">
+        </div>
+        <div class="brand-item">
+          <img src="assets/img/brand/02.png" alt="">
+        </div>
+        <div class="brand-item">
+          <img src="assets/img/brand/03.png" alt="">
+        </div>
+        <div class="brand-item">
+          <img src="assets/img/brand/04.png" alt="">
+        </div>
+        <div class="brand-item">
+          <img src="assets/img/brand/05.png" alt="">
+        </div>
+        <div class="brand-item">
+          <img src="assets/img/brand/06.png" alt="">
+        </div>
+      </div>
+      <div class="text-center">
+        <a href="#" class="theme-btn">View All Brands <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+  <!-- brand area end -->
+
+
+  <!-- gallery-area -->
+  <div class="gallery-area py-100">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 mx-auto">
+          <div class="site-heading text-center">
+            <span class="site-title-tagline">Our Gallery</span>
+            <h2 class="site-title">Let's Check Our Photo <span>Gallery</span></h2>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4 popup-gallery">
+        <div class="col-md-12 col-lg-6">
+          <div class="gallery-item gallery-btn-active wow fadeInUp" data-wow-delay=".25s">
+            <div class="gallery-img">
+              <div class="gallery-img-item gallery-item-1">
+                <button type="button"><i class="far fa-plus"></i></button>
+                <div class="gallery-img-content">
+                  <img src="assets/img/product/16.png" alt="">
+                  <div class="gallery-img-info">
+                    <h6><a href="#">Modern Sofa</a></h6>
+                    <p>Price: <span>$230</span></p>
+                    <a href="#" class="theme-btn">Buy Now<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="gallery-img-item gallery-item-2">
+                <button type="button"><i class="far fa-plus"></i></button>
+                <div class="gallery-img-content">
+                  <img src="assets/img/product/16.png" alt="">
+                  <div class="gallery-img-info">
+                    <h6><a href="#">Modern Sofa</a></h6>
+                    <p>Price: <span>$230</span></p>
+                    <a href="#" class="theme-btn">Buy Now<i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              <img class="main-img" src="assets/img/gallery/01.jpg" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <div class="gallery-item wow fadeInDown" data-wow-delay=".25s">
+            <div class="gallery-img">
+              <img src="assets/img/gallery/02.jpg" alt="">
+              <a class="popup-img gallery-link" href="assets/img/gallery/02.jpg"><i class="fal fa-plus"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <div class="gallery-item wow fadeInUp" data-wow-delay=".25s">
+            <div class="gallery-img">
+              <img src="assets/img/gallery/03.jpg" alt="">
+              <a class="popup-img gallery-link" href="assets/img/gallery/03.jpg"><i class="fal fa-plus"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <div class="gallery-item wow fadeInDown" data-wow-delay=".25s">
+            <div class="gallery-img">
+              <img src="assets/img/gallery/04.jpg" alt="">
+              <a class="popup-img gallery-link" href="assets/img/gallery/04.jpg"><i class="fal fa-plus"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <div class="gallery-item wow fadeInUp" data-wow-delay=".25s">
+            <div class="gallery-img">
+              <img src="assets/img/gallery/05.jpg" alt="">
+              <a class="popup-img gallery-link" href="assets/img/gallery/05.jpg"><i class="fal fa-plus"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 col-lg-6">
+          <div class="gallery-item wow fadeInDown" data-wow-delay=".25s">
+            <div class="gallery-img">
+              <img src="assets/img/gallery/06.jpg" alt="">
+              <a class="popup-img gallery-link" href="assets/img/gallery/06.jpg"><i class="fal fa-plus"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- gallery-area end -->
+
+
+  <!-- testimonial area -->
+  <div class="testimonial-area bg ts-bg py-90">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-delay=".25s">
+          <div class="site-heading text-center">
+            <span class="site-title-tagline">Testimonials</span>
+            <h2 class="site-title">What Our Client <span>Say's</span></h2>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-slider owl-carousel owl-theme wow fadeInUp" data-wow-delay=".25s">
+        <div class="testimonial-item">
+          <div class="testimonial-author">
+            <div class="testimonial-author-img">
+              <img src="assets/img/testimonial/01.jpg" alt="">
+            </div>
+            <div class="testimonial-author-info">
+              <h4>Sylvia H Green</h4>
+              <p>Customer</p>
+            </div>
+          </div>
+          <div class="testimonial-quote">
+            <p>
+              There are many variations of long passages available but the content majority have
+              suffered to the editor page when looking at its layout alteration in some injected.
+            </p>
+          </div>
+          <div class="testimonial-rate">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
+        </div>
+        <div class="testimonial-item">
+          <div class="testimonial-author">
+            <div class="testimonial-author-img">
+              <img src="assets/img/testimonial/02.jpg" alt="">
+            </div>
+            <div class="testimonial-author-info">
+              <h4>Gordo Novak</h4>
+              <p>Customer</p>
+            </div>
+          </div>
+          <div class="testimonial-quote">
+            <p>
+              There are many variations of long passages available but the content majority have
+              suffered to the editor page when looking at its layout alteration in some injected.
+            </p>
+          </div>
+          <div class="testimonial-rate">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
+        </div>
+        <div class="testimonial-item">
+          <div class="testimonial-author">
+            <div class="testimonial-author-img">
+              <img src="assets/img/testimonial/03.jpg" alt="">
+            </div>
+            <div class="testimonial-author-info">
+              <h4>Reid E Butt</h4>
+              <p>Customer</p>
+            </div>
+          </div>
+          <div class="testimonial-quote">
+            <p>
+              There are many variations of long passages available but the content majority have
+              suffered to the editor page when looking at its layout alteration in some injected.
+            </p>
+          </div>
+          <div class="testimonial-rate">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
+        </div>
+        <div class="testimonial-item">
+          <div class="testimonial-author">
+            <div class="testimonial-author-img">
+              <img src="assets/img/testimonial/04.jpg" alt="">
+            </div>
+            <div class="testimonial-author-info">
+              <h4>Parker Jimenez</h4>
+              <p>Customer</p>
+            </div>
+          </div>
+          <div class="testimonial-quote">
+            <p>
+              There are many variations of long passages available but the content majority have
+              suffered to the editor page when looking at its layout alteration in some injected.
+            </p>
+          </div>
+          <div class="testimonial-rate">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
+        </div>
+        <div class="testimonial-item">
+          <div class="testimonial-author">
+            <div class="testimonial-author-img">
+              <img src="assets/img/testimonial/05.jpg" alt="">
+            </div>
+            <div class="testimonial-author-info">
+              <h4>Heruli Nez</h4>
+              <p>Customer</p>
+            </div>
+          </div>
+          <div class="testimonial-quote">
+            <p>
+              There are many variations of long passages available but the content majority have
+              suffered to the editor page when looking at its layout alteration in some injected.
+            </p>
+          </div>
+          <div class="testimonial-rate">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- testimonial area end -->
+
+
+  <!-- blog area -->
+  <div class="blog-area py-100">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 mx-auto">
+          <div class="site-heading text-center">
+            <span class="site-title-tagline">Our Blog</span>
+            <h2 class="site-title">Our Latest News & <span>Blog</span></h2>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
+            <div class="blog-item-img">
+              <img src="assets/img/blog/01.jpg" alt="Thumb">
+              <span class="blog-date"><i class="far fa-calendar-alt"></i> Aug 12, 2024</span>
+            </div>
+            <div class="blog-item-info">
+              <div class="blog-item-meta">
+                <ul>
+                  <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
+                  <li><a href="#"><i class="far fa-comments"></i> 2.5k Comments</a></li>
+                </ul>
+              </div>
+              <h4 class="blog-title">
+                <a href="#">There are many variations of passage available majority suffered.</a>
+              </h4>
+              <p>There are many variations available the majority have suffered alteration randomised
+                words.</p>
+              <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="blog-item wow fadeInDown" data-wow-delay=".25s">
+            <div class="blog-item-img">
+              <img src="assets/img/blog/02.jpg" alt="Thumb">
+              <span class="blog-date"><i class="far fa-calendar-alt"></i> Aug 15, 2024</span>
+            </div>
+            <div class="blog-item-info">
+              <div class="blog-item-meta">
+                <ul>
+                  <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
+                  <li><a href="#"><i class="far fa-comments"></i> 3.1k Comments</a></li>
+                </ul>
+              </div>
+              <h4 class="blog-title">
+                <a href="#">Contrary to popular belief making simply random text piece classical
+                  latin.</a>
+              </h4>
+              <p>There are many variations available the majority have suffered alteration randomised
+                words.</p>
+              <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
+            <div class="blog-item-img">
+              <img src="assets/img/blog/03.jpg" alt="Thumb">
+              <span class="blog-date"><i class="far fa-calendar-alt"></i> Aug 18, 2024</span>
+            </div>
+            <div class="blog-item-info">
+              <div class="blog-item-meta">
+                <ul>
+                  <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
+                  <li><a href="#"><i class="far fa-comments"></i> 1.6k Comments</a></li>
+                </ul>
+              </div>
+              <h4 class="blog-title">
+                <a href="#"> If you are going use passage you need sure there anything middle
+                  text.</a>
+              </h4>
+              <p>There are many variations available the majority have suffered alteration randomised
+                words.</p>
+              <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- blog area end -->
+
+</main>

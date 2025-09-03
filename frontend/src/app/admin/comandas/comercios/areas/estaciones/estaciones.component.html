@@ -1,0 +1,121 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Comercios / {{area?.comercio?.nombre}} / {{area?.nombre}}</h4>
+      <h6>Control de estaciones</h6>
+    </div>
+    <div class="page-btn">
+      <button routerLink="../../" class="btn btn-cancel" style="float: left; margin-right: 10px;">
+        <i class="fas fa-reply"></i> Regresar
+      </button>
+      <button class="btn btn-submit" data-bs-toggle="offcanvas" data-bs-target="#agregar-estacion"
+        permiso="agregar-estacion">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Estacion
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    @for (a of area?.estaciones; track a) {
+    <div class="col-lg-4 col-12">
+      <div class="card flex-fill">
+        <div [routerLink]="['estacion', a.id]" class="card-header d-flex align-items-center justify-content-between">
+          <h4 class="card-title mb-0" style="flex: 1; margin-right: 10px;">{{a.nombre}}</h4>
+          <i class="fad fa-chair-office fa-4x text-primary"></i>
+        </div>
+        <div class="card-body" style="font-size: 20px;">
+          <div class="row">
+            <div class="col-6">
+              <a class="card-link" data-bs-toggle="offcanvas" data-bs-target="#editar-estacion"
+                permiso="editar-estacion" (click)="setEstacion(a)">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+              <a class="card-link" (click)="deleteEstacion(a)" permiso="eliminar-estacion">
+                <i class="fas fa-trash-alt"></i>
+              </a>
+            </div>
+            <div class="col-6 text-end">
+              <span class="badges" [ngClass]="{'bg-success': !a.cuentas.length, 'bg-danger': a.cuentas.length}">
+                @if(!a.cuentas.length) {
+                DISPONIBLE
+                } @else {
+                <i class="fas fa-receipt"></i> {{a.cuentas.length}}
+                }
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    } @empty {
+    @if(!loading) {
+    <div class="col-12" style="text-align: center; margin-top: 50px;">
+      <img class="fa-bounce" id="robot" src="https://api.kairosgt.com/public/robots/busqueda.png" width="100">
+      <h4>No existen items</h4>
+    </div>
+    }
+    }
+    @if(loading) {
+    <div class="text-center">
+      <i class="fad fa-spinner-third fa-spin fa-4x text-primary"></i>
+    </div>
+    }
+  </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" id="agregar-estacion">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Estacion</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="card">
+      <div class="card-body">
+        <div [formGroup]="estacionForm" class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input formControlName="nombre" type="text">
+            </div>
+          </div>
+          <div class="col-12" class="text-end">
+            <a (click)="postEstacion()" [ngClass]="{'disabled': estacionForm.invalid}" class="btn btn-submit me-2"
+              permiso="agregar-estacion">
+              <i class="fas fa-save"></i> Guardar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="editar-estacion">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Editar Estacion</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="card">
+      <div class="card-body">
+        <div [formGroup]="estacionForm" class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input formControlName="nombre" type="text">
+            </div>
+          </div>
+          <div class="col-12" class="text-end">
+            <a (click)="putEstacion()" [ngClass]="{'disabled': estacionForm.invalid}" class="btn btn-submit me-2"
+              permiso="editar-estacion">
+              <i class="fas fa-save"></i> Guardar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

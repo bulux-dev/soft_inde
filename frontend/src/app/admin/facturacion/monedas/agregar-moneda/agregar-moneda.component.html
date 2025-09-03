@@ -1,0 +1,49 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Agregar Moneda</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div [formGroup]="monedaForm" class="row">
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input id="nombre" formControlName="nombre" type="text">
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Simbolo</label>
+            <input id="simbolo" formControlName="simbolo" type="text">
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Tipo de Cambio</label>
+            <input id="tipo-cambio" class="form-control" formControlName="tipo_cambio" type="number">
+          </div>
+        </div>
+
+        <div class="col-12" class="text-end">
+          <a routerLink="../" class="btn btn-cancel me-2">
+            <i class="fas fa-reply"></i> Regresar
+          </a>
+          <a  id="btn_guardar" (click)="postMoneda()" [ngClass]="{'disabled': monedaForm.invalid}" class="btn btn-submit me-2"
+            permiso="agregar-moneda">
+            @if (loading) {
+            <span class="spinner-border spinner-border-sm"></span>
+            } @else {
+            <i class="fas fa-save"></i> Guardar
+            }
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

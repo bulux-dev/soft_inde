@@ -1,0 +1,180 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Comisiones</h4>
+      <h6>Control de comisiones</h6>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-lg-8 col-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="filtros" class="row">
+            <!-- <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown formControlName="categoria_id" [placeholder]="'Selecciona categoria'"
+                  [settings]="selectS" [data]="categorias" (onSelect)="getProductosByCategoria($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div> -->
+            <div class="col-lg-3 col-sm-6 col-12">
+              <label>Empleado</label>
+              <div id="seleccionar-empleado" class="form-group">
+                <ng-multiselect-dropdown formControlName="empleados" [placeholder]="'Selecciona empledo(s)'"
+                  [settings]="selectM" [data]="empleados">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <label>Fecha Inicio</label>
+              <div class="form-group">
+                <input id="filtro-fecha" formControlName="fecha_inicio" type="date" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <label>Fecha Inicio</label>
+              <div class="form-group">
+                <input id="filtro-fecha-fin" formControlName="fecha_fin" type="date" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <label>Acciones</label>
+              <div class="form-group">
+                <button id="btn_buscar" (click)="getComisiones()" class="btn btn-primary">
+                  <i class="fa-solid fa-magnifying-glass"></i> Buscar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+
+          <div class="table-responsive">
+            @if (comisiones.length > 0) {
+              @for (c of comisiones; track c.id) {
+                <h4>{{c.empleado.nombre}} {{c.empleado.apellido}}</h4>
+    
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Venta</th>
+                      <th>Fecha</th>
+                      <th>Monto</th>
+                      <th>Comision %</th>
+                      <th>Total</th>
+                      <!-- <th>Acciones</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (d of c.data; track d.id) {
+                    <tr>
+                      <td>
+                        <span class="badges" [ngStyle]="{'background-color': d.venta.documento.color}">
+                          {{d.venta.documento.nombre}} {{d.venta.serie}}-{{d.venta.correlativo}}
+                        </span>
+                      </td>
+                      <td>{{d.fecha}}</td>
+                      <td>{{d.monto | moneda: 'Q. '}}</td>
+                      <td>{{d.comision}}%</td>
+                      <td>{{d.total | moneda: 'Q. '}}</td>
+                      <!-- <td>
+                        <button class="btn btn-sm btn-danger">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </td> -->
+                    </tr>
+                    } @empty {
+                      <tr>
+                        <td colspan="9" class="text-center">
+                          <img id="robot" class="fa-bounce mt-3" width="100"
+                            src="https://api.kairosgt.com/public/robots/busqueda.png">
+                          <br>
+                          <h4 class="mb-3">No se encontraron registros</h4>
+                        </td>
+                      </tr>
+                      }
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td></td>
+                      <td>
+                        <a class="product-img">TOTALES</a>
+                      </td>
+                      <td>
+                        <a class="product-img">
+                          {{getMonto(c.empleado.id) | moneda: 'Q. '}}
+                        </a>
+                      </td>
+                      <td></td>
+                      <td>
+                        <a class="product-img">
+                          {{getTotal(c.empleado.id) | moneda: 'Q. '}}
+                        </a>
+                      </td>
+                    </tr>
+                  </thead>
+                </table>
+                }
+            } @else {
+              <table class="table">
+                <tr>
+                  <td colspan="9" class="text-center">
+                    <img id="robot" class="fa-bounce mt-3" width="25%"
+                      src="https://api.kairosgt.com/public/robots/laptop.png">
+                    <br>
+                    <!-- <h4 class="mb-3">No se encontraron registros</h4> -->
+                  </td>
+                </tr>
+              </table>
+            }
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-12">
+      <div class="row">
+        <div class="col-6">
+          <div class="dash-count">
+            <div class="dash-counts">
+              <h4>{{empleados.length}}</h4>
+              <h5>Empleados</h5>
+            </div>
+            <div class="dash-imgs">
+              <i class="fa fa-layer-group fa-2x"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="dash-count">
+            <div class="dash-counts">
+              <h4>{{getMonto() | moneda: 'Q. '}}</h4>
+              <h5>Monto</h5>
+            </div>
+            <div class="dash-imgs">
+              <i class="fa fa-calculator fa-2x"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="dash-count">
+            <div class="dash-counts">
+              <h4>{{getTotal() | moneda: 'Q. '}}</h4>
+              <h5>Total</h5>
+            </div>
+            <div class="dash-imgs">
+              <i class="fa fa-sack-dollar fa-2x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

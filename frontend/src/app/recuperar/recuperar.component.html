@@ -1,0 +1,38 @@
+<div class="main-wrapper">
+  <div class="account-content">
+    <div class="login-wrapper">
+      <div class="login-content">
+        <div class="login-userset">
+          <div class="login-logo logo-normal text-center">
+            <img [src]="ajustes.logo">
+          </div>
+          <div class="login-logo logo-white">
+            <img [src]="ajustes.logo">
+          </div>
+          <div class="login-userheading">
+            <h3>Recuperar tu cuenta</h3>
+            <h4>Ingresa el correo con el que te registraste para validar tu identidad</h4>
+          </div>
+          <div class="form-login">
+            <label>Correo Electrónico</label>
+            <div class="form-addons">
+              <input type="text" placeholder="Ingresa tu correo electrónico" [(ngModel)]="correo" [ngModelOptions]="{standalone: true}">
+              <i class="fas fa-envelope"></i>
+            </div>
+          </div>
+          <div class="form-login">
+            <a class="btn btn-login" (click)="recuperar()">Enviar codigo de seguridad</a>
+          </div>
+          <div class="signinform text-center">
+            <h4><a routerLink="/login" class="hover-a"><i class="fas fa-arrow-left"></i> Regresar</a></h4>
+          </div>
+        </div>
+      </div>
+      <div class="login-img bg-primary">
+        @if (ajustes.portada) {
+        <img [src]="ajustes.portada" alt="img">
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,173 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Categorias</h4>
+      <h6>Control de categorias</h6>
+    </div>
+    <div class="page-btn">
+      <a class="btn btn-added" routerLink="agregar" permiso="agregar-categoria">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Categoria
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-top">
+        <div class="search-set">
+          <div class="search-path">
+            <a class="btn btn-filter" id="filter_search">
+              <img src="assets/img/icons/filter.svg" alt="img">
+              <span>
+                <img src="assets/img/icons/closes.svg" alt="img">
+              </span>
+            </a>
+          </div>
+          <div class="search-input">
+            <a class="btn btn-searchset">
+              <img src="assets/img/icons/search-white.svg" alt="img">
+            </a>
+          </div>
+        </div>
+        <div class="wordset">
+          <ul>
+            <li>
+              <button class="btn btn-primary btn-sm">
+                <i class="fa fa-print"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" id="filter_inputs">
+        <div class="card-body pb-0">
+          <form [formGroup]="filtros" (ngSubmit)="getCategorias()" class="row">
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="nombre" placeholder="Nombre">
+              </div>
+            </div>
+            <div class="col" class="text-end">
+              <div class="form-group" style="float: right; margin-left: 10px;">
+                <button type="submit" class="btn btn-filters ms-auto">
+                  <img src="assets/img/icons/search-whites.svg" alt="img">
+                </button>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-filters ms-auto" (click)="filtros.reset()"
+                  (click)="getCategorias()">
+                  <i class="fa-solid fa-broom-wide"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Color</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of categorias; track c.id) {
+            <tr>
+              <td>
+                <a class="product-img" [routerLink]="['editar', c.id]">
+                  <div class="avatar">
+                    @if (c.logo) {
+                    <img [src]="c.logo" alt="">
+                    } @else {
+                    <span class="avatar-title rounded-circle border border-white">{{iniciales(c.nombre)}}</span>
+                    }
+                  </div>
+                  {{c.nombre}}
+                </a>
+              </td>
+              <td>
+                <i class="fas fa-circle" [ngStyle]="{'color': c.color}"></i>
+              </td>
+              <td class="text-end">
+                <a class="me-2" [routerLink]="['agregar', c.id]" permiso="agregar-categoria">
+                  <i class="fas fa-plus"></i>
+                </a>
+                <a class="me-2" [routerLink]="['editar', c.id]" permiso="editar-categoria">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a class="me-2" (click)="deleteCategoria(c)" permiso="eliminar-categoria">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            @for (s2 of c.subcategorias; track s2.id) {
+            <tr>
+              <td>
+                <a class="product-img" [routerLink]="['editar', s2.id]" style="margin-left: 60px;">
+                  <div class="avatar">
+                    @if (s2.logo) {
+                    <img [src]="s2.logo" alt="">
+                    } @else {
+                    <span class="avatar-title rounded-circle border border-white">{{iniciales(s2.nombre)}}</span>
+                    }
+                  </div>
+                  {{s2.nombre}}
+                </a>
+              </td>
+              <td>
+                <i class="fas fa-circle" [ngStyle]="{'color': s2.color}"></i>
+              </td>
+              <td class="text-end">
+                <a class="me-2" [routerLink]="['agregar', s2.id]" permiso="agregar-categoria">
+                  <i class="fas fa-plus"></i>
+                </a>
+                <a class="me-2" [routerLink]="['editar', s2.id]" permiso="editar-categoria">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a class="me-2" (click)="deleteCategoria(s2)" permiso="eliminar-categoria">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            @for (s3 of s2.subcategorias; track s3.id) {
+            <tr>
+              <td>
+                <a class="product-img" [routerLink]="['editar', s3.id]" style="margin-left: 120px;">
+                  <div class="avatar">
+                    @if (s3.logo) {
+                    <img [src]="s3.logo" alt="">
+                    } @else {
+                    <span class="avatar-title rounded-circle border border-white">{{iniciales(s3.nombre)}}</span>
+                    }
+                  </div>
+                  {{s3.nombre}}
+                </a>
+              </td>
+              <td>
+                <i class="fas fa-circle" [ngStyle]="{'color': s3.color}"></i>
+              </td>
+              <td class="text-end">
+                <a class="me-2" [routerLink]="['editar', s3.id]" permiso="editar-categoria">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a class="me-2" (click)="deleteCategoria(s3)" permiso="eliminar-categoria">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            }
+            }
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

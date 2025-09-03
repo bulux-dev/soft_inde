@@ -1,0 +1,295 @@
+<div class="content">
+  <div class="row">
+
+    <div class="col-lg-12 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="importacionForm">
+            <div class="col-3 d-flex align-items-center mb-5">
+              <a class="card-link">
+                <i class="fas fa-money-check-dollar-pen fa-2x primary-color me-2"></i>
+              </a>
+              <h5 class="mb-0">GASTOS</h5>
+            </div>
+            <div class="col-3">
+
+            </div>
+            <div class="col-6 text-end">
+              <a routerLink="../../" class="btn btn-cancel me-2">
+                <i class="fas fa-reply"></i> Regresar
+              </a>
+              <a id="btn_agregar" class="btn btn-primary btn-added" data-bs-toggle="offcanvas"
+                data-bs-target="#compras">
+                <i class="fa fa-plus me-2"></i> Agregar
+              </a>
+            </div>
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 10%;" class="text-center">No. Documento</th>
+                      <th style="width: 8%;">Fecha</th>
+                      <th style="width: 6%;">Comprobante</th>
+                      <th style="width: auto">Proveedor</th>
+                      <th style="width: auto">Nit</th>
+                      <th style="width: 8%;">Moneda</th>
+                      <th style="width: 8%;">Tipo Cambio</th>
+                      <th style="width: 10%;">Tipo Gasto</th>
+                      <th style="width: 10%;" class="text-end">Total</th>
+                      <th style="width: 5%;" class="text-end">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (d of importaciones_gastos; track d.id) {
+                    <tr>
+                      <td class="text-center">{{d.compra?.no_doc}}</td>
+                      <td>{{d.compra?.fecha | fecha: 'DD/MM/YYYY'}}</td>
+                      <td>{{d.compra?.gravable ? 'Factura' : 'Recibo'}}</td>
+                      <td>{{d.compra?.proveedor?.nombre}}</td>
+                      <td>{{d.compra?.proveedor?.nit}} </td>
+                      <td>{{d.compra?.moneda?.nombre}}</td>
+                      <td>{{d.compra?.tipo_cambio | moneda: ''}}</td>
+                      <td>
+                        <ng-multiselect-dropdown [(ngModel)]="d.tipo_gasto_id" [ngModelOptions]="{standalone: true}"
+                          [placeholder]="'Seleccionar'" [settings]="selectS" [data]="tipos_gastos">
+                        </ng-multiselect-dropdown>
+                      </td>
+                      <td class="text-end">
+                        <b style="font-weight: 600;">
+                          @if (d.compra.moneda_id != 1) {
+                          @if (d.compra.gravable) {
+                          <span> ({{d.compra?.subtotal_ext | moneda: d.compra.moneda.simbolo}})</span>
+                          } @else {
+                          <span> ({{d.compra?.total_ext | moneda: d.compra.moneda.simbolo}})</span>
+                          }
+                          } @else {
+                          @if (d.compra.gravable) {
+                          <span>
+                            {{d.compra?.subtotal | moneda: 'Q. '}}
+                          </span>
+                          } @else {
+                          <span>
+                            {{d.compra?.total | moneda: 'Q. '}}
+                          </span>
+                          }
+                          }
+                        </b>
+                      </td>
+                      <td class="text-end">
+                        <button class="btn btn-danger" (click)="removeGasto($index)">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <th colspan="7">Total</th>
+                      <th class="text-end">
+                        <span>
+                          {{ getTotalGasto() | moneda: 'Q. '}} ({{getTotalGastoExt() | moneda: moneda_simbolo}})
+                        </span>
+                      </th>
+                      <th>
+                        <!-- <span
+                          [ngClass]="{'text-success': getTotalDebe() == getTotalHaber(), 'text-danger': getTotalDebe() != getTotalHaber()}">
+                          {{ getTotalHaber() }}
+                        </span> -->
+                      </th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="importacionForm">
+            <div class="col-2 d-flex align-items-center mb-5">
+              <a class="card-link">
+                <i class="fas fa-money-check-dollar-pen fa-2x primary-color me-2"></i>
+              </a>
+              <h5 class="mb-0">PRORRATEO</h5>
+            </div>
+            <div class="col-2">
+              <div class="form-group">
+                <label>Tipo de Prorrateo</label>
+                <ng-multiselect-dropdown [placeholder]="'Seleccionar'" [settings]="selectS" [data]="tipos_prorrateos"
+                  formControlName="tipo_prorrateo" (onSelect)="setProrrateo()">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Tipo Cambio</label>
+                <input type="number" class="form-control" [(ngModel)]="importacionForm.value.tipo_cambio"
+                  [ngModelOptions]="{standalone: true}" style="height: 36px!important;" readonly>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-group">
+                <label>Factor</label>
+                @if (ext) {
+                <input type="number" class="form-control" formControlName="factor_ext" style="height: 36px!important;"
+                  readonly>
+                }
+                @else {
+                <input type="number" class="form-control" formControlName="factor" style="height: 36px!important;"
+                  readonly>
+                }
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Moneda Ext.</label>
+                <div class="status-toggle d-flex justify-content-between align-items-center">
+                  <input id="ext" [(ngModel)]="ext" [ngModelOptions]="{standalone: true}" class="check" type="checkbox">
+                  <label for="ext" class="checktoggle"></label>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="table-responsive mt-4">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: auto;">Producto</th>
+                      <th style="width: 8%;" class="text-center">Cantidad</th>
+                      <th style="width: 10%;" class="text-end">Costo U. FOB</th>
+                      <th style="width: 10%;" class="text-end">Costo FOB</th>
+                      <th style="width: 8%;" class="text-center">Arancel</th>
+                      <th style="width: 8%;" class="text-center">Peso</th>
+                      <!-- <th style="width: 10%;" class="text-end">Gasto Neto</th> -->
+                      <th style="width: 10%;" class="text-end">Costo U. CIF</th>
+                      <th style="width: 10%;" class="text-end">Costo CIF</th>
+                      <th style="width: 8%;" class="text-end">% Gastos</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (d of importaciones_detalles; track d.id) {
+                    <tr>
+                      <td>{{d.descripcion}}</td>
+                      <td class="text-center">{{d.cantidad}}</td>
+                      <td class="text-end">{{(ext ? d.costo_unitario_ext : d.costo_unitario) | moneda: ''}}</td>
+                      <td class="text-end">{{(ext ? d.total_ext : d.total) | moneda: ''}} </td>
+                      <td class="text-center">{{d.arancel}}%</td>
+                      <td class="text-center">{{d.peso}}kg</td>
+                      <!-- <td class="text-end">{{getGastoNeto(d)}}</td> -->
+                      <td class="text-end">{{(ext ? d.costo_unitario_cif_ext : d.costo_unitario_cif) | moneda: ''}}</td>
+                      <td class="text-end">{{(ext ? d.costo_cif_ext : d.costo_cif) | moneda: ''}}</td>
+                      <td class="text-end">{{d.porc_gasto}}%</td>
+                    </tr>
+                    }
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <th>TOTALES</th>
+                      <th class="text-center">{{getTotalCantidad()}}</th>
+                      <th class="text-end">{{getTotalCostoU() | moneda: ext ? moneda_simbolo : monedas[0].simbolo}}</th>
+                      <th class="text-end">{{getTotalTotal() | moneda: ext ? moneda_simbolo : monedas[0].simbolo}}</th>
+                      <th></th>
+                      <!-- <th class="text-end">{{getTotalGastoNeto() | moneda: ext ? moneda_simbolo : monedas[0].simbolo}}</th> -->
+                      <th class="text-center">{{getTotalPeso()}}kg</th>
+                      <th class="text-end">{{getTotalCostoUnitarioCIF() | moneda: ext ? moneda_simbolo :
+                        monedas[0].simbolo}}</th>
+                      <th class="text-end">{{getTotalCostoCIF() | moneda: ext ? moneda_simbolo : monedas[0].simbolo}}
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="text-end">
+            <a routerLink="../../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <button id="btn_guardar" (click)="putGastoImportacion()" class="btn btn-submit btn-block">
+              <i class="fas fa-save"></i> Guardar
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="compras">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Selecciona una compra</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="content">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Serie / Correlativo</th>
+                  <th>No. Documento</th>
+                  <th>Fecha</th>
+                  <!-- <th>Observaciones</th> -->
+                  <th>Tipo de Pago</th>
+                  <th>Documento</th>
+                  <th>Proveedor</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (c of compras; track c.id) {
+                <tr (click)="setCompra(c)" [ngClass]="{'disabled': compraExistente(c)}">
+                  <td>{{c.id}}</td>
+                  <td>
+                    <a class="text-secondary">
+                      {{c.documento.tipo_documento.nombre}} {{c.serie}}-{{c.correlativo}}
+                    </a>
+                  </td>
+                  <td>{{c.no_doc}}</td>
+                  <td>{{c.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                  <!-- <td>{{c.observaciones}}</td> -->
+                  <td>{{c.tipo_pago}}</td>
+                  <td>{{c.documento.nombre}}</td>
+                  <td>{{c.proveedor.nit}}</td>
+                  <td>
+                    <b style="font-weight: 600;">{{c.total | currency : c.moneda.simbolo : 'symbol' : '.2-2'}}</b>
+                  </td>
+                  <td>
+                    <span class="badges"
+                      [ngClass]="{'bg-primary': c.estado == 'VIGENTE', 'bg-danger': c.estado == 'ANULADA'}">{{c.estado}}</span>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

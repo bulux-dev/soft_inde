@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Libro Bancos {{cuenta_bancaria.numero}}</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="d-print-none text-center mt-2">
+    <div class="btn-group btn-group-sm">
+      <a v-on:click="print()" class="btn btn-light border text-black-50 shadow-none">
+        <i class="fas fa-print"></i> Imprimir
+      </a>
+      <a v-on:click="download()" class="btn btn-light border text-black-50 shadow-none">
+        <i class="fas fa-download"></i> Descargar
+      </a>
+    </div>
+  </div>
+
+  <div class="container-fluid invoice-container" id="pdf" contentEditable="true">
+
+    <header>
+      <div class="row">
+        <div class="col-3">
+          <img id="logo" v-bind:src="empresa.logo" style="width: 100px">
+        </div>
+        <div class="col-6" style="text-align: center; font-size: 12px;">
+          <h6 class="mb-1" style="text-transform: uppercase;">{{empresa.razon_social}}</h6>
+          <p class="lh-base mb-0">NIT: {{empresa.nit}}</p>
+          <p class="lh-base mb-0">PBX: {{empresa.telefono}}</p>
+          <p class="lh-base mb-0">{{empresa.direccion}}</p>
+          <h6 class="lh-base mb-0; text-center" style="margin-top: 6px;">
+            LIBRO BANCOS
+          </h6>
+          <p class="lh-base mb-0" style="font-size: 12px;">
+            Del 01/01/2025 al 31/01/2025
+          </p>
+          <p>(Expresado en Quetzales)</p>
+          <br>
+        </div>
+        <hr>
+      </div>
+    </header>
+
+    <main>
+      <div class="row">
+        <div class="col-4">
+          <p class="mb-1"><b>Cuenta Bancaria:</b> {{cuenta_bancaria.nombre}} {{cuenta_bancaria.numero}}</p>
+        </div>
+        <div class="col-4 text-center">
+          <p class="mb-1"><b>Banco:</b> {{cuenta_bancaria.banco.nombre}}</p>
+        </div>
+        <div class="col-4 text-end">
+          <p class="mb-1"><b>Saldo Inicial:</b> {{moneda(saldo_inicial, '')}}</p>
+        </div>
+      </div>
+      <hr>
+
+      <div class="table-responsive">
+        <table class="table border mb-0">
+          <thead>
+            <tr class="bg-dark">
+              <td style="width: 10%;"><b>Fecha</b></td>
+              <td style="width: 30%;"><b>Documento</b></td>
+              <td class="text-end"><b>CREDITOS</b></td>
+              <td class="text-end"><b>DEBITOS</b></td>
+              <td class="text-end"><b>Saldo</b></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="d in documentos">
+              <td>{{d.fecha}}</td>
+              <td>{{d.documento.tipo_documento.nombre}} {{d.no_cheque}} {{d.no_deposito}} {{d.no_nc}} {{d.no_nd}}</td>
+              <td
+                v-if="d.documento.tipo_documento.slug == 'nota_credito' || d.documento.tipo_documento.slug == 'deposito'"
+                class="text-end">{{moneda(d.total, '')}}</td>
+              <td
+                v-if="d.documento.tipo_documento.slug == 'nota_credito' || d.documento.tipo_documento.slug == 'deposito'"
+                class="text-end">{{moneda(0, '')}}</td>
+              <td v-if="d.documento.tipo_documento.slug == 'nota_debito' || d.documento.tipo_documento.slug == 'cheque'"
+                class="text-end">{{moneda(0, '')}}</td>
+              <td v-if="d.documento.tipo_documento.slug == 'nota_debito' || d.documento.tipo_documento.slug == 'cheque'"
+                class="text-end">{{moneda(d.total, '')}}</td>
+              <td class="text-end">{{moneda(d.saldo, '')}}</td>
+              <!-- <td class="text-end"><b>{{moneda(s.saldo_acumulado, '')}}</b></td> -->
+            </tr>
+          </tbody>
+          <tfoot class="bg-dark">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <!-- <td class="text-end"><b>{{moneda(cuenta_bancaria.total_cargos, '')}}</b></td>
+              <td class="text-end"><b>{{moneda(cuenta_bancaria.total_abonos, '')}}</b></td> -->
+              <td class="text-end">SALDO</td>
+              <td class="text-end">{{moneda(saldo_final, '')}}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </main>
+
+    <footer class="mt-2">
+      <hr>
+      <p class="text-center">
+        {{empresa.nombre}} <br>
+        {{empresa.direccion}} <br>
+        <a href="tel:{{empresa.telefono}}">{{empresa.telefono}}</a>
+      </p>
+    </footer>
+
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+  <script src="/api/assets/js/jspdf.umd.min.js"></script>
+  <script src="/api/assets/js/html2canvas.min.js"></script>
+
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let cuenta_bancaria = ref(___cuenta_bancaria)
+        let documentos = ref(___documentos)
+        let saldo_inicial = ref(___saldo_inicial)
+        let saldo_final = ref(___saldo_final)
+        let empresa = ref(___empresa)
+        return {
+          cuenta_bancaria,
+          documentos,
+          saldo_inicial,
+          saldo_final,
+          empresa
+        }
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          return moment(date).format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        letrasMoneda(number) {
+          number = numeroALetrasMoneda(number);
+          number = number.replaceAll('UNO QUETZALES', 'UN QUETZALES');
+          number = number.replaceAll('UNO MIL', 'UN MIL');
+          number = number.replaceAll('UNO CENTAVOS', 'UN CENTAVOS');
+          return number;
+        },
+        print() {
+          window.print();
+        },
+        download() {
+          const { jsPDF } = window.jspdf;
+          const content = document.getElementById('pdf');
+
+          html2canvas(content, { scale: 3 }).then(canvas => {
+            const imgWidth = 216;
+            const pageHeight = 279;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'letter');
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            pdf.save(`CXP DETALLADO ${this.cuenta_bancaria.data.nombre}.pdf`);
+          });
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<div class="content">
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="trasladoForm">
+            <div class="col-12">
+              <h5>Fecha</h5> <br>
+              <div class="form-group">
+                <input class="form-control" type="datetime-local" formControlName="fecha" [max]="fecha_max"
+                  (input)="fechaMax()">
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" [formGroup]="trasladoForm">
+                <div class="col-12">
+                  <h5>Observaciones</h5> <br>
+                  <div class="form-group">
+                    <textarea formControlName="observaciones"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="trasladoForm">
+            <div class="col-12">
+              <p>Salida de</p>
+            </div>
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.sucursal}">
+              <h5>Sucursal</h5> <br>
+              <div id="sucursal-salida" class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="sucursales"
+                  formControlName="sucursal_salida_id" (onSelect)="getBodegasBySucursal($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.bodega}">
+              <h5>Bodega</h5> <br>
+              <div id="bodega-salida" class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="bodegas"
+                  formControlName="bodega_salida_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-12">
+              <p>Entrada a</p>
+            </div>
+            <div class="col-6">
+              <h5>Sucursal</h5> <br>
+              <div id="sucursal-entrada" class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="sucursales2"
+                  formControlName="sucursal_entrada_id" (onSelect)="getBodegasBySucursal2($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6">
+              <h5>Bodega</h5> <br>
+              <div id="bodega-entrada" class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="bodegas2"
+                  formControlName="bodega_entrada_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-sm-12">
+      <div class="card card-order dynamic-card">
+        <div class="split-card"></div>
+
+        <app-carrito [sucursal_id]="trasladoForm.controls['sucursal_salida_id'].value[0].id"
+          [bodega_id]="trasladoForm.controls['bodega_salida_id'].value[0].id" [documento_id]="documento_id"
+          [documento]="documento" (newItemEvent)="updateCarrito()" [carrito_temp]="traslados_detalles">
+        </app-carrito>
+
+      </div>
+    </div>
+    <div class="col-lg-12 col-sm-12">
+      <div class="card-body">
+        <div class="text-end">
+          <a routerLink="../../" class="btn btn-cancel me-2">
+            <i class="fas fa-reply"></i> Regresar
+          </a>
+          <button id="btn_guardar" (click)="postTraslado()" class="btn btn-submit btn-block" permiso="agregar-traslado">
+            <i class="fas fa-save"></i> Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

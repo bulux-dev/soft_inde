@@ -1,0 +1,100 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Agregar Cuenta Contable</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="row" [formGroup]="cuentaContableForm">
+    <div class="col-lg-8 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-sm-4 col-12">
+              <div class="form-group">
+                <label>Número</label>
+                <input id="numero" formControlName="numero" type="text">
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-4 col-12">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input id="nombre" formControlName="nombre" type="text">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-4 col-12">
+              <div class="form-group">
+                <label>Origen</label>
+                <ng-multiselect-dropdown formControlName="origen" [placeholder]="'Selecciona origen'"
+                  [settings]="selectS" [data]="origenes">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12" class="text-end">
+        @if (cuenta_contable_id) {
+        <a routerLink="../../" class="btn btn-cancel me-2">
+          <i class="fas fa-reply"></i> Regresar
+        </a>
+        } @else {
+        <a routerLink="../" class="btn btn-cancel me-2">
+          <i class="fas fa-reply"></i> Regresar
+        </a>
+        }
+        <a id="btn_guardar" (click)="postCuentaContable()" [ngClass]="{'disabled': cuentaContableForm.invalid}"
+          class="btn btn-submit me-2" permiso="agregar-moneda">
+          @if (loading) {
+          <span class="spinner-border spinner-border-sm"></span>
+          } @else {
+          <i class="fas fa-save"></i> Guardar
+          }
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12 col-sm-4 col-12">
+              <div class="form-group">
+                <label>Nivel</label>
+                <input id="nivel" formControlName="nivel" type="text">
+              </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 col-12">
+              <div class="form-group">
+                <label>Tipo</label>
+                <ng-multiselect-dropdown formControlName="tipo" [placeholder]="'Selecciona tipo'" [settings]="selectS"
+                  [data]="tipos">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 col-12">
+              <div class="form-group">
+                <label>Flujo</label>
+                <ng-multiselect-dropdown formControlName="flujo" [placeholder]="'Selecciona flujo'" [settings]="selectS"
+                  [data]="flujos">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 col-12">
+              <div class="form-group">
+                <label>Cuenta Contable Padre</label>
+                <ng-multiselect-dropdown formControlName="cuenta_contable_id" [placeholder]="'Selecciona cuenta padre'"
+                  [settings]="selectS" [data]="cuentas_contables">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

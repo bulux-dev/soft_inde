@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Soft</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://unpkg.com/jodit@4.0.1/es2021/jodit.min.css" />
+  <link rel="manifest" href="manifest.webmanifest">
+</head>
+
+<body class="expand-menu">
+  <app-root></app-root>
+
+  <script>
+    function keyPressHandler(e) {
+      var evtobj = window.event ? window.event : e;
+
+      if (evtobj.ctrlKey && evtobj.keyCode == 76) {
+        if (document.body.getAttribute('data-theme') === 'dark') {
+          localStorage.setItem('darkMode', 'disabled');
+          document.body.setAttribute('data-theme', 'light');
+        } else {
+          localStorage.setItem('darkMode', 'enabled');
+          document.body.setAttribute('data-theme', 'dark');
+        }
+      }
+
+      if (evtobj.ctrlKey && evtobj.keyCode == 75) {
+        console.log(document.body.classList.contains('mini-sidebar'));
+        
+        if (document.body.classList.contains('mini-sidebar')) {
+          localStorage.removeItem('screenModeNightTokenState');
+          document.body.classList.add('expand-menu');
+          document.body.classList.remove('mini-sidebar');
+        } else {
+          localStorage.setItem('screenModeNightTokenState', 'night');
+          document.body.classList.add('mini-sidebar');
+          document.body.classList.remove('expand-menu');
+        }
+      }
+
+
+    }
+
+    window.addEventListener('keydown', keyPressHandler);
+  </script>
+
+  <script src="assets/js/jquery-3.6.0.min.js"></script>
+  <script src="assets/js/feather.min.js"></script>
+  <script src="assets/js/jquery.slimscroll.min.js"></script>
+  <script src="assets/js/jquery.dataTables.min.js"></script>
+  <script src="assets/js/dataTables.bootstrap4.min.js"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+  <script src="assets/plugins/toastr/toastr.min.js"></script>
+  <script src="assets/plugins/toastr/toastr.js"></script>
+
+  <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+  <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
+
+  <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+  <script src="assets/plugins/apexchart/chart-data.js"></script>
+  <script src="assets/plugins/select2/js/select2.min.js"></script>
+  <script src="assets/js/loader.js"></script>
+  <!-- <script src="assets/js/theme.js"></script> -->
+  <script src="assets/js/datatable.js"></script>
+  <!-- <script src="assets/js/script.js"></script> -->
+  <script src="https://unpkg.com/jodit@4.0.1/es2021/jodit.min.js"></script>
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
+</body>
+
+</html>

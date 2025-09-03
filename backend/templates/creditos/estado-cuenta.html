@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Credito #{{credito.id}}</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="invoice-container">
+
+    <header>
+      <div class="row" style="padding-top: 0%">
+        <div class="col-3">
+          <img id="logo"
+          v-bind:src="credito.credito_detalle.categoria.logo ? credito.credito_detalle.categoria.logo : empresa.logo"
+          style="width: 90px">
+        </div>
+        <div class="col-6" style="text-align: center; font-size: 12px;">
+          <h5 class="mb-1" style="text-transform: uppercase;">{{credito.credito_detalle.categoria.nombre}}</h5>
+          <h6 class="mb-1" style="text-transform: uppercase;">
+            {{credito.credito_detalle.proyecto}} <br> {{credito.credito_detalle.municipio}},
+            {{credito.credito_detalle.departamento}}
+          </h6>
+          <p class="lh-base mb-0">ESTADO DE CUENTA</p>
+          <p class="lh-base mb-0" style="text-transform: uppercase;">Al {{formatoFecha(fecha_fin, 'DD [de] MMMM [del] YYYY')}}</p>
+        </div>
+        <div class="col-3" style="text-align: right;">
+          <img id="logo" v-bind:src="empresa.logo" style="width: 90px">
+        </div>
+        <div class="col-3" style="text-align: right;">
+          <strong>Fecha:</strong>
+          {{formatoFecha(credito.fecha, 'DD/MM/YYYY HH:mm')}} <br>
+        </div>
+        <div class="col-6" style="text-align: center;">
+          <strong>Estado:</strong>
+          {{credito.estado}}
+        </div>
+        <div class="col-3" style="text-align: right;">
+          <strong>No. Credito:</strong>
+          {{credito.id}}
+        </div>
+      </div>
+    </header>
+
+    <main style="margin-top: 0px;">
+      <div class="row">
+        <div class="col-6">
+          <p class="mb-1"><b>Monto Total:</b> {{moneda(credito.total, 'Q. ')}}</p>
+          <p class="mb-1"><b>Descuento:</b> {{moneda(credito.descuento, 'Q. ')}}</p>
+          <p class="mb-1"><b>Reserva:</b> {{moneda(credito.reserva, 'Q. ')}}</p>
+          <p class="mb-1"><b>Enganche:</b> {{moneda(credito.enganche, 'Q. ')}}</p>
+        </div>
+        <div class="col-6 text-end">
+          <p class="mb-1"><b>Capital:</b> {{moneda(credito.capital, 'Q. ')}}</p>
+          <p class="mb-1"><b>Interes:</b> {{moneda(credito.interes, 'Q. ')}}</p>
+          <p class="mb-1"><b>Cuota:</b>  {{moneda(credito.cuota, 'Q. ')}}</p>
+          <p class="mb-1"><b>Saldo Final:</b> {{moneda(ultima_amortizacion.saldo_final, 'Q. ')}}</p>
+        </div>
+
+        <b class="text-center">MOVIMIENTOS</b>
+        <table>
+          <thead style="background: #ebebeb">
+            <tr>
+              <th>Fecha</th>
+              <th>Mes</th>
+              <th class="text-end">Capital</th>
+              <th class="text-end">Interes</th>
+              <th class="text-end">Cuota</th>
+              <th class="text-end">No. Recibo</th>
+              <th class="text-end">Saldo Final</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="a in credito.amortizaciones">
+              <td>{{formatoFecha(a.fecha, 'DD/MM/YYYY')}}</td>
+              <td style="text-transform: capitalize;">{{formatoFecha(a.fecha_fin, 'MMMM YYYY')}}</td>
+              <td class="text-end">{{moneda(a.capital, 'Q. ')}}</td>
+              <td class="text-end">{{moneda(a.interes, 'Q. ')}}</td>
+              <td class="text-end">{{moneda(a.cuota, 'Q. ')}}</td>
+              <td class="text-end">
+                <span v-if="a.recibo">{{a.recibo.serie}}-{{a.recibo.correlativo}}</span>
+              </td>
+              <td class="text-end">{{moneda(a.saldo_final, 'Q. ')}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="2">Totales</th>
+              <th class="text-end">{{moneda(ultima_amortizacion.capital_acum, 'Q. ')}}</th>
+              <th class="text-end">{{moneda(ultima_amortizacion.interes_acum, 'Q. ')}}</th>
+              <th class="text-end">{{moneda(ultima_amortizacion.cuota_acum, 'Q. ')}}</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </tfoot>
+        </table>
+
+      </div>
+      <br><br>
+
+    </main>
+
+    <footer class="">
+      <div class="text-center">
+        <div class="btn-group btn-group-sm d-print-none"> <a href="javascript:window.print()"
+            class="btn btn-light border text-black-50 shadow-none"><i class="fas fa-print"></i> Imprimir y Descargar</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+  
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let credito = ref(___credito)
+        let ultima_amortizacion = ref(___ultima_amortizacion)
+        let empresa = ref(___empresa)
+        let fecha_fin = ref(___fecha_fin)
+        return {
+          credito,
+          empresa,
+          ultima_amortizacion,
+          fecha_fin
+        }
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          moment.locale('es')
+          return moment(date).format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        getTotalCuotas(campo) {
+          let total = 0;
+          this.cuotas.forEach((c) => {
+            if (campo === 'capital') {
+              total += parseFloat(c.capital);
+            } else if (campo === 'interes') {
+              total += parseFloat(c.interes);
+            } else if (campo === 'cuota') {
+              total += parseFloat(c.cuota);
+            }
+          });
+          return total;
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

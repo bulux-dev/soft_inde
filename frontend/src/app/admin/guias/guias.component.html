@@ -1,0 +1,33 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Guias</h4>
+      <h6>Manuales de usuario</h6>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="col-12 mt-3">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Buscar en el manual" (input)="searchGuias($event)">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
+              class="fas fa-search"></i></button>
+        </div>
+        <br>
+      </div>
+    </div>
+    @for (g of guias; track g.id) {
+    <div class="col-lg-4 col-md-6 col-12" [permiso]="g.slug">  
+      <div class="card flex-fill bg-white">
+        <a (click)="guia(g)" class="card-header">
+          <h5 class="card-title mb-0">{{g.nombre}}</h5>
+          <p class="card-text">{{g.descripcion}}</p>
+        </a>
+      </div>
+    </div>
+    }
+  </div>
+
+</div>

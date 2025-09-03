@@ -1,0 +1,267 @@
+<div class="content">
+  <div class="row">
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="cotizacionForm">
+            <div class="col-5">
+              <h6>Fecha</h6> <br>
+              <div class="form-group">
+                <input class="form-control" type="datetime-local" formControlName="fecha">
+              </div>
+            </div>
+            <div class="col-4">
+              <h6>Moneda</h6> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="monedas"
+                  formControlName="moneda_id" (onSelect)="setCambio($event)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-3" [ngClass]="{'disabled': cotizacionForm.value.moneda_id[0].id == 1}">
+              <h6>Cambio</h6> <br>
+              <div class="form-group">
+                <input class="form-control" type="number" formControlName="tipo_cambio">
+              </div>
+            </div>
+            <div class="col-6">
+              <h6>Vendedor</h6> <br>
+              <div id="seleccionar-vendedor" class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="empleados"
+                  formControlName="empleado_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <h6>Observaciones</h6> <br>
+                  <div class="form-group">
+                    <textarea formControlName="observaciones"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="clienteForm">
+          <div class="row">
+            <div class="col-6">
+              <h6>Cliente</h6> <br>
+            </div>
+            <div class="col-6 text-end">
+              <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="offcanvas"
+                data-bs-target="#clientes">
+                <i class="fas fa-truck-fast me-2"></i>Mis Clientes
+              </a>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <div class="input-group">
+                  <input id="mis-clientes" formControlName="nit" type="text" class="form-control" placeholder="NIT"
+                    (keyup.enter)="getInfoNit()">
+                  <button class="btn btn-primary" type="button" (click)="getInfoNit()">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="direccion" type="text" class="form-control" placeholder="Direccion">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12">
+      <div class="card card-order dynamic-card">
+
+        <div class="split-card"></div>
+
+        <app-carrito [sucursal_id]="cotizacionForm.value.sucursal_id[0].id"
+          [bodega_id]="cotizacionForm.value.bodega_id[0].id" [documento_id]="documento_id" [documento]="documento"
+          (newItemEvent)="updateCarrito()" [moneda_id]="cotizacionForm.value.moneda_id[0].id"
+          [tipo_cambio]="cotizacionForm.value.tipo_cambio" [moneda_simbolo]="moneda_simbolo"
+          [carrito_temp]="cotizaciones_detalles">
+        </app-carrito>
+
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="cotizacionForm">
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.sucursal}">
+              <h6>Sucursal</h6> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="sucursales"
+                  formControlName="sucursal_id" (onSelect)="getBodegasBySucursal($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.bodega}">
+              <h6>Bodega</h6> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="bodegas"
+                  formControlName="bodega_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="pagoForm">
+          <h6>Tipo de Pago</h6>
+          <br>
+          <div class="setvaluecash" [ngClass]="{'disabled': credito_id}">
+            <ul id="seleccionar-pago">
+              <li>
+                <a (click)="cotizacionForm.controls['tipo_pago'].setValue('CONTADO')" class="paymentmethod"
+                  [ngClass]="{'active': cotizacionForm.controls['tipo_pago'].value == 'CONTADO'}">
+                  <img src="assets/img/icons/cash.svg" alt="img" class="me-2">
+                  CONTADO
+                </a>
+              </li>
+              <li>
+                <a (click)="cotizacionForm.controls['tipo_pago'].setValue('CREDITO')" href="javascript:void(0);"
+                  class="paymentmethod" [ngClass]="{'active': cotizacionForm.controls['tipo_pago'].value == 'CREDITO'}">
+                  <img src="assets/img/icons/debitcard.svg" alt="img" class="me-2">
+                  CREDITO
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="row" id="campos-adicionales">
+            <div class="col-lg-6 col-sm-12 col-12" [formGroup]="cotizacionForm">
+              <div class="form-group">
+                <label>Entrega</label>
+                <input class="form-control" type="text" formControlName="entrega">
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-12 col-12" [formGroup]="cotizacionForm">
+              <div class="form-group">
+                <label>Direccion</label>
+                <input class="form-control" type="text" formControlName="direccion">
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-12 col-12" [formGroup]="cotizacionForm">
+              <div class="form-group">
+                <label>Forma Pago</label>
+                <input class="form-control" type="text" formControlName="forma_pago">
+              </div>
+            </div>
+            @if (cotizacionForm.value.tipo_pago == 'CREDITO' && !credito_id) {
+            <div class="col-lg-6 col-sm-12 col-12" [formGroup]="cotizacionForm">
+              <div class="form-group">
+                <label>Dias Credito</label>
+                <input class="form-control" type="number" formControlName="dias_credito">
+              </div>
+            </div>
+            }
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body pt-0">
+          <div class="setvalue">
+            <div class="row">
+              <div class="col">
+                <ul>
+                  <li>
+                    <h5>Subtotal </h5>
+                    <h6>{{getSubtotal() | number: '.2-2'}}</h6>
+                  </li>
+                  <li>
+                    <h5>Impuesto </h5>
+                    <h6>{{getImpuesto() | number: '.2-2'}}</h6>
+                  </li>
+                  <li class="total-value">
+                    <h5>Total </h5>
+                    <h6>{{getTotal() | number: '.2-2'}}</h6>
+                  </li>
+                </ul>
+              </div>
+              @if (cotizacionForm.value.moneda_id[0].id != 1) {
+              <div class="col">
+                <ul>
+                  <li>
+                    <h5>Subtotal Ext.</h5>
+                    <h6>{{getSubtotal(true) | moneda: moneda_simbolo}}</h6>
+                  </li>
+                  <li>
+                    <h5>Impuesto Ext.</h5>
+                    <h6>{{getImpuesto(true) | moneda: moneda_simbolo}}</h6>
+                  </li>
+                  <li class="total-value">
+                    <h5>Total Ext.</h5>
+                    <h6>{{getTotal(true) | moneda: moneda_simbolo}}</h6>
+                  </li>
+                </ul>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="text-end">
+            <a routerLink="../../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <button id="btn_guardar" (click)="postCotizacion()" class="btn btn-submit btn-block"
+              [ngClass]="{'disabled': getTotal() == 0}" permiso="agregar-cotizacion">
+              <i class="fas fa-save"></i> Guardar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="clientes">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title"></h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <app-clientes [oc]="true" (newItemEvent)="addCliente($event)"></app-clientes>
+  </div>
+</div>

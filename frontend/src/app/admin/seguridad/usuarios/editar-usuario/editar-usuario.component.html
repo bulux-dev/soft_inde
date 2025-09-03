@@ -1,0 +1,128 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Editar Usuario</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="profile-set">
+        <div class="profile-head">
+
+        </div>
+
+        <div class="profile-top">
+          <div class="profile-content">
+            <div class="profile-contentimg">
+              <img [src]="usuarioForm.value.logo ? usuarioForm.value.logo : 'assets/img/blank.jpg'" alt="img" id="blah">
+              <div class="profileupload edit">
+                <input type="file" id="imgInp" (change)="setImage($event, 'logo')">
+                <a href="javascript:void(0);"><img src="assets/img/icons/edit-set.svg" alt="img"></a>
+              </div>
+              <div class="profileupload delete">
+                <a (click)="removeImage()" href="javascript:void(0);"><img src="assets/img/icons/trash.svg"
+                    alt="img"></a>
+              </div>
+            </div>
+            <div class="profile-contentname">
+              <h2>{{usuarioForm.value.nombre}} {{usuarioForm.value.apellido}}</h2>
+              <h4>&#64;{{usuarioForm.value.usuario}}</h4>
+            </div>
+          </div>
+          <div>
+            <a routerLink="../../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <a permiso="editar-usuario" (click)="putUsuario()" [ngClass]="{'disabled': usuarioForm.invalid}"
+              class="btn btn-submit me-2" permiso="editar-usuario">
+              @if (loading) {
+              <span class="spinner-border spinner-border-sm"></span>
+              } @else {
+              <i class="fas fa-save"></i> Guardar
+              }
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div [formGroup]="usuarioForm" class="row">
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input id="nombre" formControlName="nombre" type="text">
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Apellido</label>
+            <input formControlName="apellido" type="text">
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Usuario</label>
+            <input formControlName="usuario" type="text">
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Clave</label>
+            <input formControlName="clave" type="password">
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Correo Electronico</label>
+            <input formControlName="correo" type="text">
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Telefono</label>
+            <input formControlName="telefono" type="text">
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Acceso</label>
+            <div class="status-toggle d-flex justify-content-between align-items-center">
+              <input formControlName="acceso" type="checkbox" id="checkacceso" class="check">
+              <label for="checkacceso" class="checktoggle"></label>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Rol</label>
+            <select formControlName="rol_id" class="form-control">
+              @for (r of roles; track r.id) {
+              <option value="{{r.id}}">{{r.nombre}}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="col-12" class="text-end">
+          <a routerLink="../../" class="btn btn-cancel me-2">
+            <i class="fas fa-reply"></i> Regresar
+          </a>
+          <a id="btn_guardar" permiso="editar-usuario" (click)="putUsuario()" [ngClass]="{'disabled': usuarioForm.invalid}"
+            class="btn btn-submit me-2" permiso="editar-usuario">
+            @if (loading) {
+            <span class="spinner-border spinner-border-sm"></span>
+            } @else {
+            <i class="fas fa-save"></i> Guardar
+            }
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,208 @@
+<div class="content">
+  <div class="row">
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="envioForm">
+            <div class="col-6">
+              <h5>Fecha</h5> <br>
+              <div class="form-group">
+                <input class="form-control" type="datetime-local" formControlName="fecha">
+              </div>
+            </div>
+            <div class="col-6">
+              <h5>Moneda</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="monedas"
+                  formControlName="moneda_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-12">
+              <h5>Vendedor</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="empleados"
+                  formControlName="empleado_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <h5>Observaciones</h5> <br>
+                  <div class="form-group">
+                    <textarea formControlName="observaciones"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="clienteForm">
+          <div class="row">
+            <div class="col-6">
+              <h5>Cliente</h5> <br>
+            </div>
+            <div class="col-6 text-end">
+              <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="offcanvas"
+                data-bs-target="#clientes">
+                <i class="fas fa-truck-fast me-2"></i>Mis Clientes
+              </a>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="nit" type="text" class="form-control" placeholder="NIT"
+                    (keyup.enter)="getInfoNit()">
+                  <button class="btn btn-primary" type="button" (click)="getInfoNit()">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="direccion" type="text" class="form-control" placeholder="Direccion">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12">
+      <div class="card card-order dynamic-card">
+        <div class="split-card"></div>
+
+        <app-carrito [sucursal_id]="envioForm.controls['sucursal_id'].value[0].id"
+          [bodega_id]="envioForm.controls['bodega_id'].value[0].id" [documento_id]="documento.id"
+          [documento]="documento" (newItemEvent)="updateCarrito()" [carrito_detalles]="envios_detalles"
+          [carrito_local]="false">
+        </app-carrito>
+
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="envioForm">
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.sucursal}">
+              <h5>Sucursal</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="sucursales"
+                  formControlName="sucursal_id" (onSelect)="getBodegasBySucursal($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.bodega}">
+              <h5>Bodega</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="bodegas"
+                  formControlName="bodega_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <h5>Tipo de Pago</h5>
+          <br>
+          <div class="setvaluecash">
+            <ul>
+              <li>
+                <a (click)="envioForm.controls['tipo_pago'].setValue('CONTADO')" class="paymentmethod"
+                  [ngClass]="{'active': envioForm.controls['tipo_pago'].value == 'CONTADO'}">
+                  <img src="assets/img/icons/cash.svg" alt="img" class="me-2">
+                  CONTADO
+                </a>
+              </li>
+              <li>
+                <a (click)="envioForm.controls['tipo_pago'].setValue('CREDITO')" href="javascript:void(0);"
+                  class="paymentmethod" [ngClass]="{'active': envioForm.controls['tipo_pago'].value == 'CREDITO'}">
+                  <img src="assets/img/icons/debitcard.svg" alt="img" class="me-2">
+                  CREDITO
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="row">
+            @if (envioForm.value.tipo_pago == 'CREDITO') {
+            <div class="col-lg-6 col-sm-12 col-12" [formGroup]="envioForm">
+              <div class="form-group">
+                <label>Dias Credito</label>
+                <input class="form-control" type="number" formControlName="dias_credito">
+              </div>
+            </div>
+            }
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body pt-0">
+          <div class="setvalue">
+            <ul>
+              <li>
+                <h5>Subtotal </h5>
+                <h6>{{getSubtotal() | number: '.2-2'}}</h6>
+              </li>
+              <li>
+                <h5>Impuesto </h5>
+                <h6>{{getImpuesto() | number: '.2-2'}}</h6>
+              </li>
+              <li class="total-value">
+                <h5>Total </h5>
+                <h6>{{getTotal() | number: '.2-2'}}</h6>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="text-end">
+            <a routerLink="../../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <button id="btn_guardar" (click)="putEnvio()" class="btn btn-submit btn-block" permiso="editar-envio">
+              <i class="fas fa-save"></i> Guardar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

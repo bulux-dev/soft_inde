@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "codigo": "01",
+    "nombre": "GUATEMALA"
+  },
+  {
+    "id": 2,
+    "codigo": "02",
+    "nombre": "EL PROGRESO"
+  },
+  {
+    "id": 3,
+    "codigo": "03",
+    "nombre": "SACATEPÉQUEZ"
+  },
+  {
+    "id": 4,
+    "codigo": "04",
+    "nombre": "CHIMALTENANGO"
+  },
+  {
+    "id": 5,
+    "codigo": "05",
+    "nombre": "ESCUINTLA"
+  },
+  {
+    "id": 6,
+    "codigo": "06",
+    "nombre": "SANTA ROSA"
+  },
+  {
+    "id": 7,
+    "codigo": "07",
+    "nombre": "SOLOLA"
+  },
+  {
+    "id": 8,
+    "codigo": "08",
+    "nombre": "TOTONICAPAN"
+  },
+  {
+    "id": 9,
+    "codigo": "09",
+    "nombre": "QUETZALTENANGO"
+  },
+  {
+    "id": 10,
+    "codigo": "10",
+    "nombre": "SUCHITEPEQUEZ"
+  },
+  {
+    "id": 11,
+    "codigo": "11",
+    "nombre": "RETALHULEU"
+  },
+  {
+    "id": 12,
+    "codigo": "12",
+    "nombre": "SAN MARCOS"
+  },
+  {
+    "id": 13,
+    "codigo": "13",
+    "nombre": "HUEHUETENANGO"
+  },
+  {
+    "id": 14,
+    "codigo": "14",
+    "nombre": "EL QUICHE"
+  },
+  {
+    "id": 15,
+    "codigo": "15",
+    "nombre": "BAJA VERAPA"
+  },
+  {
+    "id": 16,
+    "codigo": "16",
+    "nombre": "ALTA VERAPAZ"
+  },
+  {
+    "id": 17,
+    "codigo": "17",
+    "nombre": "PETEN"
+  },
+  {
+    "id": 18,
+    "codigo": "18",
+    "nombre": "IZABAL"
+  },
+  {
+    "id": 19,
+    "codigo": "19",
+    "nombre": "ZACAPA"
+  },
+  {
+    "id": 20,
+    "codigo": "20",
+    "nombre": "CHIQUIMULA"
+  },
+  {
+    "id": 21,
+    "codigo": "21",
+    "nombre": "JALAPA"
+  },
+  {
+    "id": 22,
+    "codigo": "22",
+    "nombre": "JUTIAPA"
+  }
+]

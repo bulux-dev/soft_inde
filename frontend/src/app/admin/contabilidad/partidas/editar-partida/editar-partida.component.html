@@ -1,0 +1,134 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Editar Partida</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div [formGroup]="partidaForm" class="row">
+        <div class="col-lg col-sm-6 col-12">
+          <div class="form-group">
+            <label>Fecha</label>
+            <input id="fecha" class="form-control" formControlName="fecha" type="datetime-local" />
+          </div>
+        </div>
+        <div class="col-lg col-sm-6 col-12">
+          <div class="form-group">
+            <label>Total</label>
+            <input id="total" class="form-control" formControlName="total" type="number" />
+          </div>
+        </div>
+        <div class="col-lg col-sm-6 col-12">
+          <div class="form-group">
+            <label>Tipo</label>
+            <ng-multiselect-dropdown formControlName="tipo" [placeholder]="'Selecciona tipo'" [settings]="selectS"
+              [data]="tipos">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="col-lg col-sm-6 col-12">
+          <div class="form-group">
+            <label>Categoria</label>
+            <ng-multiselect-dropdown id="categoria" formControlName="categoria" [placeholder]="'Selecciona categoria'"
+              [settings]="selectS" [data]="categorias">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Detalles</h4>
+    </div>
+    <a id="btn_agregar" class="btn btn-added" (click)="agregarDetalle()">
+      <i class="fa fa-plus me-2"></i> Agregar
+    </a>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Cuenta Contable</th>
+              <th>Debe</th>
+              <th>Haber</th>
+              <th>Centro de Costo</th>
+              <th>Rubro</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (d of partidas_detalles; track d.id) {
+            <tr>
+              <td>
+                <ng-multiselect-dropdown [(ngModel)]="d.cuenta_contable_id" [ngModelOptions]="{standalone: true}"
+                  [placeholder]="'Seleccionar'" [settings]="selectS" [data]="cuentas_contables">
+                </ng-multiselect-dropdown>
+              </td>
+              <td>
+                <input class="form-control" [(ngModel)]="d.debe" [ngModelOptions]="{standalone: true}" type="text"
+                  [ngClass]="{'disabled': d.haber}">
+              </td>
+              <td>
+                <input class="form-control" [(ngModel)]="d.haber" [ngModelOptions]="{standalone: true}" type="text"
+                  [ngClass]="{'disabled': d.debe}">
+              </td>
+              <td>
+                <ng-multiselect-dropdown [(ngModel)]="d.centro_costo_id" [ngModelOptions]="{standalone: true}"
+                  [placeholder]="'Seleccionar'" [settings]="selectS" [data]="centros_costos">
+                </ng-multiselect-dropdown>
+              </td>
+              <td>
+              </td>
+              <td>
+                <button class="btn btn-danger" (click)="removeDetalle($index)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+          <thead>
+            <tr>
+              <th>Total</th>
+              <th>
+                <span
+                  [ngClass]="{'text-success': getTotalDebe() == getTotalHaber(), 'text-danger': getTotalDebe() != getTotalHaber()}">
+                  {{ getTotalDebe() }}
+                </span>
+              </th>
+              <th>
+                <span
+                  [ngClass]="{'text-success': getTotalDebe() == getTotalHaber(), 'text-danger': getTotalDebe() != getTotalHaber()}">
+                  {{ getTotalHaber() }}
+                </span>
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12" class="text-end">
+    <a routerLink="../../" class="btn btn-cancel me-2">
+      <i class="fas fa-reply"></i> Regresar
+    </a>
+    <a id="btn_guardar" (click)="putPartida()" class="btn btn-submit me-2" permiso="editar-partida"
+      [ngClass]="{'disabled': validarPartida()}">
+      <i class="fas fa-save"></i> Guardar
+    </a>
+  </div>
+
+</div>

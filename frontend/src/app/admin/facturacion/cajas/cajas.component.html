@@ -1,0 +1,615 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Cajas</h4>
+      <h6>Control de cajas</h6>
+    </div>
+    <div class="page-btn">
+      <a id="btn_agregar" class="btn btn-added" data-bs-toggle="offcanvas" data-bs-target="#aperturar-caja"
+        permiso="agregar-caja" (click)="add()">
+        <i class="fa fa-plus me-2"></i>
+        Aperturar Caja
+      </a>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-lg-12 col-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="filtros" class="row">
+            <div class="col-lg-3 col-sm-6 col-12">
+              <label>Fecha Inicio</label>
+              <div class="form-group">
+                <input id="filtro-fecha" class="form-control" type="datetime-local" [(ngModel)]="fecha_inicio"
+                  [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <label>Fecha Fin</label>
+              <div class="form-group">
+                <input id="filtro-fecha-fin" class="form-control" type="datetime-local" [(ngModel)]="fecha_fin"
+                  [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <label>Acciones</label>
+              <div class="form-group">
+                <button id="btn_buscar" (click)="getCajas()" class="btn btn-primary">
+                  <i class="fa-solid fa-magnifying-glass"></i> Buscar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Apertura</th>
+                  <th>Cierre</th>
+                  <th class="text-end">Total</th>
+                  <th class="text-end">Estado</th>
+                  <th class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (c of cajas; track c.id) {
+                <tr>
+                  <td>
+                    <p>{{c.fecha_apertura | fecha: 'DD/MM/YYYY HH:mm'}} <br>
+                      <strong>{{(c.monto_apertura ? c.monto_apertura : 0) | moneda: 'Q. '}}</strong>
+                    </p>
+                  </td>
+                  <td>
+                    <p>{{c.fecha_cierre | fecha: 'DD/MM/YYYY HH:mm'}} <br>
+                      <strong>{{(c.monto_cierre ? c.monto_cierre : 0) | moneda: 'Q. '}}</strong>
+                    </p>
+                  </td>
+                  <td class="text-end">{{(c.total ? c.total : 0) | moneda: 'Q. '}}</td>
+                  <td class="text-end">
+                    <span class="badge"
+                      [ngClass]="{'bg-success': c.estado == 'ABIERTA', 'bg-danger': c.estado == 'CERRADA'}">{{c.estado}}</span>
+                  </td>
+                  <td class="text-end">
+                    <button id="btn_imprimir" class="btn btn-sm btn-primary" [hidden]="c.estado == 'ABIERTA'"
+                      (click)="openDoc(c)">
+                      <i class="fa-solid fa-print"></i>
+                    </button>
+                    <button id="btn_corte-caja" (click)="setCaja(c)" class="btn btn-sm btn-primary"
+                      data-bs-toggle="offcanvas" data-bs-target="#corte-caja" style="margin-left: 10px;">
+                      Corte Caja
+                    </button>
+                    <button id="btn_eliminar" (click)="deleteCaja(c)" class="btn btn-sm btn-danger"
+                      style="margin-left: 10px;">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                } @empty {
+                <tr>
+                  <td colspan="9" class="text-center">
+                    <img id="robot" class="fa-bounce mt-3" width="100"
+                      src="https://api.kairosgt.com/public/robots/busqueda.png">
+                    <br>
+                    <h4 class="mb-3">No se encontraron registros</h4>
+                  </td>
+                </tr>
+                }
+              </tbody>
+              <!-- <thead>
+                <tr>
+                  <td></td>
+                  <td>
+                    <a class="product-img">TOTALES</a>
+                  </td>
+                  <td>
+                    <a class="product-img">
+                      {{getMonto(c.empleado.id) | moneda: 'Q. '}}
+                    </a>
+                  </td>
+                  <td></td>
+                  <td>
+                    <a class="product-img">
+                      {{getTotal(c.empleado.id) | moneda: 'Q. '}}
+                    </a>
+                  </td>
+                </tr>
+              </thead> -->
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-lg-4 col-12">
+      <div class="row">
+        <div class="col-6">
+          <a class="dash-count" data-bs-toggle="offcanvas" data-bs-target="#aperturar-caja">
+            <div class="dash-counts">
+              <h4>{{total | moneda: 'Q. '}}</h4>
+              <h5>ABRIR CAJA</h5>
+            </div>
+            <div class="dash-imgs">
+              <i class="fa fa-layer-group fa-2x"></i>
+            </div>
+          </a>
+        </div>
+        <div class="col-6">
+          <div class="dash-count">
+            <div class="dash-counts">
+              <h4>{{0 | moneda: 'Q. '}}</h4>
+              <h5>Monto</h5>
+            </div>
+            <div class="dash-imgs">
+              <i class="fa fa-calculator fa-2x"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="dash-count">
+            <div class="dash-counts">
+              <h4>{{0 | moneda: 'Q. '}}</h4>
+              <h5>Total</h5>
+            </div>
+            <div class="dash-imgs">
+              <i class="fa fa-sack-dollar fa-2x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="aperturar-caja">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Aperturar Caja</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row" [formGroup]="cajaForm" [ngClass]="{'was-validated': cajaForm.invalid && cajaForm.touched}">
+      <div class="col-12">
+        <div class="form-group">
+          <label>Monto Apertura</label>
+          <input id="monto-apertura" type="number" class="form-control" formControlName="monto_apertura">
+        </div>
+      </div>
+      <div class="col-12">
+        <button id="btn_aperturar" class="btn btn-primary" (click)="aperturarCaja()">Aperturar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="corte-caja">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Corte Caja</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row" [formGroup]="cajaForm" [ngClass]="{'was-validated': cajaForm.invalid && cajaForm.touched}">
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="dash-count"
+                  [ngClass]="{'bg-success': validarMetodo('Efectivo'), 'bg-danger': !validarMetodo('Efectivo')}">
+                  <div class="dash-counts">
+                    <p>{{this.totales.efectivo | moneda: 'Q. '}} / {{(getMetodo('Efectivo Total') + monto_apertura) |
+                      moneda: 'Q. '}}</p>
+                    <h4>Efectivo</h4>
+                  </div>
+                  <div class="dash-imgs">
+                    <i class="fa-solid fa-money-bills fa-2x"></i>
+                  </div>
+                </div>
+                <div class="dash-count"
+                  [ngClass]="{'bg-success': validarMetodo('Tarjeta'), 'bg-danger': !validarMetodo('Tarjeta')}">
+                  <div class="dash-counts">
+                    <p>{{this.totales.tarjeta | moneda: 'Q. '}} / {{getMetodo('Tarjeta') | moneda: 'Q. '}}</p>
+                    <h4>Tarjeta</h4>
+                  </div>
+                  <div class="dash-imgs">
+                    <i class="fa-solid fa-credit-card fa-2x"></i>
+                  </div>
+                </div>
+                <div class="dash-count"
+                  [ngClass]="{'bg-success': validarMetodo('Transferencia'), 'bg-danger': !validarMetodo('Transferencia')}">
+                  <div class="dash-counts">
+                    <p>{{this.totales.transferencia | moneda: 'Q. '}} / {{getMetodo('Transferencia') | moneda: 'Q. '}}
+                    </p>
+                    <h4>Transferencia</h4>
+                  </div>
+                  <div class="dash-imgs">
+                    <i class="fa-solid fa-money-bill-transfer fa-2x"></i>
+                  </div>
+                </div>
+                <div class="dash-count"
+                  [ngClass]="{'bg-success': validarMetodo('Deposito'), 'bg-danger': !validarMetodo('Deposito')}">
+                  <div class="dash-counts">
+                    <p>{{this.totales.deposito | moneda: 'Q. '}} / {{getMetodo('Deposito') | moneda: 'Q. '}}</p>
+                    <h4>Deposito</h4>
+                  </div>
+                  <div class="dash-imgs">
+                    <i class="fa-solid fa-receipt fa-2x"></i>
+                  </div>
+                </div>
+                <div class="dash-count"
+                  [ngClass]="{'bg-success': validarMetodo('Cheque'), 'bg-danger': !validarMetodo('Cheque')}">
+                  <div class="dash-counts">
+                    <p>{{this.totales.cheque | moneda: 'Q. '}} / {{getMetodo('Cheque') | moneda: 'Q. '}}</p>
+                    <h4>Cheque</h4>
+                  </div>
+                  <div class="dash-imgs">
+                    <i class="fa-solid fa-money-check fa-2x"></i>
+                  </div>
+                </div>
+                <div class="dash-count"
+                  [ngClass]="{'bg-success': validarMetodo('Vale'), 'bg-danger': !validarMetodo('Vale')}">
+                  <div class="dash-counts">
+                    <p>{{this.totales.vale | moneda: 'Q. '}} / {{getMetodo('Vale') | moneda: 'Q. '}}</p>
+                    <h4>Vale</h4>
+                  </div>
+                  <div class="dash-imgs">
+                    <i class="fa-solid fa-money-check-dollar fa-2x"></i>
+                  </div>
+                </div>
+                <div class="dash-widget">
+                  <div class="dash-widgetimg">
+                    <span><i class="fa fa-credit-card fa-2x" style="color: white;"></i></span>
+                  </div>
+                  <div class="dash-widgetcontent">
+                    <h5><span>{{getTotalContado() | moneda: 'Q. '}}</span></h5>
+                    <p>{{ventas_contado.length}} VENTAS CONTADO</p>
+                  </div>
+                </div>
+                <div class="dash-widget">
+                  <div class="dash-widgetimg">
+                    <span><i class="fa fa-credit-card fa-2x" style="color: white;"></i></span>
+                  </div>
+                  <div class="dash-widgetcontent">
+                    <h5><span>{{getTotalCredito() | moneda: 'Q. '}}</span></h5>
+                    <p>{{ventas_credito.length}} VENTAS CREDITO</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-lg-9">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <h5>General</h5>
+              <div class="col-lg-3 col-md-6">
+                <div class="form-group">
+                  <label>Fecha Apertura</label>
+                  <input id="fecha-apertura" type="datetime-local" class="form-control" formControlName="fecha_apertura"
+                    (input)="getVentas()">
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="form-group">
+                  <label>Fecha Cierre</label>
+                  <input id="fecha-cierre" type="datetime-local" class="form-control" formControlName="fecha_cierre"
+                    (input)="getVentas()">
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="form-group">
+                  <label>Monto Apertura</label>
+                  <input type="number" class="form-control" formControlName="monto_apertura" readonly>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="form-group">
+                  <label>Monto Cierre</label>
+                  <input type="number" class="form-control" formControlName="monto_cierre" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="monedas">
+              <h5 style="margin-bottom: 10px;"><i class="fas fa-coins"></i> Monedas</h5>
+              <div class="col-lg-2 col-md-6 col-6">
+                <div class="form-group">
+                  <label>0.01</label>
+                  <input type="number" class="form-control" formControlName="m1" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-6">
+                <div class="form-group">
+                  <label>0.05</label>
+                  <input type="number" class="form-control" formControlName="m5" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-6">
+                <div class="form-group">
+                  <label>0.10</label>
+                  <input type="number" class="form-control" formControlName="m10" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-6">
+                <div class="form-group">
+                  <label>0.25</label>
+                  <input type="number" class="form-control" formControlName="m25" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-6">
+                <div class="form-group">
+                  <label>0.50</label>
+                  <input type="number" class="form-control" formControlName="m50" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-6">
+                <div class="form-group">
+                  <label>1.00</label>
+                  <input type="number" class="form-control" formControlName="m100" (input)="calculo()">
+                </div>
+              </div>
+            </div>
+            <div class="row" id="billetes">
+              <h5 style="margin-bottom: 10px;"><i class="fas fa-money-bill-1-wave"></i> Billetes</h5>
+              <div class="col-lg col-md-6 col-6">
+                <div class="form-group">
+                  <label>1.00</label>
+                  <input type="number" class="form-control" formControlName="b1" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg col-md-6 col-6">
+                <div class="form-group">
+                  <label>5.00</label>
+                  <input type="number" class="form-control" formControlName="b5" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg col-md-6 col-6">
+                <div class="form-group">
+                  <label>10.00</label>
+                  <input type="number" class="form-control" formControlName="b10" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg col-md-6 col-6">
+                <div class="form-group">
+                  <label>20.00</label>
+                  <input type="number" class="form-control" formControlName="b20" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg col-md-6 col-6">
+                <div class="form-group">
+                  <label>50.00</label>
+                  <input type="number" class="form-control" formControlName="b50" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg col-md-6 col-6">
+                <div class="form-group">
+                  <label>100.00</label>
+                  <input type="number" class="form-control" formControlName="b100" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg col-md-6 col-6">
+                <div class="form-group">
+                  <label>200.00</label>
+                  <input type="number" class="form-control" formControlName="b200" (input)="calculo()">
+                </div>
+              </div>
+            </div>
+            <div class="row" id="otros">
+              <h5 style="margin-bottom: 10px;"><i class="fas fa-money-check-dollar"></i> Otros</h5>
+              <div class="col-lg-4 col-md-6 col-6">
+                <div class="form-group">
+                  <label>Visa</label>
+                  <input type="number" class="form-control" formControlName="visa" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-6">
+                <div class="form-group">
+                  <label>Credomatic</label>
+                  <input type="number" class="form-control" formControlName="credomatic" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-6">
+                <div class="form-group">
+                  <label>Transferencia</label>
+                  <input type="number" class="form-control" formControlName="transferencia" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-6">
+                <div class="form-group">
+                  <label>Deposito</label>
+                  <input type="number" class="form-control" formControlName="deposito" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-6">
+                <div class="form-group">
+                  <label>Cheque</label>
+                  <input type="number" class="form-control" formControlName="cheque" (input)="calculo()">
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-6">
+                <div class="form-group">
+                  <label>Vale</label>
+                  <input type="number" class="form-control" formControlName="vale" (input)="calculo()">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-end">
+                <button id="btn_guardar" class="btn btn-primary" (click)="corteCaja()">Corte de Caja</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12" id="ventas-contado">
+                <div class="row">
+                  <div class="col-6">
+                    <h6>Ventas al contado</h6>
+                  </div>
+                  <div class="col-6 text-end">
+                    <h6>{{ventas_contado.length}} registros encontrados</h6>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-nowrap">
+                    <thead>
+                      <tr>
+                        <th>Venta</th>
+                        <th>Fecha</th>
+                        <th class="text-end">Efectivo</th>
+                        <!-- <th class="text-end">Cambio</th> -->
+                        <th class="text-end">Tarjeta</th>
+                        <th class="text-end">Transferencia</th>
+                        <th class="text-end">Deposito</th>
+                        <th class="text-end">Cheque</th>
+                        <th class="text-end">Vale</th>
+                        <th class="text-end">Total Ventas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for(v of ventas_contado; track v.id) {
+                      <tr>
+                        <td>{{v.serie}}-{{v.correlativo}}</td>
+                        <td>{{v.fecha | fecha}}</td>
+                        <!-- <td></td> -->
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-end">{{(v.total) | moneda: 'Q. '}}</td>
+                      </tr>
+                      @for(p of v.pagos; track p.id) {
+                      <tr class="sub">
+                        <td></td>
+                        <td></td>
+                        <td class="text-end">
+                          {{p.metodo == 'Efectivo' ? ((p.monto - p.cambio) | moneda: 'Q. ') : '--'}}
+                        </td>
+                        <!-- <td class="text-end">
+                          {{p.cambio ? (p.cambio | moneda: 'Q. ') : '--'}}
+                        </td> -->
+                        <td class="text-end">
+                          {{p.metodo == 'Tarjeta' ? (p.monto | moneda: 'Q. ') : '--'}}
+                        </td>
+                        <td class="text-end">
+                          {{p.metodo == 'Transferencia' ? (p.monto | moneda: 'Q. ') : '--'}}
+                        </td>
+                        <td class="text-end">
+                          {{p.metodo == 'Deposito' ? (p.monto | moneda: 'Q. ') : '--'}}
+                        </td>
+                        <td class="text-end">
+                          {{p.metodo == 'Cheque' ? (p.monto | moneda: 'Q. ') : '--'}}
+                        </td>
+                        <td class="text-end">
+                          {{p.metodo == 'Vale' ? (p.monto | moneda: 'Q. ') : '--'}}
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      }
+                      }
+                    </tbody>
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Total</th>
+                        <th class="text-end">{{(getMetodo('Efectivo') - getMetodo('Cambio')) | moneda: 'Q. '}}</th>
+                        <!-- <th class="text-end">{{getMetodo('Cambio') | moneda: 'Q. '}}</th> -->
+                        <th class="text-end">{{getMetodo('Tarjeta') | moneda: 'Q. '}}</th>
+                        <th class="text-end">{{getMetodo('Transferencia') | moneda: 'Q. '}}</th>
+                        <th class="text-end">{{getMetodo('Deposito') | moneda: 'Q. '}}</th>
+                        <th class="text-end">{{getMetodo('Cheque') | moneda: 'Q. '}}</th>
+                        <th class="text-end">{{getMetodo('Vale') | moneda: 'Q. '}}</th>
+                        <th class="text-end">{{getTotalContado() | moneda: 'Q. '}}</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12" id="ventas-credito">
+                <div class="col-6">
+                  <h6>Ventas al credito</h6>
+                </div>
+                <div class="col-6 text-end">
+                  <h6>{{ventas_credito.length}} registros encontrados</h6>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-nowrap">
+                    <thead>
+                      <tr>
+                        <th>Venta</th>
+                        <th>Fecha</th>
+                        <th class="text-end">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for(v of ventas_credito; track v.id) {
+                      <tr>
+                        <td>{{v.serie}}-{{v.correlativo}}</td>
+                        <td>{{v.fecha | fecha}}</td>
+                        <td class="text-end">{{(v.total) | moneda: 'Q. '}}</td>
+                      </tr>
+                      @for(a of v.abonos; track a.id) {
+                      <tr class="sub">
+                        <td></td>
+                        <td></td>
+                        <td class="text-end">
+                          {{a.monto ? (a.monto | moneda: 'Q. ') : '--'}}
+                        </td>
+                      </tr>
+                      }
+                      }
+                    </tbody>
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Total</th>
+                        <th class="text-end">{{getTotalCredito() | moneda: 'Q. '}}</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-end">
+                <button class="btn btn-primary" (click)="corteCaja()">Corte de Caja</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="doc">
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style="text-align: center;">
+    @if (url) {
+    <embed style="width: 100%; height: 100vh;" [src]="url" type="">
+    }
+  </div>
+</div>

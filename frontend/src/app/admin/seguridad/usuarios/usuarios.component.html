@@ -1,0 +1,142 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Usuarios</h4>
+      <h6>Control de usuarios</h6>
+    </div>
+    <div class="page-btn" permiso="agregar-usuario">
+      <a id="btn_agregar" class="btn btn-added" routerLink="agregar">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Usuario
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-top">
+        <div class="search-set">
+          <div class="row">
+            <div class="col-lg-10 col-10">
+              <div class="form-group">
+                <input class="form-control" [(ngModel)]="busqueda" [ngModelOptions]="{standalone: true}"
+                (input)="search()" placeholder="Buscar...">
+              </div>
+            </div>
+            <div class="col-lg-2 col-2 order-lg-first">
+              <a class="btn btn-filter" id="filter_search">
+                <img src="assets/img/icons/filter.svg" alt="img">
+                <span>
+                  <img src="assets/img/icons/closes.svg" alt="img">
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="filter_inputs">
+        <div class="card-body pb-0">
+          <form [formGroup]="filtros" (ngSubmit)="getUsuarios()" class="row">
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="nombre" placeholder="Nombre">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="apellido" placeholder="Apellido">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="usuario" placeholder="Usuario">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="correo" placeholder="Correo">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <label>Acceso</label>
+              <div class="form-group">
+                <div class="status-toggle d-flex justify-content-between align-items-center">
+                  <input type="checkbox" id="check" class="check" formControlName="acceso">
+                  <label for="check" class="checktoggle"></label>
+                </div>
+              </div>
+            </div>
+            <div class="col" class="text-end">
+              <div class="form-group" style="float: right; margin-left: 10px;">
+                <button type="submit" class="btn btn-filters ms-auto">
+                  <img src="assets/img/icons/search-whites.svg" alt="img">
+                </button>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-filters ms-auto" (click)="filtros.reset()"
+                  (click)="getUsuarios()">
+                  <i class="fa-solid fa-broom-wide"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Usuario</th>
+              <th>Correo</th>
+              <th>Telefono</th>
+              <th>Acceso</th>
+              <th>Rol</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (e of usuarios; track e.slug) {
+            <tr>
+              <td>
+                <a class="link product-img" [routerLink]="['editar', e.id]">
+                  <div class="avatar">
+                    @if (e.logo) {
+                      <img [src]="e.logo" alt="">
+                      } @else {
+                      <span class="avatar-title rounded-circle border border-white">{{iniciales(e.nombre, e.apellido)}}</span>
+                      }
+                  </div>
+                  {{e.nombre}} {{e.apellido}}
+                </a>
+              </td>
+              <td>{{e.usuario}}</td>
+              <td>{{e.correo}}</td>
+              <td>{{e.telefono}}</td>
+              <td>
+                <div class="status-toggle d-flex justify-content-between align-items-center">
+                  <input type="checkbox" [id]="e.id" class="check" [checked]="e.acceso" (change)="changeStatus(e)">
+                  <label [for]="e.id" class="checktoggle">checkbox</label>
+                </div>
+              </td>
+              <td>{{e.rol.nombre}}</td>
+              <td class="text-end">
+                <a id="btn_editar" permiso="editar-usuario" class="me-2" [routerLink]="['editar', e.id]">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a id="btn_eliminar" permiso="eliminar-usuario" class="me-2" (click)="deleteUsuario(e)">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

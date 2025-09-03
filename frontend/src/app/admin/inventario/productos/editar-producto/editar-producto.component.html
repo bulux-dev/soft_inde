@@ -1,0 +1,1058 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Editar Producto</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="profile-set">
+        <div class="profile-head">
+
+        </div>
+
+        <div class="profile-top">
+          <div class="profile-content">
+            <div class="profile-contentimg">
+              <img [src]="productoForm.value.logo ? productoForm.value.logo : 'assets/img/blank.jpg'" alt="img"
+                id="blah">
+              <div class="profileupload edit">
+                <input type="file" id="imgInp" (change)="setImage($event, 'logo')">
+                <a href="javascript:void(0);">
+                  <img src="assets/img/icons/edit-set.svg" alt="img">
+                </a>
+              </div>
+              <div class="profileupload delete">
+                <a (click)="removeImage('logo')" href="javascript:void(0);">
+                  <img src="assets/img/icons/trash.svg" alt="img">
+                </a>
+              </div>
+            </div>
+            <div class="profile-contentname">
+              <h2>{{productoForm.value.nombre}}</h2>
+              <h4>{{productoForm.value.sku}}</h4>
+            </div>
+          </div>
+          <div>
+            <a routerLink="../../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <a (click)="putProducto()" [ngClass]="{'disabled': productoForm.invalid}" class="btn btn-submit me-2"
+              permiso="editar-producto">
+              <i class="fas fa-save"></i> Guardar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul class="nav nav-tabs nav-tabs-solid nav-justified">
+    <li class="nav-item">
+      <a class="nav-link active" href="#tab_info" data-bs-toggle="tab">
+        <i class="fas fa-info-circle"></i> Informacion
+      </a>
+    </li>
+    <!-- <li class="nav-item"><a class="nav-link" href="#tab_fotos" data-bs-toggle="tab">
+        <i class="fas fa-image"></i> Fotografias</a>
+    </li> -->
+    @if (productoForm.value.combo || productoForm.value.produccion) {
+    <li class="nav-item">
+      <a class="nav-link" href="#tab_recetas" data-bs-toggle="tab">
+        <i class="fas fa-layer-group"></i> Recetas
+      </a>
+    </li>
+    }
+    @if (!productoForm.value.combo && !productoForm.value.produccion) {
+    <li class="nav-item">
+      <a class="nav-link" href="#tab_equivalencias" data-bs-toggle="tab">
+        <i class="fas fa-arrow-up-arrow-down"></i> Equivalencias
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#tab_variaciones" data-bs-toggle="tab">
+        <i class="fas fa-bars-progress"></i> Variaciones
+      </a>
+    </li>
+    }
+    @if (productoForm.value.lote) {
+    <li class="nav-item">
+      <a class="nav-link" href="#tab_lotes" data-bs-toggle="tab">
+        <i class="fas fa-box-open"></i> Lotes
+      </a>
+    </li>
+    }
+  </ul>
+
+
+  <div class="tab-content" [formGroup]="productoForm">
+    <div class="tab-pane show active" id="tab_info">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+
+              <div class="row">
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>SKU</label>
+                    <input formControlName="sku" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input formControlName="nombre" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Tipo</label>
+                    <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS"
+                      [data]="tipos_productos" formControlName="tipo_producto_id">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Medida</label>
+                    <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="medidas"
+                      formControlName="medida_id">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-12">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea formControlName="descripcion" type="text"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-12">
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label>Costo</label>
+                        <div class="input-group">
+                          <input formControlName="costo" type="number" class="form-control"
+                            [ngClass]="{'disabled': productoForm.value.combo || productoForm.value.produccion}">
+                          <button class="btn btn-primary" type="button" (click)="getProductosCostos()"
+                            data-bs-toggle="offcanvas" data-bs-target="#productos-costos">
+                            <i class="fa fa-clock-rotate-left"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label>Precio</label>
+                        <input formControlName="precio" type="number" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col col-12">
+                      <div class="form-group">
+                        <label>Stock</label>
+                        <div class="status-toggle d-flex justify-content-between align-items-center">
+                          <input id="stock" formControlName="stock" class="check" type="checkbox">
+                          <label for="stock" class="checktoggle"></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col col-12" [ngClass]="{'disabled': productoForm.value.combo}">
+                      <div class="form-group">
+                        <label>Lote</label>
+                        <div class="status-toggle d-flex justify-content-between align-items-center">
+                          <input id="lote" formControlName="lote" class="check" type="checkbox">
+                          <label for="lote" class="checktoggle"></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col col-12" [ngClass]="{'disabled': productoForm.value.combo}">
+                      <div class="form-group">
+                        <label>Produccion</label>
+                        <div class="status-toggle d-flex justify-content-between align-items-center">
+                          <input id="produccion" formControlName="produccion" class="check" type="checkbox">
+                          <label for="produccion" class="checktoggle"></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col col-12"
+                      [ngClass]="{'disabled': productoForm.value.lote || productoForm.value.produccion}">
+                      <div class="form-group">
+                        <label>Combo</label>
+                        <div class="status-toggle d-flex justify-content-between align-items-center">
+                          <input id="combo" formControlName="combo" class="check" type="checkbox">
+                          <label for="combo" class="checktoggle"></label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12" class="text-end">
+                <a routerLink="../../" class="btn btn-cancel me-2">
+                  <i class="fas fa-reply"></i> Regresar
+                </a>
+                <a (click)="putProducto()" [ngClass]="{'disabled': productoForm.invalid}" class="btn btn-submit me-2"
+                  permiso="editar-producto">
+                  <i class="fas fa-save"></i> Guardar
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h6>Categorias</h6>
+                </div>
+                <div class="col-6 text-end">
+                  <a class="link" data-bs-toggle="offcanvas" data-bs-target="#categorias">
+                    <i class="fas fa-plus"></i> Nueva
+                  </a>
+                </div>
+                <div class="col-12">
+                  <br>
+                  <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectM" [data]="categorias"
+                    formControlName="productos_categorias">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h6>Marcas</h6>
+                </div>
+                <div class="col-6 text-end">
+                  <a class="link" data-bs-toggle="offcanvas" data-bs-target="#marcas">
+                    <i class="fas fa-plus"></i> Nuevo
+                  </a>
+                </div>
+                <div class="col-12">
+                  <br>
+                  <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectM" [data]="marcas"
+                    formControlName="productos_marcas">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h6>Ajustes Adicionales</h6>
+                </div>
+                <div class="col-6 text-end">
+                  <i class="fa-duotone fa-solid fa-gears fa-3x"></i>
+                </div>
+                <div class="col-12">
+                  <br>
+                  <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Arancel %</label>
+                      <input class="form-control" formControlName="arancel" type="number" min="0" max="100">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="tab_fotos">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="form-group">
+            <div class="image-upload">
+              <input type="file" id="imgInp" (change)="setFoto($event)">
+              <div class="image-uploads">
+                <img src="assets/img/icons/upload.svg" alt="img">
+                <h4> Subir fotografia </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                @for (f of productos_fotos; track f.id) {
+                <div class="col-md-3 mb-2 mb-md-0">
+                  <a href="javascript:void(0);" style="padding: 100%;">
+                    <i class="fas fa-close" (click)="deleteFoto(f)"></i>
+                  </a>
+                  <a [href]="f.foto" class="image-popup">
+                    <img [src]="f.foto" class="img-fluid" alt="image" style="width: 100%;">
+                  </a>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="tab_equivalencias">
+      <div class="row">
+        <div class="col-lg-6 col-sm-12">
+          <div class="card card-order dynamic-card">
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h5>Equivalencias de Entrada</h5> <br>
+                </div>
+                <div class="col-6 text-end">
+                  <a href="javascript:void(0);" class="btn btn-primary btn-sm" (click)="setEquivalencia('entrada')">
+                    <i class="fas fa-plus"></i> Nuevo
+                  </a>
+                </div>
+                @for (e of equivalencias_entrada; track e.id) {
+                <div class="col-lg-5 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Medida</label>
+                    <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="medidas"
+                      [(ngModel)]="e.medida_id" [ngModelOptions]="{standalone: true}">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-5 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Equivalencia en {{productoForm.value.medida_id[0].nombre}}</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" [(ngModel)]="e.equivalencia"
+                        [ngModelOptions]="{standalone: true}">
+                      <button class="btn btn-primary" type="button" (click)="putEquivalencia(e)">
+                        <i class="fa fa-save"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-sm-6 col-12 text-end">
+                  <div class="form-group">
+                    <label>Acciones</label>
+                    <button class="btn btn-danger" (click)="deleteEquivalencia(e)">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-12">
+          <div class="card card-order dynamic-card">
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h5>Equivalencias de Salida</h5> <br>
+                </div>
+                <div class="col-6 text-end">
+                  <a href="javascript:void(0);" class="btn btn-primary btn-sm" (click)="setEquivalencia('salida')">
+                    <i class="fas fa-plus"></i> Nuevo
+                  </a>
+                </div>
+                @for (e of equivalencias_salida; track e.id) {
+                <div class="col-lg-5 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Medida</label>
+                    <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="medidas"
+                      [(ngModel)]="e.medida_id" [ngModelOptions]="{standalone: true}">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-5 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Equivalencia en {{productoForm.value.medida_id[0].nombre}}</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" [(ngModel)]="e.equivalencia"
+                        [ngModelOptions]="{standalone: true}">
+                      <button class="btn btn-primary" type="button" (click)="putEquivalencia(e)">
+                        <i class="fa fa-save"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-sm-6 col-12 text-end">
+                  <div class="form-group">
+                    <label>Acciones</label>
+                    <button class="btn btn-danger" (click)="deleteEquivalencia(e)">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="tab_recetas">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="text-end">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas"
+                      data-bs-target="#productos-recetas">
+                      <i class="fas fa-plus"></i> Seleccionar Productos
+                    </button>
+                  </div>
+                  <br>
+                  @if (productoForm.value.produccion) {
+                  <div [formGroup]="productoForm">
+                    <div class="form-group">
+                      <label>Equivalencia en {{productoForm.value.medida_id[0].nombre}}</label>
+                      <div class="input-group">
+                        <input type="number" class="form-control" formControlName="equivalencia">
+                        <button class="btn btn-primary" type="button" (click)="putProducto()">
+                          <i class="fa fa-save"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Rendimiento en Porciones</label>
+                      <div class="input-group">
+                        <input type="number" class="form-control" formControlName="porciones">
+                        <button class="btn btn-primary" type="button" (click)="putProducto()">
+                          <i class="fa fa-save"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Factor</label>
+                      <div class="input-group">
+                        <input type="number" class="form-control" [(ngModel)]="factor"
+                          [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                    </div>
+                  </div>
+                  }
+                  <div class="dash-count">
+                    <div class="dash-imgs">
+                      <i class="fa fa-sack-dollar fa-2x"></i>
+                    </div>
+                    <div class="dash-counts text-end">
+                      <h4>{{getTotalCosto() | moneda: 'Q. '}}</h4>
+                      <h5>Costo Total</h5>
+                    </div>
+                  </div>
+                  @if (productoForm.value.produccion) {
+                  <div class="dash-count">
+                    <div class="dash-imgs">
+                      <i class="fa fa-sack-dollar fa-2x"></i>
+                    </div>
+                    <div class="dash-counts text-end">
+                      <h4>{{(getTotalCosto() / productoForm.value.porciones) | moneda: 'Q. '}}</h4>
+                      <h5>Costo x Porcion</h5>
+                    </div>
+                  </div>
+                  }
+                  <div class="dash-count">
+                    <div class="dash-imgs">
+                      <i class="fa fa-sack-dollar fa-2x"></i>
+                    </div>
+                    <div class="dash-counts text-end">
+                      <h4>{{getTotalPrecio() | moneda: 'Q. '}}</h4>
+                      <h5>Precio Total</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-9 order-lg-1">
+                  <h6>Receta</h6>
+
+
+                  <div class="row">
+
+                    <div class="col-lg-12 col-sm-12 col-12">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Producto</th>
+                              <th>Cantidad</th>
+                              <th>Medida</th>
+                              @if (productoForm.value.produccion) {
+                              <th class="text-end">Equivalente</th>
+                              <th class="text-end">Porcentaje</th>
+                              }
+                              <!-- <th class="text-end">Costo U.</th> -->
+                              <th class="text-end">Costo Total</th>
+                              <th class="text-end">Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for (r of recetas; track r.id) {
+                            <tr>
+                              <td>
+                                <a class="product-img">
+                                  <div class="avatar">
+                                    @if (r.producto_receta.logo) {
+                                    <img [src]="r.producto_receta.logo" alt="img">
+                                    } @else {
+                                    <span
+                                      class="avatar-title rounded-circle border border-white">{{iniciales(r.producto_receta.nombre)}}</span>
+                                    }
+                                  </div>
+                                  {{r.producto_receta.nombre}} ---> <span>({{r.producto_receta.costo | moneda: 'Q.
+                                    '}})</span>
+                                </a>
+                              </td>
+                              <td>
+                                <div class="input-group" style="width: 150px;">
+                                  <input type="number" class="form-control" [(ngModel)]="r.cantidad"
+                                    [ngModelOptions]="{standalone: true}" (keyup.enter)="putReceta(r)">
+                                  <button class="btn btn-primary" type="button" (click)="putReceta(r)">
+                                    <i class="fa fa-save"></i>
+                                  </button>
+                                </div>
+                              </td>
+                              <td>{{r.producto_receta.medida.simbolo}}</td>
+                              @if (productoForm.value.produccion) {
+                              <td class="text-end">{{r.equivalente | number: '.4-4'}}</td>
+                              <td class="text-end">{{r.porcentaje | number: '.2-2'}}%</td>
+                              }
+                              <!-- <td class="text-end">{{r.producto_receta.costo | moneda: 'Q. '}}</td> -->
+                              <td class="text-end">{{r.costo_total | moneda: 'Q. '}}</td>
+                              <td class="text-end">
+                                <button class="btn btn-primary" (click)="deleteReceta(r)">
+                                  <i class="fas fa-trash-alt"></i>
+                                </button>
+                              </td>
+                            </tr>
+                            }
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td>TOTALES</td>
+                              <td>{{getTotalCantidad() | number: '.4-4'}}</td>
+                              <td></td>
+                              @if (productoForm.value.produccion) {
+                              <td class="text-end">{{getTotalEquivalente() | number: '.4-4'}}</td>
+                              <td class="text-end">{{getTotalPorcentaje() | number: '.2-2'}}%</td>
+                              }
+                              <!-- <td class="text-end">{{getTotalCostoU() | moneda: 'Q. '}}</td> -->
+                              <td class="text-end">{{getTotalCosto() | moneda: 'Q. '}}</td>
+                              <td class="text-end"></td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="tab_variaciones">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h6>Atributos</h6>
+                </div>
+                <div class="col-6 text-end">
+                  <a class="link" data-bs-toggle="offcanvas" data-bs-target="#atributos">
+                    <i class="fas fa-plus"></i> Nuevo
+                  </a>
+                </div>
+                <div class="col-12">
+                  <br>
+
+                  <div class="table-responsive table-height">
+                    <table class="table">
+                      <tbody>
+                        @for (r of atributos; track r.id) {
+                        <tr class="bg-light">
+                          <td style="font-weight: 600;">
+                            {{r.nombre}}
+                          </td>
+                          <td></td>
+                          <td class="text-end">
+                            <div class="status-toggle d-flex justify-content-between align-items-center">
+                              <input [id]="'r-' + r.id" [(ngModel)]="r.checked" [ngModelOptions]="{standalone: true}"
+                                class="check" type="checkbox" (input)="addOrRemoveAtributo($event, r)">
+                              <label [for]="'r-' + r.id" class="checktoggle">checkbox</label>
+                            </div>
+                          </td>
+                        </tr>
+                        @for (v of r.valores; track v.id) {
+                        <tr [hidden]="!r.checked">
+                          <td></td>
+                          <td>{{v.nombre}}
+                          <td class="text-end">
+                            <div class="status-toggle d-flex justify-content-between align-items-center">
+                              <input [id]="'v-' + v.id" [(ngModel)]="v.checked" [ngModelOptions]="{standalone: true}"
+                                class="check" type="checkbox" (input)="addOrRemoveTermino($event, r, v)">
+                              <label [for]="'v-' + v.id" class="secondarytoggle">checkbox</label>
+                            </div>
+                          </td>
+                        </tr>
+                        } @empty {
+                        <tr>
+                          <td colspan="3" class="text-center">
+                            <a data-bs-toggle="offcanvas" data-bs-target="#valores">
+                              No existen valores
+                            </a>
+                          </td>
+                        </tr>
+                        }
+                        <tr [hidden]="!r.checked" class="nuevo-valor">
+                          <td (click)="openOffCanvas(r)" colspan="3" class="text-center" data-bs-toggle="offcanvas"
+                            data-bs-target="#valores">
+                            <a>
+                              <i class="fas fa-plus"></i> Nuevo
+                            </a>
+                          </td>
+                        </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+
+              <div class="row">
+                <div class="col-6">
+                  <h6>Variaciones</h6>
+                </div>
+                <div class="col-6 text-end">
+                  <a class="link" data-bs-toggle="offcanvas" data-bs-target="#agregar-variacion"
+                    (click)="getProducto()">
+                    <i class="fas fa-plus"></i> Nueva
+                  </a>
+                </div>
+                <div class="col-12">
+                  <br>
+
+                  <div class="accordion" id="accordionVariaciones">
+                    @for (v of variaciones; track v.id) {
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" [id]="v.id + '-headingOne'" (click)="setVariacion(v.id)">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                          [attr.data-bs-target]="'#id-' + v.id" aria-expanded="false"
+                          aria-controls="panelsStayOpen-collapseOne">
+                          {{v.variacion}}
+                        </button>
+                      </h2>
+                      <div [id]="'id-' + v.id" class="accordion-collapse collapse"
+                        [attr.aria-labelledby]="v.id + '-headingOne'" data-bs-parent="#accordionVariaciones">
+
+                        <div class="accordion-body">
+                          <div class="row" [formGroup]="variacionForm">
+                            <div class="col-lg-2 col-12">
+                              <div class="profile-set" style="margin: 40px 0 0 0;">
+                                <div class="profile-top">
+                                  <div class="profile-content">
+                                    <div class="profile-contentimg">
+                                      <img
+                                        [src]="variacionForm.value.logo ? variacionForm.value.logo : 'assets/img/blank.jpg'"
+                                        alt="img" id="blah">
+                                      <div class="profileupload edit">
+                                        <input type="file" id="imgInp" (change)="setImageV($event, 'logo')">
+                                        <a href="javascript:void(0);">
+                                          <img src="assets/img/icons/edit-set.svg" alt="img">
+                                        </a>
+                                      </div>
+                                      <div class="profileupload delete">
+                                        <a (click)="removeImageV('logo')" href="javascript:void(0);">
+                                          <img src="assets/img/icons/trash.svg" alt="img">
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-10 col-sm-6 col-12">
+                              <div class="row">
+                                <div class="col-lg-3 col-sm-6 col-12">
+                                  <div class="form-group">
+                                    <label>SKU</label>
+                                    <input formControlName="sku" type="text" [placeholder]="productoForm.value.sku">
+                                  </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-12">
+                                  <div class="form-group">
+                                    <label>Nombre</label>
+                                    <input formControlName="nombre" type="text"
+                                      [placeholder]="productoForm.value.nombre">
+                                  </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-12">
+                                  <div class="form-group">
+                                    <label>Costo</label>
+                                    <input formControlName="costo" type="text" [placeholder]="productoForm.value.costo">
+                                  </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-12">
+                                  <div class="form-group">
+                                    <label>Precio</label>
+                                    <input formControlName="precio" type="text"
+                                      [placeholder]="productoForm.value.precio">
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="form-group">
+                                    <label>Descripción</label>
+                                    <textarea formControlName="descripcion" rows="100" cols="100">
+                                      {{productoForm.value.descripcion}}
+                                    </textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-12" class="text-end">
+                              <button class="btn btn-primary" (click)="putVariacion()" style="margin-left: 10px;"
+                                permiso="editar-producto">
+                                <i class="fas fa-save"></i> Guardar
+                              </button>
+                              <button class="btn btn-primary" style="margin-left: 10px;" data-bs-toggle="offcanvas"
+                                data-bs-target="#editar-variacion">
+                                <i class="fas fa-gear"></i>
+                              </button>
+                              <button class="btn btn-danger" (click)="deleteVariacion()" style="margin-left: 10px;">
+                                <i class="fas fa-trash"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    }
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="tab_lotes">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12 order-lg-1">
+                  <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-12">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Lote</th>
+                              <th>Costo</th>
+                              <th>Fecha Alta</th>
+                              <th>Fecha Caducidad</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for (l of lotes; track l.id) {
+                            <tr>
+                              <td>
+                                <div class="input-group" style="width: 150px;">
+                                  <input type="text" class="form-control" [(ngModel)]="l.nombre"
+                                    [ngModelOptions]="{standalone: true}">
+                                </div>
+                              </td>
+                              <td>
+                                <div class="input-group" style="width: 150px;">
+                                  <input type="number" class="form-control" [(ngModel)]="l.costo"
+                                    [ngModelOptions]="{standalone: true}" readonly>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="input-group" style="width: 150px;">
+                                  <input type="date" class="form-control" [(ngModel)]="l.fecha_alta"
+                                    [ngModelOptions]="{standalone: true}">
+                                </div>
+                              </td>
+                              <td>
+                                <div class="input-group" style="width: 150px;">
+                                  <input type="date" class="form-control" [(ngModel)]="l.fecha_caducidad"
+                                    [ngModelOptions]="{standalone: true}">
+                                </div>
+                              </td>
+                            </tr>
+                            }
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" id="categorias">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Categoria</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <app-agregar-categoria [oc]="true" (newItemEvent)="getCategorias($event)"></app-agregar-categoria>
+
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="marcas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Marcas</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <app-agregar-marca [oc]="true" (newItemEvent)="getMarcas($event)"></app-agregar-marca>
+
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="medidas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Medidas</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <app-agregar-medida [oc]="true" (newItemEvent)="getMedidas($event)"></app-agregar-medida>
+
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="atributos">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Atributo</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <app-agregar-atributo [oc]="true" (newItemEvent)="addAtributo($event)"></app-agregar-atributo>
+
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="valores">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Valor</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <div *ngIf="atributo_id">
+      <app-editar-atributo [oc]="true" [atributo_id]="atributo_id"
+        (newItemEvent)="addValor($event)"></app-editar-atributo>
+    </div>
+
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="agregar-variacion">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Variacion</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    @for (pa of productoForm.controls['productos_atributos'].value; track pa.id) {
+    <select class="form-select" [(ngModel)]="pa.termino_id" [ngModelOptions]="{standalone: true}">
+      <option [value]="null">Cualquier {{pa.atributo.nombre}}</option>
+      @for (t of pa.terminos; track t.id) {
+      <option [value]="t.id">{{t.valor.nombre}}</option>
+      }
+    </select>
+    <br>
+    }
+
+    <button type="button" class="btn btn-primary" (click)="postVariacion()" permiso="editar-producto">Guardar</button>
+    <hr>
+    <div style="text-align: center;">
+      <a (click)="postCombinaciones()" class="nuevo-variacion">Generar todas la variaciones</a>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="editar-variacion">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Variacion</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    @for (pa of productoForm.controls['productos_atributos'].value; track pa.id) {
+    <select class="form-select" [(ngModel)]="pa.termino_id" [ngModelOptions]="{standalone: true}">
+      <option [value]="null">Cualquier {{pa.atributo.nombre}}</option>
+      @for (t of pa.terminos; track t.id) {
+      <option [value]="t.id">{{t.valor.nombre}}</option>
+      }
+    </select>
+    <br>
+    }
+
+    <button type="button" class="btn btn-primary" (click)="postVariacion()" permiso="editar-producto">Guardar</button>
+    <hr>
+    <div style="text-align: center;">
+      <a class="nuevo-variacion">Generar todas la variaciones</a>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="productos-recetas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Selecciona productos</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <input class="form-control" (keyup.enter)="searchByNombre($event)" placeholder="Buscar por Nombre...">
+        </div>
+        <br>
+        <h5>{{productos.length}} Resultados</h5>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>SKU</th>
+                <th>Costo</th>
+                <th>Precio</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of productos; track p.id) {
+              <tr [ngClass]="{'disabled': p.combo}">
+                <td>
+                  <a class="product-img" (click)="setReceta(p)">
+                    <div class="avatar">
+                      @if (p.logo) {
+                      <img [src]="p.logo" alt="">
+                      } @else {
+                      <span class="avatar-title rounded-circle border border-white">{{iniciales(p.nombre)}}</span>
+                      }
+                    </div>
+                    {{p.nombre}}
+                  </a>
+                </td>
+                <td>{{p.sku}}</td>
+                <td>{{p.costo | moneda: ''}}</td>
+                <td>{{p.precio | moneda: ''}}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="productos-costos">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Historial de Costos</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <div class="card">
+      <div class="card-body">
+        <h6>{{productos_costos.length}} Resultados</h6>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Compra / Importacion</th>
+                <th>Stock Inv.</th>
+                <th>Costo Inv.</th>
+                <th>Total Inv.</th>
+                <th>Stock Com.</th>
+                <th>Costo Com.</th>
+                <th>Total Com.</th>
+                <th>Costo Prom.</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of productos_costos; track p.id) {
+              <tr>
+                @if (p.compra) {
+                  <td>{{p.compra?.fecha | fecha: 'DD/MM/YYYY HH:mm'}}</td>
+                  <td>COMPRA {{p.compra.no_doc}}</td>
+                }
+                @if (p.importacion) {
+                  <td>{{p.importacion?.fecha | fecha: 'DD/MM/YYYY HH:mm'}}</td>
+                  <td>IMPORTACION {{p.importacion.no_doc}}</td>
+                }
+                <td>{{p.stock_inv}}</td>
+                <td>{{p.costo_inv | moneda: 'Q. '}}</td>
+                <td>{{p.total_inv | moneda: 'Q. '}}</td>
+                <td>{{p.stock_com}}</td>
+                <td>{{p.costo_com | moneda: 'Q. '}}</td>
+                <td>{{p.total_com | moneda: 'Q. '}}</td>
+                <td>{{p.costo_promedio | moneda: 'Q. '}}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

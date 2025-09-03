@@ -1,0 +1,131 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Agregar Documento</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="tab-content" [formGroup]="documentoForm">
+    <div class="tab-pane show active" id="info">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input id="nombre" formControlName="nombre" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                  <div class="form-group">
+                    <label>Serie</label>
+                    <input id="serie" formControlName="serie" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                  <div class="form-group">
+                    <label>Correlativo</label>
+                    <input id="correlativo" class="form-control" formControlName="correlativo" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Color</label>
+                    <input id="color" class="form-control" formControlName="color" type="color">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div id="seleccionar-tipo-documento" class="form-group">
+                    <label>Tipo Documento</label>
+                    <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS"
+                      [data]="tipos_documentos" formControlName="tipo_documento_id"
+                      (onSelect)="setTipoDocumento($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div id="seleccionar-sucursal" class="form-group">
+                    <label>Sucursal</label>
+                    <ng-multiselect-dropdown [placeholder]="'Selecciona sucursal'" [settings]="selectS"
+                      [data]="sucursales" formControlName="sucursal_id" (click)="getSucursales()"
+                      (click)="getBodegas()">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div id="seleccionar-bodega" class="form-group">
+                    <label>Bodega</label>
+                    <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="bodegas"
+                      formControlName="bodega_id">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div id="seleccionar-usuario" class="form-group">
+                    <label>Usuario</label>
+                    <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="usuarios"
+                      formControlName="usuario_id">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+
+                @if (validCertificacion()) {
+                <div id="fact-cambiaria" class="col-lg-3">
+                  <div class="form-group">
+                    <label>Cambiaria</label>
+                    <div class="status-toggle d-flex justify-content-between align-items-center">
+                      <input id="cambiaria" formControlName="cambiaria" class="check" type="checkbox">
+                      <label for="cambiaria" class="checktoggle"></label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Certificacion</label>
+                    <div class="status-toggle d-flex justify-content-between align-items-center">
+                      <input id="certificacion" formControlName="certificacion" class="check" type="checkbox">
+                      <label for="certificacion" class="checktoggle"></label>
+                    </div>
+                  </div>
+                </div>
+                }
+
+                @if (validInventario()) {
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Inventario</label>
+                    <div class="status-toggle d-flex justify-content-between align-items-center">
+                      <input id="inventario" formControlName="inventario" class="check" type="checkbox">
+                      <label for="inventario" class="checktoggle"></label>
+                    </div>
+                  </div>
+                </div>
+                }
+
+                <div class="col-12" class="text-end">
+                  <a routerLink="../" class="btn btn-cancel me-2">
+                    <i class="fas fa-reply"></i> Regresar
+                  </a>
+                  <a id="btn_guardar" (click)="postDocumento()" [ngClass]="{'disabled': documentoForm.invalid}"
+                    class="btn btn-submit me-2" permiso="agregar-documento">
+                    @if (loading) {
+                    <span class="spinner-border spinner-border-sm"></span>
+                    } @else {
+                    <i class="fas fa-save"></i> Guardar
+                    }
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

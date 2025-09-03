@@ -1,0 +1,138 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Empleados</h4>
+      <h6>Control de empleados</h6>
+    </div>
+    <div class="page-btn">
+      <a id="btn_agregar" class="btn btn-added" routerLink="agregar" permiso="agregar-empleado">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Empleado
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-top">
+        <div class="search-set">
+          <div class="row">
+            <div class="col-lg-10 col-10">
+              <div class="form-group">
+                <input class="form-control" [(ngModel)]="busqueda" [ngModelOptions]="{standalone: true}"
+                (input)="search()" placeholder="Buscar...">
+              </div>
+            </div>
+            <div class="col-lg-2 col-2 order-lg-first">
+              <a class="btn btn-filter" id="filter_search">
+                <img src="assets/img/icons/filter.svg" alt="img">
+                <span>
+                  <img src="assets/img/icons/closes.svg" alt="img">
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="filter_inputs">
+        <div class="card-body pb-0">
+          <form [formGroup]="filtros" (ngSubmit)="getEmpleados()" class="row">
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="nombre" placeholder="Nombre">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="apellido" placeholder="Apellido">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="correo" placeholder="Correo">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="telefono" placeholder="Telefono">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="nit" placeholder="Nit">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="row">
+                <div class="col-8">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-filters ms-auto">
+                      <img src="assets/img/icons/search-whites.svg" alt="img">
+                    </button>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <button type="button" class="btn btn-filters ms-auto" (click)="filtros.reset()" (click)="getEmpleados()">
+                      <i class="fa-solid fa-broom-wide"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>NIT</th>
+              <th>CUI</th>
+              <th>Correo</th>
+              <th>Teléfono</th>
+              <!-- <th>Dirección</th> -->
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (e of empleados; track e.id) {
+            <tr>
+              <td>
+                <a class="link product-img" [routerLink]="['editar', e.id]">
+                  <div class="avatar">
+                    @if (e.logo) {
+                      <img [src]="e.logo" alt="">
+                      } @else {
+                      <span class="avatar-title rounded-circle border border-white">{{iniciales(e.nombre, e.apellido)}}</span>
+                      }
+                  </div>
+                  {{e.nombre}} {{e.apellido}}
+                </a>
+              </td>
+              <td>{{e.nit}}</td>
+              <td>{{e.cui}}</td>
+              <td>{{e.correo}}</td>
+              <td>{{e.telefono}}</td>
+              <!-- <td>{{e.direccion}}</td> -->
+              <td class="text-end">
+                <a id="btn_editar" class="me-2" [routerLink]="['editar', e.id]" permiso="editar-empleado"> 
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a id="btn_eliminar" class="me-2" (click)="deleteEmpleado(e)" permiso="eliminar-empleado">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

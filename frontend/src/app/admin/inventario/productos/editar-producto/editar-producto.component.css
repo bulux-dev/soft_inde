@@ -1,0 +1,25 @@
+.nuevo-valor td {
+  color: var(--primary-color) !important;
+}
+
+.nuevo-valor td:hover {
+  color: var(--secondary-color) !important;
+}
+
+.nueva-variacion {
+  color: var(--primary-color) !important;
+}
+
+.nueva-variacion:hover {
+  color: var(--secondary-color) !important;
+}
+
+textarea {
+  height: 108px !important;
+}
+
+@media screen and (min-width: 1768px) {
+  #valores {
+    width: 25%;
+  }
+}

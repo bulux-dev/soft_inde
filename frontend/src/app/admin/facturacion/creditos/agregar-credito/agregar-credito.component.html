@@ -1,0 +1,517 @@
+<div class="content">
+  <div class="row">
+
+    <div class="col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="creditoDetalleForm">
+          <div class="row">
+            <h4>Proyecto</h4>
+            <br><br>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Fecha de Solicitud</label>
+                <input class="form-control" type="date" formControlName="fecha">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Nombre</label>
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="categorias"
+                  formControlName="categoria_id" (onSelect)="getProductosByCategoria($event)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Departamento</label>
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="departamentos"
+                  formControlName="departamento" (onSelect)="getMunicipios($event)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Municipio</label>
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="municipios"
+                  formControlName="municipio">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <div class="form-group">
+                <label>Dirección Oficina</label>
+                <input class="form-control" formControlName="proyecto_direccion">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Celular Oficina</label>
+                <input class="form-control" formControlName="proyecto_celular">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Asesor</label>
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="empleados"
+                  formControlName="empleado_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Celular de Asesor</label>
+                <input class="form-control" formControlName="coordinador_celular">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Coordinador</label>
+                <input class="form-control" formControlName="coordinador">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="creditoDetalleForm">
+          <div class="row">
+            <h4>Comprador</h4>
+            <br><br>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input class="form-control" formControlName="compr_nombre">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>NIT</label>
+                <input class="form-control" formControlName="compr_nit">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Profesion</label>
+                <input class="form-control" formControlName="compr_profesion">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Estado Civil</label>
+                <input class="form-control" formControlName="compr_estado_civil">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Dirección</label>
+                <input class="form-control" formControlName="compr_direccion">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Celular</label>
+                <input class="form-control" formControlName="compr_celular">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Edad</label>
+                <input class="form-control" formControlName="compr_edad">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>DPI</label>
+                <input class="form-control" formControlName="compr_dpi">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Nacionalidad</label>
+                <input class="form-control" formControlName="compr_nacionalidad">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Institucion Laboral</label>
+                <input class="form-control" formControlName="compr_institucion">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Direccion</label>
+                <input class="form-control" formControlName="compr_inst_direccion">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Celular</label>
+                <input class="form-control" formControlName="compr_inst_celular">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Puesto</label>
+                <input class="form-control" formControlName="compr_inst_puesto">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Otros Ingresos</label>
+                <input class="form-control" formControlName="otros_ingresos">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="creditoDetalleForm">
+          <div class="row">
+            <h4>Referencias</h4>
+            <br><br>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input class="form-control" formControlName="ref1_nombre">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Parentesco</label>
+                <input class="form-control" formControlName="ref1_parentesco">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Celular</label>
+                <input class="form-control" formControlName="ref1_celular">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input class="form-control" formControlName="ref2_nombre">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Parentesco</label>
+                <input class="form-control" formControlName="ref2_parentesco">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Celular</label>
+                <input class="form-control" formControlName="ref2_celular">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="creditoDetalleForm">
+          <div class="row">
+            <h4>Inmueble</h4>
+            <br><br>
+            <div class="col-3">
+              <div class="form-group">
+                <label>No. Lote</label>
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="productos"
+                  formControlName="producto_id" (onSelect)="setProducto($event)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Manzana / Sector</label>
+                <input class="form-control" formControlName="sector">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Metros2</label>
+                <input class="form-control" formControlName="metros2">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Valor Metros2</label>
+                <input class="form-control" formControlName="valor_metros2">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Finca No.</label>
+                <input class="form-control" formControlName="finca_no">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Folio No.</label>
+                <input class="form-control" formControlName="folio_no">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Libro No.</label>
+                <input class="form-control" formControlName="libro_no">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Dirección</label>
+                <input class="form-control" formControlName="lote_direccion">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="creditoDetalleForm">
+          <div class="row">
+            <h4>Condiciones</h4>
+            <br><br>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Fecha Reserva</label>
+                <input class="form-control" type="date" formControlName="reserva_fecha">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Monto Reserva</label>
+                <input class="form-control" type="number" formControlName="reserva_monto">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Recibo Reserva</label>
+                <input class="form-control" formControlName="reserva_recibo">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Fecha Enganche</label>
+                <input class="form-control" type="date" formControlName="enganche_fecha">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Monto Enganche</label>
+                <input class="form-control" type="number" formControlName="enganche_monto">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Recibo Enganche</label>
+                <input class="form-control" formControlName="enganche_recibo">
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="creditoForm">
+          <div class="row">
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Fecha</label>
+                <input class="form-control" type="datetime-local" formControlName="fecha">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Total</label>
+                <input class="form-control" type="number" formControlName="total" (input)="calcularCapital()" readonly>
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Descuento</label>
+                <input class="form-control" type="number" formControlName="descuento" (input)="calcularCapital()">
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Enganche</label>
+                <input class="form-control" type="number" formControlName="enganche" (input)="calcularCapital()">
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Reserva</label>
+                <input class="form-control" type="number" formControlName="reserva" (keyUp.enter)="calcularEnganche()">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Capital</label>
+                <input class="form-control" type="number" formControlName="capital" readonly>
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Tipo Cuota</label>
+                  <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="tipos_cuotas"
+                    formControlName="tipo_cuota" (onSelect)="calcularCuota()">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Fecha Inicio</label>
+                <input class="form-control" type="date" formControlName="fecha_inicio" (input)="calcularPlazo('anos')"
+                  (input)="calcularCuota()">
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Fecha Fin</label>
+                <input class="form-control" type="date" formControlName="fecha_fin" readonly>
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Plazo (Meses)</label>
+                <input class="form-control" type="number" formControlName="plazo_meses" (input)="calcularPlazo('anos')"
+                  (input)="calcularCuota()">
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Plazo (Años)</label>
+                <input class="form-control" type="number" formControlName="plazo_anos" (input)="calcularPlazo('meses')"
+                  (input)="calcularCuota()">
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Interes Anual %</label>
+                <input class="form-control" type="number" formControlName="interes_anual"
+                  (input)="calcularInteres('mensual')" (input)="calcularCuota()">
+              </div>
+            </div>
+            <div class="col-lg-3 col-12">
+              <div class="form-group">
+                <label>Interes Mensual %</label>
+                <input class="form-control" type="number" formControlName="interes_mensual"
+                  (input)="calcularInteres('anual')" (input)="calcularCuota()">
+              </div>
+            </div>
+            <div class="col-12" style="margin-bottom: 15px;">
+              <div class="text-end">
+                <a routerLink="../" class="btn btn-cancel me-2">
+                  <i class="fas fa-reply"></i> Regresar
+                </a>
+                <button (click)="postCredito()" class="btn btn-submit btn-block"
+                  [ngClass]="{'disabled': creditoForm.invalid || creditoDetalleForm.invalid}" permiso="agregar-credito">
+                  <i class="fas fa-save"></i> Guardar
+                </button>
+              </div>
+            </div>
+
+
+
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 10%;">No. Cuota</th>
+                      <th>Fecha Inicio</th>
+                      <th>Fecha Fin</th>
+                      <th>Dias</th>
+                      <th class="text-end">Capital</th>
+                      <th class="text-end">Interes</th>
+                      <th class="text-end">Cuota</th>
+                      <th class="text-end">Saldo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (c of cuotas; track c.id) {
+                    <tr>
+                      <td>{{c.numero}}</td>
+                      <td>{{c.fecha_inicio | date: 'dd/MM/yyyy'}}</td>
+                      <td>{{c.fecha_fin | date: 'dd/MM/yyyy'}}</td>
+                      <td>{{c.dias}}</td>
+                      <td class="text-end">{{c.capital | number: '.2-2'}}</td>
+                      <td class="text-end">{{c.interes | number: '.2-2'}}</td>
+                      <td class="text-end">{{c.cuota | number: '.2-2'}}</td>
+                      <td class="text-end">{{c.saldo_final | number: '.2-2'}}</td>
+                    </tr>
+                    }
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th>{{creditoForm.value.dias}}</th>
+                      <th class="text-end">{{creditoForm.value.capital | number: '.2-2'}}</th>
+                      <th class="text-end">{{creditoForm.value.interes | number: '.2-2'}}</th>
+                      <th class="text-end">{{creditoForm.value.cuota | number: '.2-2'}}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <br>
+              <div class="text-end">
+                <a routerLink="../" class="btn btn-cancel me-2">
+                  <i class="fas fa-reply"></i> Regresar
+                </a>
+                <button (click)="postCredito()" class="btn btn-submit btn-block"
+                  [ngClass]="{'disabled': creditoForm.invalid || creditoDetalleForm.invalid}">
+                  <i class="fas fa-save" permiso="agregar-credito"></i> Guardar
+                </button>
+                <br><br>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="offcanvas offcanvas-end" id="cuotas">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title"></h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="content">
+            <div class="page-header">
+              <div class="page-title">
+                <h3 style="color: var(--primary-color)">Cuotas Proyectadas</h3>
+                <h6>Calculo de cuotas</h6>
+              </div>
+            </div>
+            <div class="card" style="margin: 0 120px;">
+              <div class="card-body">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>

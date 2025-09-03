@@ -1,0 +1,437 @@
+<div class="content">
+  <div class="row">
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="reciboForm">
+            <div class="col-6">
+              <h5>Fecha</h5> <br>
+              <div class="form-group">
+                <input class="form-control" type="datetime-local" formControlName="fecha">
+              </div>
+            </div>
+            <div class="col-6">
+              <h5>Moneda</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="monedas"
+                  formControlName="moneda_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <h5>Observaciones</h5> <br>
+                  <div class="form-group">
+                    <textarea formControlName="observaciones"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="clienteForm">
+            <div class="col-6">
+              <h5>Cliente</h5> <br>
+            </div>
+            <div class="col-6 text-end">
+              <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="offcanvas"
+                data-bs-target="#clientes">
+                <i class="fas fa-truck-fast me-2"></i>Mis Clientes
+              </a>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="nit" type="text" class="form-control" placeholder="NIT"
+                    (keyup.enter)="getInfoNit()">
+                  <button class="btn btn-primary" type="button" (click)="getInfoNit()">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-sm-12">
+      <div class="card card-order dynamic-card">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <h5>Ventas</h5> <br>
+            </div>
+            <div class="col-6 text-end">
+              <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="offcanvas"
+                data-bs-target="#ventas" (click)="getVentas()">
+                <i class="fas fa-bars"></i> Seleccionar Ventas
+              </a>
+            </div>
+            <div class="col-12">
+              <div class=table-responsive>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Serie / Correlativo</th>
+                      <th>Fecha</th>
+                      <th>Total</th>
+                      <th>Saldo Actual</th>
+                      <th>Abono</th>
+                      <th>Saldo</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let s of saldos">
+                      <td>
+                        <a class="text-secondary">
+                          {{s.venta.documento.tipo_documento.nombre}} {{s.venta.serie}}-{{s.venta.correlativo}}
+                        </a>
+                      </td>
+                      <td>{{s.venta.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                      <td>{{s.venta.total | number: '.2-2'}}</td>
+                      <td>
+                        <b style="font-weight: 600;">{{s.saldo_inicial | number: '.2-2'}}</b>
+                      </td>
+                      <td style="width: 15%;">
+                        <input type="number" class="form-control" [(ngModel)]="s.total"
+                          [ngModelOptions]="{standalone: true}" (input)="setAbono(s)" [min]="0" [max]="s.saldo_inicial">
+                      </td>
+                      <td>
+                        <b style="font-weight: 600;">{{s.saldo_final | number: '.2-2'}}</b>
+                      </td>
+                      <td>
+                        <a href="javascript:void(0);" class="btn btn-danger btn-sm" (click)="removeVenta(s)">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <th colspan="4">Total</th>
+                      <th>{{getAbono() | number:
+                        '.2-2'}}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12">
+      <div class="card card-order dynamic-card">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <h5>Detalles</h5> <br>
+            </div>
+            <div class="col-6 text-end">
+              <a href="javascript:void(0);" class="btn btn-primary btn-sm" (click)="addDetalle()">
+                <i class="fas fa-plus"></i> Nuevo
+              </a>
+            </div>
+            <div class="col-12">
+              <div class=table-responsive>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center">Cantidad</th>
+                      <th class="text-center">Descripcion</th>
+                      <th class="text-center">Precio U.</th>
+                      <th class="text-center">Precio</th>
+                      <th class="text-center">Descuento</th>
+                      <th class="text-center">Total</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let d of recibos_detalles">
+                      <td class="text-center" style="width: 10%;">
+                        <input type="number" class="form-control" [(ngModel)]="d.cantidad"
+                          [ngModelOptions]="{standalone: true}" (input)="calculo(d)"
+                          [ngClass]="{'disabled': d.venta_id}">
+                      </td>
+                      <td class="text-center">
+                        <input type="text" class="form-control" [(ngModel)]="d.descripcion"
+                          [ngModelOptions]="{standalone: true}">
+                      </td>
+                      <td class="text-center" style="width: 10%;">
+                        <input type="number" class="form-control" [(ngModel)]="d.precio_unitario"
+                          [ngModelOptions]="{standalone: true}" (input)="calculo(d)"
+                          [ngClass]="{'disabled': d.venta_id}">
+                      </td>
+                      <td class="text-center">{{d.precio | number: '.2-2'}}</td>
+                      <td class="text-center" style="width: 10%;">
+                        <input type="number" class="form-control" [(ngModel)]="d.descuento"
+                          [ngModelOptions]="{standalone: true}" (input)="calculo(d)"
+                          [ngClass]="{'disabled': d.venta_id}">
+                      </td>
+                      <td class="text-center">{{d.total | number: '.2-2'}}</td>
+                      <td class="text-center">
+                        <a href="javascript:void(0);" class="btn btn-danger btn-sm" (click)="removeDetalle(d)">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+        <div class="split-card"></div>
+        <div class="card-body">
+          <div class="row" [formGroup]="reciboForm">
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.sucursal}">
+              <h5>Sucursal</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="sucursales"
+                  formControlName="sucursal_id" (onSelect)="getBodegasBySucursal($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.bodega}">
+              <h5>Bodega</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="bodegas"
+                  formControlName="bodega_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <br>
+          <div>
+            <div class="setvalue">
+              <ul>
+                <!-- <li>
+                  <h5>Subtotal </h5>
+                  <h6>{{getSubtotal() | number: '.2-2'}}</h6>
+                </li>
+                <li>
+                  <h5>Impuesto </h5>
+                  <h6>{{getImpuesto() | number: '.2-2'}}</h6>
+                </li> -->
+                <li>
+                  <h5>Pagado </h5>
+                  <h6>{{getPagado() | number: '.2-2'}}</h6>
+                </li>
+                @if (getCambio() > 0) {
+                <li>
+                  <h5>Cambio </h5>
+                  <h6>{{getCambio() | number: '.2-2'}}</h6>
+                </li>
+                }
+                @if (getCambio() < 0) { <li>
+                  <h5>Pendiente </h5>
+                  <h6>{{getCambio() | number: '.2-2'}}</h6>
+                  </li>
+                  }
+                  <li class="total-value">
+                    <h5>Total </h5>
+                    <h6>{{getTotal() | number: '.2-2'}}</h6>
+                  </li>
+              </ul>
+            </div>
+            <div class="split-card"></div>
+            <br><br>
+          </div>
+
+          <div class="row" [formGroup]="pagoForm">
+            <div class="col-6">
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="metodos"
+                  formControlName="metodo">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" type="number" formControlName="monto" (keyup.enter)="addPago()"
+                    placeholder="Monto">
+                  <a class="scanner-set input-group-text" (click)="addPago()">
+                    <i class="fa fa-credit-card"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            @if (pagoForm.value.metodo && pagoForm.value.metodo != 'Efectivo') {
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" type="date" formControlName="fecha">
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" type="text" formControlName="autorizacion" placeholder="No. Autorización"
+                    (keyup.enter)="addPago()">
+                </div>
+              </div>
+            </div>
+            }
+            <div class="col-12">
+              <div class=table-responsive>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Metodo</th>
+                      <th class="text-center">Monto</th>
+                      <th class="text-center" [hidden]="pagoForm.value.metodo == 'Efectivo'">No. Autorización</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let p of pagos">
+                      <td class="text-center">{{p.fecha}}</td>
+                      <td class="text-center">{{p.metodo}}</td>
+                      <td class="text-center">{{p.monto | number: '.2-2'}}</td>
+                      <td class="text-center">{{p.autorizacion}}</td>
+                      <td class="text-center">
+                        <a href="javascript:void(0);" class="btn btn-danger btn-sm" (click)="deletePago(p)">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="text-end">
+            <a routerLink="../../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <button id="btn_guardar" (click)="postRecibo()" class="btn btn-submit btn-block"
+              [ngClass]="{'disabled': getTotal() == 0}" permiso="agregar-recibo">
+              <i class="fas fa-save"></i> Guardar
+            </button>
+            <br><br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="offcanvas offcanvas-end" id="clientes">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title"></h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <app-clientes [oc]="true" (newItemEvent)="addCliente($event)"></app-clientes>
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-end" id="ventas">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Selecciona una venta</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="content">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Serie / Correlativo</th>
+                    <th>Fecha</th>
+                    <!-- <th>Observaciones</th> -->
+                    <th>Tipo de Pago</th>
+                    <th>Documento</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                    <th>Saldo</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (c of ventas; track c.id) {
+                  <tr (click)="setVenta(c)">
+                    <td>{{c.id}}</td>
+                    <td>
+                      <a class="text-secondary">
+                        {{c.documento.tipo_documento.nombre}} {{c.serie}}-{{c.correlativo}}
+                      </a>
+                    </td>
+                    <td>{{c.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <!-- <td>{{c.observaciones}}</td> -->
+                    <td>{{c.tipo_pago}}</td>
+                    <td>{{c.documento.nombre}}</td>
+                    <td>{{c.cliente.nit}}</td>
+                    <td>
+                      <b style="font-weight: 600;">{{c.total | currency : c.moneda.simbolo : 'symbol' : '.2-2'}}</b>
+                    </td>
+                    <td>
+                      <b style="font-weight: 600;">{{c.saldos[0].saldo_final | currency : c.moneda.simbolo : 'symbol' :
+                        '.2-2'}}</b>
+                    <td>
+                      <span class="badges"
+                        [ngClass]="{'bg-primary': c.estado == 'VIGENTE', 'bg-danger': c.estado == 'ANULADA'}">{{c.estado}}</span>
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

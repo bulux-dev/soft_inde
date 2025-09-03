@@ -1,0 +1,471 @@
+/* You can add global styles to this file, and also import other style files */
+
+.gc-menu__btn-container {
+  background-color: var(--primary-color) !important;
+}
+
+.gc-btn--accent {
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+}
+
+.gcv-parameters__control--preview {
+  background-color: var(--primary-color) !important;
+}
+
+#doc {
+  width: 80%;
+}
+
+.mon_ext {
+  text-decoration: line-through;
+}
+
+#robot {
+  filter: grayscale(100%);
+}
+
+#robot-perfil {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  filter: grayscale(100%);
+}
+
+#robot-fixed {
+  position: fixed;
+  bottom: 20px;
+  right: 40px;
+  margin-right: auto;
+  margin-left: auto;
+  filter: grayscale(100%);
+}
+
+.dimmed {
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  opacity: 0.5;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.transition {
+  transition: all 0.3s ease-out;
+}
+
+.spinner-border {
+  margin-right: 5px;
+}
+
+.table .text-end a i {
+  font-size: 18px;
+}
+
+.text-end a i {
+  font-size: 12px;
+}
+
+.split-card {
+  margin: 12px 0 15px !important;
+}
+
+.btn-print {
+  background: transparent;
+  border: transparent;
+}
+
+body[data-theme=dark] .offcanvas {
+  background-color: #1e1e1e !important;
+}
+
+.btn-close {
+  background: transparent url("/public/assets/img/close.png") center/1em auto no-repeat;
+}
+
+body[data-theme=dark] .btn-close {
+  filter: invert(1) hue-rotate(19deg) saturate(1000%)
+}
+
+.multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
+  background: var(--primary-color) !important;
+  border: 1px solid var(--primary-color) !important;
+}
+
+.multiselect-item-checkbox input[type=checkbox]+div:before {
+  color: var(--primary-color) !important;
+  border: 2px solid var(--primary-color) !important;
+}
+
+.multiselect-item-checkbox input[type=checkbox]+div:after {
+  background-color: var(--primary-color) !important;
+}
+
+.multiselect-item-checkbox input[type=checkbox]:checked+div:before {
+  background: var(--primary-color) !important;
+}
+
+.dropdown-list {
+  position: relative !important;
+  padding: 0px !important;
+}
+
+.multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
+  max-width: 150px !important;
+}
+
+.multiselect-dropdown .dropdown-btn {
+  border: 1px solid #dbe0e4 !important;
+  padding: 8px 12px !important;
+}
+
+.nav {
+  margin-bottom: 20px !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+  background-color: var(--primary-color) !important;
+}
+
+body[data-theme=dark] .accordion-button {
+  background-color: #1e1e1e;
+  color: white !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+body[data-theme=dark] .accordion-item {
+  background-color: #313131 !important;
+}
+
+body[data-theme=dark] .dropdown-list {
+  background: #313131 !important;
+  color: white !important;
+}
+
+body[data-theme=dark] .multiselect-item-checkbox input[type=checkbox]+div {
+  color: white !important;
+}
+
+body[data-theme=dark] .dropdown-list .filter-textbox input {
+  background: #313131 !important;
+  color: white !important;
+}
+
+body[data-theme=dark] .multiselect-item-checkbox:hover {
+  background: #1e1e1e !important;
+}
+
+input[type="color"] {
+  height: 34px !important;
+}
+
+body[data-theme=dark] .bg-light {
+  background-color: #4a4a4a !important;
+}
+
+.offcanvas {
+  background: #f4f4f4 !important;
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: var(--primary-color) !important;
+}
+
+textarea {
+  height: 100px !important;
+}
+
+/* Facturacion */
+
+#productos {
+  width: 100%;
+  background: transparent;
+}
+
+#importar-productos {
+  width: 100%;
+}
+
+#proveedores {
+  width: 70%;
+}
+
+#clientes {
+  width: 70%;
+}
+
+#variaciones {
+  width: 50%;
+}
+
+#lotes {
+  width: 50%;
+}
+
+#ventas {
+  width: 100%;
+}
+
+#compras {
+  width: 100%;
+}
+
+#recibos {
+  width: 100%;
+}
+
+#permisos {
+  width: 70%;
+}
+
+#ordenes-compras {
+  width: 75%;
+}
+
+#cotizaciones {
+  width: 75%;
+}
+
+#pedidos {
+  width: 75%;
+}
+
+#reporte {
+  width: 75%;
+}
+
+#corte-caja {
+  width: 85%;
+}
+
+#productos-recetas {
+  width: 80%;
+}
+
+#productos-costos {
+  width: 70%;
+}
+
+#productos-precios {
+  width: 50%;
+}
+
+#agregar-producto {
+  width: 85%;
+}
+
+#cxc {
+  width: 80%;
+}
+
+#cxp {
+  width: 80%;
+}
+
+#categorias {
+  width: 50%;
+}
+
+#marcas {
+  width: 50%;
+}
+
+#ordenes-compras {
+  width: 75%;
+}
+
+#ticket {
+  width: 30%;
+}
+
+#inventarios {
+  width: 50%;
+}
+
+#abrir-ticket {
+  width: 50%;
+}
+
+#detalle-ticket {
+  width: 100%;
+}
+
+#certificaciones {
+  width: 50%;
+}
+
+#iconos {
+  width: 50%;
+}
+
+#carrito {
+  width: 100%;
+}
+
+#mover-cuenta {
+  width: 70%;
+}
+
+#carrito_detalles {
+  width: 80%;
+}
+
+#historial-importes {
+  width: 40%;
+}
+
+#productos-importes {
+  width: 40%;
+}
+
+#caja-detalles {
+  width: 60%;
+}
+
+@media screen and (max-width: 768px) {
+  #ticket {
+    width: 100%;
+  }
+
+  #inventarios {
+    width: 100%;
+  }
+
+  #importar-productos {
+    width: 100%;
+  }
+
+  #categorias {
+    width: 100%;
+  }
+
+  #marcas {
+    width: 100%;
+  }
+
+  #iconos {
+    width: 100%;
+  }
+
+  #ordenes-compras {
+    width: 100%;
+  }
+
+  #proveedores {
+    width: 100%;
+  }
+
+  #clientes {
+    width: 100%;
+  }
+
+  #variaciones {
+    width: 100%;
+  }
+
+  #lotes {
+    width: 100%;
+  }
+
+  #permisos {
+    width: 100%;
+  }
+
+  #reporte {
+    width: 100%;
+  }
+
+  #corte-caja {
+    width: 100%;
+  }
+
+  #productos-costos {
+    width: 100%;
+  }
+
+  #abrir-ticket {
+    width: 100%;
+  }
+
+  #certificaciones {
+    width: 100%;
+  }
+
+  #mover-cuenta {
+    width: 100%;
+  }
+
+  #carrito_detalles {
+    width: 100%;
+  }
+
+  #historial-importes {
+    width: 100%;
+  }
+
+  #productos-importes {
+    width: 100%;
+  }
+
+  #caja-detalles {
+    width: 100%;
+  }
+
+  .chat-cont-right .chat-scroll {
+    font-size: 10px !important;
+  }
+
+  .chat-cont-left .chat-scroll .media .media-body .user-name {
+    font-size: 12px !important;
+  }
+
+  .chat-cont-left .chat-scroll .media .media-body .user-last-chat {
+    font-size: 10px !important;
+  }
+
+  .chat-cont-left .chat-scroll .media .media-body .last-chat-time {
+    font-size: 8px !important;
+  }
+
+}
+
+.categ {
+  border-radius: 8px;
+}
+
+.cat {
+  background-color: var(--primary-color) !important;
+  border-radius: 8px;
+}
+
+.cat i,
+.cat a {
+  color: white !important;
+}
+
+.active {
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color);
+}
+
+.sin-stock {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.form-check-input {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}

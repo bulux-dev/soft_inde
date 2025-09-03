@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Venta {{venta.serie}}-{{venta.correlativo}}</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="d-print-none text-center mt-2">
+    <div class="btn-group">
+      <input class="form-control" v-model="letra" type="number" placeholder="Letra"
+        style="width: 100px; margin-right: 5px;">
+      <input class="form-control" v-model="interlineado" type="number" placeholder="Interlineado"
+        style="width: 100px; margin-right: 5px;">
+      <a v-on:click="print()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-print"></i> Imprimir
+      </a>
+      <a v-on:click="download()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-file-pdf"></i> PDF
+      </a>
+      <a v-on:click="excel()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-file-excel"></i> Excel
+      </a>
+    </div>
+  </div>
+
+  <div id="excel">
+    <div class="container-fluid invoice-container" id="pdf" contentEditable="true"
+      :style="{ 'max-width': ancho + 'cm' }">
+
+      <header>
+        <div class="row">
+          <div class="col-3">
+            <img id="logo" v-bind:src="empresa.logo" style="width: 100px">
+          </div>
+          <div class="col-6" style="text-align: center; font-size: 12px;">
+            <h6 class="mb-1" style="text-transform: uppercase; font-size: 10px;">{{empresa.razon_social}}</h6>
+            <h6 class="mb-1" style="text-transform: uppercase;">{{empresa.nombre}}</h6>
+            <p class="lh-base mb-0">NIT: {{empresa.nit}}</p>
+            <p v-if="empresa.telefono" class="lh-base mb-0">PBX: {{empresa.telefono}}</p>
+            <p v-if="empresa.direccion" class="lh-base mb-0">{{empresa.direccion}}</p>
+            <p v-if="empresa.correo" class="lh-base mb-0">{{empresa.correo}}</p>
+            <p v-if="empresa.sitio_web" class="lh-base mb-0">{{empresa.sitio_web}}</p>
+            <h6 class="lh-base mb-0; text-center" style="margin-top: 6px;">
+              FACTURA {{venta.cambiaria ? 'CAMBIARIA' : ''}} ELECTRÓNICA
+            </h6>
+          </div>
+          <div class="col-3" style="text-align: right;">
+            <b>Fecha:</b>
+            {{formatoFecha(venta.fecha, 'DD/MM/YYYY HH:mm')}} <br>
+            <b>No. Venta:</b>
+            #{{venta.id}} <br>
+            <b>Estado:</b>
+            {{venta.estado}} <br>
+            <b>Dias Credito:</b>
+            {{venta.cliente.dias_credito}} <br>
+          </div>
+          <hr>
+        </div>
+      </header>
+
+      <main>
+        <div class="row" :style="{ 'font-size': letra + 'px', 'line-height': interlineado + 'px' }">
+          <div class="col-3">
+            <p class="mb-1"><b>Serie:</b> {{venta.serie}}-{{venta.correlativo}}</p>
+            <p class="mb-1"><b>Sucursal:</b> {{venta.sucursal.nombre}}</p>
+            <p class="mb-1"><b>Bodega:</b> {{venta.bodega.nombre}}</p>
+          </div>
+          <div class="col-6 text-center">
+            <p class="mb-1"><b>Cliente:</b> {{venta.cliente.nombre}}</p>
+            <p class="mb-1"><b>NIT:</b> {{venta.cliente.nit}}</p>
+            <p class="mb-1"><b>Direccion:</b> {{venta.cliente.direccion}}</p>
+          </div>
+          <div class="col-3 text-end">
+            <b>Observaciones:</b>
+            <address>
+              {{venta.observaciones}}
+            </address>
+          </div>
+        </div>
+        <hr>
+        <div class="table-responsive">
+          <table class="table border mb-0" :style="{ 'font-size': letra + 'px' }">
+            <thead>
+              <tr class="bg-dark" :style="{ 'line-height': interlineado + 'px' }">
+                <td><b>SKU</b></td>
+                <td><b>Descripcion</b></td>
+                <td class="text-end"><b>Cantidad</b></td>
+                <td class="text-end"><b>Precio U.</b></td>
+                <td class="text-end" v-if="venta.descuento"><b>Precio</b></td>
+                <td class="text-end" v-if="venta.descuento"><b>Descuento</b></td>
+                <td class="text-end"><b>Total</b></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="c in venta.ventas_detalles" :style="{ 'line-height': interlineado + 'px' }">
+                <td style="width: 8%;">{{c.producto.sku}}</td>
+                <td>
+                  {{c.descripcion}} <span v-if="c.lote_id"> ({{c.lote.nombre}})</span>
+                </td>
+                <td style="width: 8%;" class="text-end">{{c.cantidad}} {{c.medida.simbolo}}</td>
+                <td style="width: 8%;" class="text-end">{{moneda(c.precio_unitario, venta.moneda.simbolo)}}</td>
+                <td style="width: 8%;" class="text-end" v-if="venta.descuento">
+                  {{moneda(c.precio, venta.moneda.simbolo)}}
+                </td>
+                <td style="width: 8%;" class="text-end" v-if="venta.descuento">
+                  {{moneda(c.descuento, venta.moneda.simbolo)}}
+                </td>
+                <td style="width: 8%;" class="text-end">{{moneda(c.total, venta.moneda.simbolo)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-responsive">
+          <table class="table border border-top-0 mb-0" :style="{ 'font-size': letra + 'px' }">
+            <tbody>
+              <!-- <tr class="bg-light">
+                <td class="text-end"><b>SUB TOTAL:</b></td>
+                <td class="col-2 text-end">{{moneda(venta.subtotal, venta.moneda.simbolo)}}</td>
+              </tr>
+              <tr class="bg-light">
+                <td class="text-end"><b>IMPUESTO:</b></td>
+                <td class="col-2 text-end">{{moneda(venta.impuesto, venta.moneda.simbolo)}}</td>
+              </tr> -->
+              <tr class="bg-light" :style="{ 'line-height': interlineado + 'px' }">
+                <td class="text-end"><b>TOTAL:</b></td>
+                <td class="col-2 text-end">
+                  <b>{{moneda(venta.total, venta.moneda.simbolo)}}</b>
+                </td>
+              </tr>
+              <tr class="bg-light">
+                <td><b>TOTAL EN LETRAS:</b> {{letrasMoneda(venta.total)}}</td>
+                <td class="col-2"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+
+      <footer class="mt-2" :style="{ 'font-size': letra + 'px', 'line-height': interlineado + 'px' }">
+        <div v-if="venta.cambiaria" class="table-responsive" style="margin: 0 200px;">
+          <h6 class="text-center">Complemento Factura Cambiaria</h6>
+          <table class="table border border-top-0 mb-0" :style="{ 'font-size': letra + 'px' }">
+            <thead>
+              <tr class="bg-dark" :style="{ 'line-height': interlineado + 'px' }">
+                <td><b>No. Abono</b></td>
+                <td><b>Fecha Abono</b></td>
+                <td class="col-2 text-end"><b>Monto</b></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="a in venta.abonos" :style="{ 'line-height': interlineado + 'px' }">
+                <td>1</td>
+                <td>{{formatoFecha(a.fecha, 'DD/MM/YYYY')}}</td>
+                <td class="col-2 text-end">{{moneda(a.monto, venta.moneda.simbolo)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr>
+        <div class="row" :style="{ 'font-size': letra + 'px', 'line-height': interlineado + 'px' }">
+          <div class="col-6">
+            <p>
+              SERIE FEL: {{venta.fel_serie}} <br>
+              NUMERO FEL: {{venta.fel_numero}} <br>
+              AUTORIZACION FEL: {{venta.fel_autorizacion}} <br>
+              SUJETO A PAGOS TRIMESTRALES ISR <br>
+              CERTIFICADOR: DIGIFACT SERVICIOS, S. A. (77454820)
+            </p>
+          </div>
+          <div class="col-6 text-end">
+            <canvas id="qrCanvas"></canvas>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+  <script src="/api/assets/js/jspdf.umd.min.js"></script>
+  <script src="/api/assets/js/html2canvas.min.js"></script>
+  <script src="/api/assets/js/qrcode.min.js"></script>
+
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let venta = ref(___venta)
+        let empresa = ref(___empresa)
+        let letra = ref('8')
+        let interlineado = ref('14')
+        return {
+          venta,
+          empresa,
+          letra,
+          interlineado
+        }
+      },
+      mounted() {
+        this.qr();
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          return moment(date).format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        letrasMoneda(number) {
+          number = numeroALetrasMoneda(number);
+          number = number.replaceAll('UNO QUETZALES', 'UN QUETZALES');
+          number = number.replaceAll('UNO MIL', 'UN MIL');
+          number = number.replaceAll('UNO CENTAVOS', 'UN CENTAVOS');
+          return number;
+        },
+        qr() {
+          let url = `https://felpub.c.sat.gob.gt/verificador-web/publico/vistas/verificacionDte.jsf?DATA=tipo=autorizacion&numero=${this.venta.fel_autorizacion}&emisor=${this.empresa.nit}&receptor=${this.venta.cliente.nit}&monto=${this.venta.total}`;
+          const canvas = document.getElementById('qrCanvas');
+          QRCode.toCanvas(canvas, url, { width: 100, height: 100 }, function (error) {
+            if (error) console.error(error);
+          });
+        },
+        print() {
+          window.print();
+        },
+        download() {
+          const { jsPDF } = window.jspdf;
+          const content = document.getElementById('pdf');
+
+          html2canvas(content, { scale: 3 }).then(canvas => {
+            const imgWidth = 216;
+            const pageHeight = 279;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'letter');
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            pdf.save(`Venta ${this.venta.serie}-${this.venta.correlativo}.pdf`);
+          });
+        },
+        excel() {
+          var downloadLink;
+          var dataType = 'application/vnd.ms-excel';
+          var tableSelect = document.getElementById('excel');
+          var tableHTML = tableSelect.outerHTML.replace(/<img[^>]*>/g, '').replace(/ /g, '%20');
+          let filename = `Venta ${this.venta.serie}-${this.venta.correlativo} ${moment(this.venta.fecha).format('DD-MM-YYYY HH:mm')}.xls`;
+          downloadLink = document.createElement("a");
+          document.body.appendChild(downloadLink);
+          if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHTML], {
+              type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+          } else {
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+            downloadLink.download = filename;
+            downloadLink.click();
+          }
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

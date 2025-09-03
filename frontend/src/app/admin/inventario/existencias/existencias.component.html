@@ -1,0 +1,418 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Existencias</h4>
+      <h6>Control de existencias</h6>
+    </div>
+    <div class="page-btn" (click)="getInventarios()" data-bs-toggle="offcanvas" data-bs-target="#inventarios"
+      permiso="cierre-inventario">
+      <a class="btn btn-added">
+        <i class="fa fa-square-list me-2"></i>
+        Cierre Inventario
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+
+      <div class="table-top">
+        <div class="search-set">
+          <form class="row" [formGroup]="filtros">
+            <div class="col-lg-5 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown formControlName="sucursal_id" [placeholder]="'Selecciona sucursal'"
+                  [settings]="selectS" [data]="sucursales" (onSelect)="getBodegasBySucursal($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-5 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown formControlName="bodega_id" [placeholder]="'Selecciona bodega'"
+                  [settings]="selectS" [data]="bodegas" (onSelect)="getExistencias()">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-2 col-2 order-lg-first">
+              <a class="btn btn-filter" id="filter_search">
+                <img class="fa-beat" src="assets/img/icons/filter.svg" alt="img">
+                <span>
+                  <img src="assets/img/icons/closes.svg" alt="img">
+                </span>
+              </a>
+            </div>
+          </form>
+        </div>
+        <!-- <div class="col-lg-4 col-sm-6 col-12">
+          <div class="form-group" [formGroup]="filtros">
+            <ng-multiselect-dropdown formControlName="moneda_id" [placeholder]="'Selecciona moneda'"
+              [settings]="selectS" [data]="monedas" (onSelect)="getExistencias()">
+            </ng-multiselect-dropdown>
+          </div>
+        </div> -->
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" [(ngModel)]="busqueda_lote" [ngModelOptions]="{standalone: true}"
+              placeholder="Buscar por Lote..." (keyup.enter)="searchByLote()" style="width: 200px;">
+            <a (click)="getLotes()" class="btn btn-filters ms-auto" data-bs-toggle="offcanvas" data-bs-target="#lotes"
+              style="margin-left: 20px;">
+              <i class="fa fa-bars"></i>
+            </a>
+            <button (click)="searchByLote()" class="btn btn-filters ms-auto" style="margin-left: 20px;">
+              <img class="fa-beat" src="assets/img/icons/search-whites.svg" alt="img">
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" [(ngModel)]="busqueda" [ngModelOptions]="{standalone: true}"
+              placeholder="Buscar..." (keyup.enter)="searchByNombre()" style="width: 200px;">
+            <button (click)="searchByNombre()" class="btn btn-filters ms-auto" style="margin-left: 20px;">
+              <img class="fa-beat" src="assets/img/icons/search-whites.svg" alt="img">
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card" id="filter_inputs">
+        <div class="card-body pb-0">
+          <form [formGroup]="filtros" class="row">
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown formControlName="categoria_id" [placeholder]="'Selecciona categoria'"
+                  [settings]="selectS" [data]="categorias" (onSelect)="getProductosByCategoria($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown formControlName="marca_id" [placeholder]="'Selecciona marca'"
+                  [settings]="selectS" [data]="marcas" (onSelect)="getProductosByMarca($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown formControlName="medida_id" [placeholder]="'Selecciona medida'"
+                  [settings]="selectS" [data]="medidas" (onSelect)="getProductosByMedida($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+
+
+      <div class="row mb-2">
+        <div class="col-6">
+          <h6>
+            {{existencias.length}} registro<span *ngIf="existencias.length != 1">s</span>
+          </h6>
+        </div>
+        <div class="col-6">
+          @if (rol_id == 1) {
+          <h6 class="text-end">
+            Total Costo Inventario: <span class="text-primary">{{getTotalCostoInv() | moneda: 'Q. '}}</span>
+          </h6>
+          }
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Producto</th>
+              <th>Variacion</th>
+              <th>Lote</th>
+              @if (rol_id == 1) {
+              <th class="text-end">Costo</th>
+              }
+              <th class="text-end">Precio</th>
+              <th class="text-end">Existencias</th>
+              @if (rol_id == 1) {
+              <th class="text-end">Costo Inventario</th>
+              }
+              <th class="text-end"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (i of existencias; track i.id) {
+            <tr>
+              <td>
+                {{i.variacion && i.variacion.sku ? i.variacion.sku : i.producto.sku}}
+              </td>
+              <td>
+                <a class="product-img" (click)="getProducto(i.producto_id, i.variacion_id)" data-bs-toggle="offcanvas"
+                  data-bs-target="#kardex" [attr.title]="i.producto.descripcion">
+                  <div class="avatar">
+                    @if (i.variacion && i.variacion.logo ? i.variacion.logo : i.producto.logo) {
+                    <img [src]="i.variacion && i.variacion.logo ? i.variacion.logo : i.producto.logo" alt="">
+                    } @else {
+                    <span class="avatar-title rounded-circle border border-white">{{iniciales(i.producto.nombre)}}
+                    </span>
+                    }
+                  </div>
+                  {{i.producto.nombre}}
+                </a>
+              </td>
+              <td>
+                @if (i.variacion) {
+                @for (v of i.variacion.variaciones_detalles; track v.id) {
+                ({{v.atributo.nombre}}: {{v.termino.valor.nombre}})
+                }
+                }
+              </td>
+              <td>
+                @if (i.lote) {
+                ({{i.lote.nombre}} - CAD: {{i.lote.fecha_caducidad | fecha: 'DD/MM/YYYY'}})
+                }
+              </td>
+              @if (rol_id == 1) {
+              <td class="text-end">{{i.producto.costo | moneda: 'Q. '}}</td>
+              }
+              <td class="text-end">{{i.producto.precio | moneda: 'Q. '}}</td>
+              <td class="text-end">{{i.stock_final | moneda: ''}} {{i.producto.medida.simbolo}}</td>
+              @if (rol_id == 1) {
+              <td class="text-end">{{(i.producto.costo * i.stock_final) | moneda: 'Q. '}}</td>
+              }
+              <td class="text-end">
+                <button (click)="getProducto(i.producto_id, i.variacion_id, i.lote_id)" class="btn btn-sm btn-primary"
+                  data-bs-toggle="offcanvas" data-bs-target="#kardex">
+                  <i class="fa-solid fa-file-lines"></i> Kardex
+                </button>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="12" class="text-center">
+                <img id="" class="fa-bounce mt-3" width="100"
+                  src="https://api.kairosgt.com/public/robots/inventario.png">
+                <br>
+                <h4 class="mb-3">No se encontraron registros</h4>
+              </td>
+            </tr>
+            }
+          </tbody>
+          <thead>
+            <tr>
+              <th colspan="4">Totales</th>
+              @if (rol_id == 1) {
+              <th class="text-end"></th>
+              }
+              <th class="text-end"></th>
+              <th class="text-end"><b>{{getTotalExistencias() | moneda: ''}}</b></th>
+              @if (rol_id == 1) {
+              <th class="text-end"><b>{{getTotalCostoInv() | moneda: ''}}</b></th>
+              }
+              <th class="text-end"></th>
+          </thead>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="kardex">
+  <hr size="3">
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+
+            @if (producto) {
+            <div style="text-align: center;">
+              <div class="avatar" style="width: 60px; height: 60px;">
+                @if (producto.logo) {
+                <img [src]="producto.logo" style="width: 60px; border-radius: 50%;">
+                } @else {
+                <span class="avatar-title rounded-circle border border-white;">
+                  <span style="font-size: 20px !important;">{{iniciales(producto.nombre)}}</span>
+                </span>
+                }
+              </div>
+              <h4>{{producto.nombre}}</h4>
+              <p>SKU: {{producto.sku}}</p>
+            </div>
+            }
+
+            <hr>
+
+            <div class="row" [formGroup]="filtros">
+              <div class="col-lg-4 col-sm-6 col-12">
+                <label>Fecha Inicio</label>
+                <div class="form-group">
+                  <input formControlName="fecha_inicio" type="datetime-local" class="form-control">
+                </div>
+              </div>
+              <div class="col-lg-4 col-sm-6 col-12">
+                <label>Fecha Fin</label>
+                <div class="form-group">
+                  <input formControlName="fecha_fin" type="datetime-local" class="form-control">
+                </div>
+              </div>
+              <div class="col-lg-2 col-sm-6 col-12">
+                <label>Acciones</label>
+                <div class="form-group">
+                  <button (click)="getKardexMov()" class="btn btn-primary btn-sm"
+                    [ngClass]="{'disabled': !producto_id}">
+                    <i class="fa-solid fa-magnifying-glass"></i> Buscar
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Entrada</th>
+                    <th>Salida</th>
+                    <th>Stock</th>
+                    <th>Doc</th>
+                    <!-- <th>Estado</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (i of kardex; track i.fecha) {
+                  <tr>
+                    <td>{{i.fecha | fecha: 'DD/MM/YYYY HH:mm'}}</td>
+                    <td>
+                      @if (i.tipo == 'entrada') {
+                      <i class="fa-solid fa-arrow-up text-success"></i> {{i.cantidad}} {{i.medida.simbolo}}
+                      }
+                    </td>
+                    <td>
+                      @if (i.tipo == 'salida') {
+                      <i class="fa-solid fa-arrow-down text-success"></i> {{i.cantidad}} {{i.medida.simbolo}}
+                      }
+                    </td>
+                    <td>{{i.stock_final | moneda: ''}} {{producto.medida.simbolo}}</td>
+                    <td>
+                      <span class="badges" [ngStyle]="{'background-color': i.documento.documento.color}">
+                        {{i.documento.documento.nombre}} {{i.documento.serie}}-{{i.documento.correlativo}}
+                      </span>
+                    </td>
+                    <!-- <td>{{i.estado}}</td> -->
+                  </tr>
+                  }
+                  @empty {
+                  <tr class="text-center">
+                    <td colspan="6">No se encontraron registros</td>
+                  </tr>
+                  }
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>{{filtros.value.fecha_inicio | fecha: 'DD/MM/YYYY HH:mm'}}</th>
+                    <th>SALDO INICIAL</th>
+                    <th></th>
+                    <th>{{stock_inicial}}</th>
+                    <th></th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="inventarios">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" style="margin-top: 15px;">Inventarios</h5>
+    <button type="button" class="btn-close" data-bs-toggle="offcanvas" data-bs-target="#inventarios"
+      aria-label="Close"></button>
+  </div>
+  <hr size="3">
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Mes</th>
+                <th>Estado</th>
+                <th class="text-end"></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (i of inventarios; track i.id) {
+              <tr>
+                <td>
+                  <span style="text-transform: capitalize;">{{i.mes | fecha: 'MMMM yyyy'}}</span>
+                </td>
+                <td>
+                  <span class="badges"
+                    [ngClass]="{'bg-danger': i.estado == 'CERRADO', 'bg-primary': i.estado == 'VIGENTE'}">
+                    {{i.estado}}
+                  </span>
+                </td>
+                <td class="text-end">
+                  @if (i.estado) {
+                  <a (click)="cierreInventario(i)" class="btn me-2 text-primary" permiso="cierre-inventario">
+                    <i class="fas fa-file-invoice"></i> Generar Cierre
+                  </a>
+                  <a (click)="deleteInventario(i.id)" class="btn me-2 text-danger" permiso="cierre-inventario">
+                    <i class="fas fa-trash"></i> Eliminar Cierre
+                  </a>
+                  }
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="lotes">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Seleccionar Lote</h5>
+    <button type="button" class="btn-close" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Lote</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Fecha Alta</th>
+            <th scope="col">Fecha Caducidad</th>
+            <th scope="col">Existencias</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let l of lotes">
+            <td>
+              <a (click)="busqueda_lote = l.nombre" (click)="searchByLote()" class="text-primary"
+                data-bs-dismiss="offcanvas">
+                {{l.nombre}}
+              </a>
+            </td>
+            <td>{{l.producto.nombre}}</td>
+            <td>{{l.fecha_alta | fecha: 'DD/MM/YYYY'}}</td>
+            <td>{{l.fecha_caducidad | fecha: 'DD/MM/YYYY'}}</td>
+            <td>{{l.existencias.length ? l.existencias[0].stock_final : 0}} {{l.producto.medida.simbolo}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

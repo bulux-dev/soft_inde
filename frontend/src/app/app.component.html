@@ -1,0 +1,78 @@
+<div ngxUiLoaderBlurred>
+  <router-outlet ngxUiLoaderBlurred></router-outlet>
+</div>
+
+@if (ajustes) {
+<ngx-ui-loader [fgsColor]="ajustes.color" [pbColor]="ajustes.color" fgsType="ball-scale-multiple" [fgsSize]="100"
+  text="Cargando..."></ngx-ui-loader>
+}
+
+<!-- <img class="fa-bounce" id="robot-fixed" src="https://api.kairosgt.com/public/robots/saludo.png" width="8%"> -->
+
+<div class="customizer-links">
+  <ul class="sticky-sidebar">
+    <li class="sidebar-icons">
+      <a href="#" class="add-setting" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Tema">
+        <i class="fas fa-palette" style="color: white; font-size: 20px"></i>
+      </a>
+    </li>
+    <li class="sidebar-icons">
+      <a href="#" data-bs-toggle="offcanvas" data-bs-target="#ayuda">
+        <i class="fas fa-question" style="color: white; font-size: 20px"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div class="sidebar-settings preview-toggle">
+  <div class="sidebar-content sticky-sidebar-one">
+    <div class="sidebar-header">
+      <h5>Tema</h5>
+      <a class="sidebar-close" href="#"><img src="assets/img/icons/close-icon.svg" alt=""></a>
+    </div>
+    <div class="sidebar-body">
+      <h6 class="theme-title">Elige un tema</h6>
+      <div class="switch-wrapper">
+        <div id="dark-mode-toggle">
+          <span class="light-mode active">
+            <i class="far fa-sun me-2"></i> Claro
+          </span>
+          <span class="dark-mode">
+            <i class="far fa-moon me-2"></i> Oscuro
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="ayuda">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Ayuda</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="col-12 mt-3">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar en el manual" (input)="searchGuias($event)">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
+                class="fas fa-search"></i></button>
+          </div>
+          <br>
+        </div>
+      </div>
+      <div class="col-12">
+        @for (g of guias; track g.nombre) {
+        <div class="card flex-fill bg-white" permiso="g.slug">
+          <a (click)="guia(g)" class="card-header">
+            <h5 class="card-title mb-0">{{g.nombre}}</h5>
+            <p class="card-text">{{g.descripcion}}</p>
+          </a>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

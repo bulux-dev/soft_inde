@@ -1,0 +1,40 @@
+.container {
+  margin-top: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f9f9f9;
+}
+
+strong {
+  font-weight: bold;
+}
+
+/* Estilo para resaltar la fila de los totales */
+.total-row {
+  border-top: 3px solid black; /* Línea gruesa para resaltar arriba de los totales */
+}
+
+/* Doble línea debajo de los totales */
+.total-row td {
+  border-bottom: 4px double black; /* Doble línea para la fila de los totales */
+}

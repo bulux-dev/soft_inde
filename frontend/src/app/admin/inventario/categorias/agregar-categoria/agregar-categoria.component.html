@@ -1,0 +1,134 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Agregar Categoria</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="profile-set">
+        <div class="profile-head">
+        </div>
+        <div class="profile-top">
+          <div class="profile-content">
+            <div class="profile-contentimg">
+              <img [src]="categoriaForm.value.logo ? categoriaForm.value.logo : 'assets/img/blank.jpg'" alt="img"
+                id="blah">
+              <div class="profileupload edit">
+                <input type="file" id="imgInp" (change)="setImage($event, 'logo')" permiso="agregar-categoria">
+                <a href="javascript:void(0);">
+                  <img src="assets/img/icons/edit-set.svg" alt="img">
+                </a>
+              </div>
+              <div class="profileupload delete">
+                <a (click)="removeImage('logo')" href="javascript:void(0);" permiso="agregar-categoria">
+                  <img src="assets/img/icons/trash.svg" alt="img">
+                </a>
+              </div>
+            </div>
+            <div class="profile-contentname">
+              <h2>{{categoriaForm.value.nombre}}</h2>
+            </div>
+          </div>
+          <div>
+            <a [hidden]="oc" routerLink="../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <a (click)="postCategoria()" [ngClass]="{'disabled': categoriaForm.invalid}" class="btn btn-submit me-2"
+              permiso="agregar-categoria">
+              @if (loading) {
+              <span class="spinner-border spinner-border-sm"></span>
+              } @else {
+              <i class="fas fa-save"></i> Guardar
+              }
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="tab-content" [formGroup]="categoriaForm" class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input formControlName="nombre" type="text">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Color</label>
+                <input formControlName="color" type="color">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Categoria Padre</label>
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="categorias"
+                  formControlName="categoria_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-12" class="text-end">
+              @if (!oc) {
+              <a [hidden]="oc" routerLink="../" class="btn btn-cancel me-2">
+                <i class="fas fa-reply"></i> Regresar
+              </a>
+              }
+              <a (click)="postCategoria()" [ngClass]="{'disabled': categoriaForm.invalid}"
+                class="btn btn-submit btn-sm me-2" permiso="agregar-categoria">
+                @if (loading) {
+                <span class="spinner-border spinner-border-sm"></span>
+                } @else {
+                <i class="fas fa-save"></i> Guardar
+                }
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <h6>Sucursales</h6>
+            </div>
+            <div class="col-6 text-end">
+              <a [hidden]="oc" class="link" data-bs-toggle="offcanvas" data-bs-target="#sucursales">
+                <i class="fas fa-plus"></i> Nueva
+              </a>
+            </div>
+            <div class="col-12" [formGroup]="categoriaForm">
+              <br>
+              <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectM" [data]="sucursales"
+                formControlName="categorias_sucursales">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="offcanvas offcanvas-end" id="sucursales">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Sucursal</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <app-agregar-sucursal [oc]="true" (newItemEvent)="getSucursales($event)"></app-agregar-sucursal>
+
+  </div>
+</div>

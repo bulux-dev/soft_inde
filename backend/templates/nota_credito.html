@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nota Credito {{nota_credito.serie}}-{{nota_credito.correlativo}}</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="d-print-none text-center mt-2">
+    <div class="btn-group">
+      <input class="form-control" v-model="letra" type="number" placeholder="Letra"
+        style="width: 100px; margin-right: 5px;">
+      <input class="form-control" v-model="interlineado" type="number" placeholder="Interlineado"
+        style="width: 100px; margin-right: 5px;">
+      <a v-on:click="print()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-print"></i> Imprimir
+      </a>
+      <a v-on:click="download()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-file-pdf"></i> PDF
+      </a>
+      <a v-on:click="excel()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-file-excel"></i> Excel
+      </a>
+    </div>
+  </div>
+
+  <div id="excel">
+
+    <div class="container-fluid invoice-container" id="pdf" contentEditable="true"
+      :style="{ 'max-width': ancho + 'cm' }">
+
+      <header>
+        <div class="row">
+          <div class="col-3">
+            <img id="logo" v-bind:src="empresa.logo" style="width: 100px">
+          </div>
+          <div class="col-6" style="text-align: center; font-size: 12px;">
+            <h6 class="mb-1" style="text-transform: uppercase;">{{empresa.nombre}}</h6>
+            <p class="lh-base mb-0">NIT: {{empresa.nit}}</p>
+            <p class="lh-base mb-0">PBX: {{empresa.telefono}}</p>
+            <p class="lh-base mb-0">{{empresa.direccion}}</p>
+            <h6 class="lh-base mb-0; text-center" style="margin-top: 6px;">NOTA DE CREDITO BANCARIA</h6>
+          </div>
+          <div class="col-sm-3" style="text-align: right;">
+            <b>Fecha:</b>
+            {{formatoFecha(nota_credito.fecha)}} <br>
+            <b>No. Nota Credito:</b>
+            #{{nota_credito.no_nc}} <br>
+            <b>Estado:</b>
+            {{nota_credito.estado}} <br>
+          </div>
+          <hr>
+        </div>
+      </header>
+
+      <main>
+        <div class="row" :style="{ 'font-size': letra + 'px', 'line-height': interlineado + 'px' }">
+          <div class="col-3">
+            <p class="mb-1"><b>Serie:</b> {{nota_credito.serie}}-{{nota_credito.correlativo}}</p>
+            <p class="mb-1"><b>Sucursal:</b> {{nota_credito.sucursal.nombre}}</p>
+            <p class="mb-1"><b>Bodega:</b> {{nota_credito.bodega.nombre}}</p>
+          </div>
+          <div class="col-6 text-center">
+            <p class="mb-1"><b>Cliente:</b> {{nota_credito.nombre}}</p>
+            <p class="mb-1"><b>NIT:</b> {{nota_credito.cliente.nit}}</p>
+            <p class="mb-1"><b>Direccion:</b> {{nota_credito.cliente.direccion}}</p>
+          </div>
+          <div class="col-3 text-end">
+            <b>Observaciones:</b>
+            <address>
+              {{nota_credito.observaciones}}
+            </address>
+          </div>
+        </div>
+        <hr>
+        <div class="table-responsive">
+          <table class="table border mb-0" :style="{ 'font-size': letra + 'px' }">
+            <thead>
+              <tr class="bg-light" :style="{ 'line-height': interlineado + 'px' }">
+                <td><b>Descripcion</b></td>
+                <td class="text-end"><b>Total</b></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="r in nota_credito.recibos" :style="{ 'line-height': interlineado + 'px' }">
+                <td>{{r.documento.tipo_documento.nombre}} {{r.serie}}-{{r.correlativo}}</td>
+                <td class="text-end">{{moneda(r.total, 'Q. ')}}</td>
+              </tr>
+              <tr v-for="s in nota_credito.saldos" :style="{ 'line-height': interlineado + 'px' }">
+                <td>
+                  {{s.venta.documento.tipo_documento.nombre}} 
+                  <span v-if="s.venta.fel_numero">
+                    DTE NUMERO {{s.venta.fel_numero}} SERIE {{s.venta.fel_serie}}
+                  </span>
+                  <span v-if="!s.venta.fel_numero">
+                    {{s.venta.serie}}-{{s.venta.correlativo}}
+                  </span>
+                </td>
+                <td class="text-end">{{moneda(s.total, 'Q. ')}}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="bg-light" :style="{ 'line-height': interlineado + 'px' }">
+                <td style="width: 70%;">
+                  <b>TOTAL EN LETRAS:</b> {{letrasMoneda(nota_credito.total)}}
+                </td>
+                <td style="width: 30%;" class="text-end">
+                  <b>{{moneda(nota_credito.total, 'Q. ')}}</b>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </main>
+
+      <footer class="mt-2" :style="{ 'font-size': letra + 'px', 'line-height': interlineado + 'px' }">
+        <hr>
+        <p class="text-center">
+          {{empresa.nombre}} <br>
+          {{empresa.direccion}} <br>
+          <a href="tel:{{empresa.telefono}}">{{empresa.telefono}}</a>
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+  <script src="/api/assets/js/jspdf.umd.min.js"></script>
+  <script src="/api/assets/js/html2canvas.min.js"></script>
+
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let nota_credito = ref(___nota_credito)
+        let empresa = ref(___empresa)
+        let letra = ref('8')
+        let interlineado = ref('14')
+        return {
+          nota_credito,
+          empresa,
+          letra,
+          interlineado
+        }
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          return moment(date).format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        letrasMoneda(number) {
+          number = numeroALetrasMoneda(number);
+          number = number.replaceAll('UNO QUETZALES', 'UN QUETZALES');
+          number = number.replaceAll('UNO MIL', 'UN MIL');
+          number = number.replaceAll('UNO CENTAVOS', 'UN CENTAVOS');
+          return number;
+        },
+        print() {
+          window.print();
+        },
+        download() {
+          const { jsPDF } = window.jspdf;
+          const content = document.getElementById('pdf');
+
+          html2canvas(content, { scale: 3 }).then(canvas => {
+            const imgWidth = 216;
+            const pageHeight = 279;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'letter');
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            pdf.save(`Nota Credito ${this.nota_credito.serie}-${this.nota_credito.correlativo}.pdf`);
+          });
+        },
+        excel() {
+          var downloadLink;
+          var dataType = 'application/vnd.ms-excel';
+          var tableSelect = document.getElementById('excel');
+          var tableHTML = tableSelect.outerHTML.replace(/<img[^>]*>/g, '').replace(/ /g, '%20');
+          let filename = `Nota Credito ${this.nota_credito.serie}-${this.nota_credito.correlativo} ${moment(this.nota_credito.fecha).format('DD-MM-YYYY HH:mm')}.xls`;
+          downloadLink = document.createElement("a");
+          document.body.appendChild(downloadLink);
+          if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHTML], {
+              type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+          } else {
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+            downloadLink.download = filename;
+            downloadLink.click();
+          }
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

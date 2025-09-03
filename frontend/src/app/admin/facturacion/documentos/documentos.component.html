@@ -1,0 +1,141 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Documentos</h4>
+      <h6>Control de documentos</h6>
+    </div>
+    <div class="page-btn">
+      <a id="btn_agregar" class="btn btn-added" routerLink="agregar" permiso="agregar-documento">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Documento
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-top">
+        <div class="search-set">
+          <div class="search-path">
+            <a class="btn btn-filter" id="filter_search">
+              <img src="assets/img/icons/filter.svg" alt="img">
+              <span>
+                <img src="assets/img/icons/closes.svg" alt="img">
+              </span>
+            </a>
+          </div>
+          <div class="search-input">
+            <a class="btn btn-searchset">
+              <img src="assets/img/icons/search-white.svg" alt="img">
+            </a>
+          </div>
+        </div>
+        <div class="wordset">
+          <ul>
+            <li>
+              <button class="btn btn-primary btn-sm">
+                <i class="fa fa-print"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" id="filter_inputs">
+        <div class="card-body pb-0">
+          <form [formGroup]="filtros" (ngSubmit)="getDocumentos()" class="row">
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="nombre" placeholder="Nombre">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="serie" placeholder="Serie">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="correlativo" placeholder="Correlativo">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="tipos_documentos"
+                  formControlName="tipo_documento_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+
+            <div class="col" class="text-end">
+              <div class="form-group" style="float: right; margin-left: 10px;">
+                <button type="submit" class="btn btn-filters ms-auto">
+                  <img src="assets/img/icons/search-whites.svg" alt="img">
+                </button>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-filters ms-auto" (click)="filtros.reset()"
+                  (click)="getDocumentos()">
+                  <i class="fa-solid fa-broom-wide"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table datanew">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Serie / Correlativo</th>
+              <th>Tipo de Documento</th>
+              <th>Sucursal</th>
+              <th>Bodega</th>
+              <th>Usuario</th>
+              <th>Color</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of documentos; track c.id) {
+            <tr>
+              <td class="productimgname" [routerLink]="['editar', c.id]">
+                <a href="javascript:void(0);" class="product-img">
+                  <i class="fad fa-file-invoice-dollar fa-2x" [ngStyle]="{'color': c.color}"></i>
+                </a>
+                <a href="javascript:void(0);" style="margin-left: 10px;" [ngStyle]="{'color': c.color}">{{c.nombre}}</a>
+              </td>
+              <td>{{c.serie}}-{{c.correlativo}}</td>
+              <td>{{c.tipo_documento.nombre}}</td>
+              <td>{{c.sucursal ? c.sucursal.nombre : 'TODAS'}}</td>
+              <td>{{c.bodega ? c.bodega.nombre : 'TODAS'}}</td>
+              <td>{{c.usuario.nombre}}</td>
+              <td>
+                <i class="fas fa-circle" [ngStyle]="{'color': c.color}"></i>
+              </td>
+              <td class="text-end">
+                <a id="btn_editar" class="me-2" [routerLink]="['editar', c.id]" permiso="editar-documento">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a id="btn_eliminar" class="me-2" (click)="deleteDocumento(c)" permiso="eliminar-documento">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="9" class="text-center">
+                No se encontraron registros
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,307 @@
+<ngx-ui-loader [fgsColor]="empresa?.color" [pbColor]="empresa?.color" fgsType="ball-scale-multiple" [fgsSize]="100"
+  text="Cargando..."></ngx-ui-loader>
+
+<header class="header">
+
+  <!-- header top -->
+  <div class="header-top">
+    <div class="container">
+      <div class="header-top-wrapper">
+        <div class="row">
+          <div class="col-12 col-md-6 col-lg-6 col-xl-5">
+            <div class="header-top-left">
+              <ul class="header-top-list">
+                <li><a [href]="'mailto: ' + empresa?.correo"><i class="far fa-envelopes"></i>
+                    <span>{{empresa?.correo}}</span></a></li>
+                <li><a [href]="'tel: ' + empresa?.telefono"><i class="far fa-headset"></i>
+                    {{empresa?.telefono}}</a>
+                </li>
+                <li class="help"><a href="#"><i class="far fa-comment-question"></i> Need Help?</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-6 col-xl-7">
+            <div class="header-top-right">
+              <ul class="header-top-list">
+                <li><a href="#"><i class="far fa-sign-in"></i> Login</a></li>
+                <li>
+                  <div class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="far fa-usd"></i> USD
+                    </a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#">USD</a>
+                      <a class="dropdown-item" href="#">EUR</a>
+                      <a class="dropdown-item" href="#">AUD</a>
+                      <a class="dropdown-item" href="#">CUD</a>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="far fa-globe-americas"></i> EN
+                    </a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#">EN</a>
+                      <a class="dropdown-item" href="#">FR</a>
+                      <a class="dropdown-item" href="#">DE</a>
+                      <a class="dropdown-item" href="#">RU</a>
+                    </div>
+                  </div>
+                </li>
+                <li class="social">
+                  <div class="header-top-social">
+                    <span>Social Media: </span>
+                    <a [href]="empresa?.facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a [href]="empresa?.instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a [href]="empresa?.twitter" target="_blank"><i class="fab fa-x-twitter"></i></a>
+                    <a [href]="empresa?.linkedin" target="_blank"><i class="fab fa-linkedin"></i></a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- header top end -->
+
+
+  <!-- navbar -->
+  <div class="main-navigation">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container position-relative">
+        <a class="navbar-brand" href="index.html">
+          <img [src]="empresa?.logo" alt="logo" style="width: 5%; border-radius: 50%;">
+        </a>
+        <div class="mobile-menu-right">
+          <div class="mobile-menu-btn">
+            <a href="#" class="nav-right-link search-box-outer"><i class="far fa-search"></i></a>
+            <a href="wishlist.html" class="nav-right-link"><i class="far fa-heart"></i><span>2</span></a>
+            <a href="shop-cart.html" class="nav-right-link"><i class="far fa-shopping-bag"></i><span>5</span></a>
+          </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <a href="#" class="offcanvas-brand" id="offcanvasNavbarLabel">
+              <img src="assets/img/logo/logo.png" alt="">
+            </a>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-lg-5">
+              <li class="nav-item"><a class="nav-link" routerLink="">Inicio</a></li>
+              <li class="nav-item"><a class="nav-link" routerLink="nosotros" routerLinkActive="active">Nosotros</a></li>
+              <li class="nav-item"><a class="nav-link" routerLink="tienda" routerLinkActive="active">Tienda</a></li>
+              <li class="nav-item"><a class="nav-link" routerLink="blog" routerLinkActive="active">Blog</a></li>
+              <li class="nav-item"><a class="nav-link" routerLink="contacto" routerLinkActive="active">Contacto</a></li>
+            </ul>
+            <!-- nav-right -->
+            <div class="nav-right">
+              <ul class="nav-right-list">
+                <!-- <li>
+                  <a href="#" class="list-link search-box-outer">
+                    <i class="far fa-search"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="wishlist.html" class="list-link">
+                    <i class="far fa-heart"></i><span>2</span>
+                  </a>
+                </li> -->
+                <li class="dropdown-cart">
+                  <a routerLink="./" class="list-link shop-cart">
+                    <i class="far fa-shopping-bag"></i>
+                    <span>{{carrito.length}}</span>
+                  </a>
+                  <div class="dropdown-cart-menu">
+                    <div class="dropdown-cart-header">
+                      <span>{{carrito.length}} articulos</span>
+                      <a routerLink="carrito">Ver Carrito</a>
+                    </div>
+                    <ul class="dropdown-cart-list">
+                      <li *ngFor="let c of carrito">
+                        <div class="dropdown-cart-item">
+                          <div class="cart-img">
+                            <a>
+                              <img [src]="c.logo ? c.logo : 'assets/img/blank.jpg'" alt="#">
+                            </a>
+                          </div>
+                          <div class="cart-info">
+                            <h4><a>{{c.nombre}}</a></h4>
+                            <p class="cart-qty">
+                              {{c.cantidad}}x - <span class="cart-amount">{{c.precio | moneda: 'Q.'}}</span>
+                            </p>
+                          </div>
+                          <a href="#" (click)="removeCarrito(c)" class="cart-remove" title="Remove this item">
+                            <i class="far fa-times-circle"></i>
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                    <div class="dropdown-cart-bottom">
+                      <div class="dropdown-cart-total">
+                        <span>Total</span>
+                        <span class="total-amount">{{total_carrito | moneda: 'Q. '}}</span>
+                      </div>
+                      <a routerLink="finalizar-compra" class="theme-btn">Finalizar compra</a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <!-- navbar end -->
+
+</header>
+
+<div class="search-popup">
+  <button class="close-search"><span class="far fa-times"></span></button>
+  <form action="#">
+    <div class="form-group">
+      <input type="search" name="search-field" class="form-control" placeholder="Search Here..." required>
+      <button type="submit"><i class="far fa-search"></i></button>
+    </div>
+  </form>
+</div>
+
+<div ngxUiLoaderBlurred>
+  <router-outlet ngxUiLoaderBlurred></router-outlet>
+</div>
+
+<!-- footer area -->
+<footer class="footer-area ft-bg">
+  <div class="footer-widget">
+    <div class="container">
+      <div class="row footer-widget-wrapper pt-100 pb-40">
+        <div class="col-md-6 col-lg-4">
+          <div class="footer-widget-box about-us">
+            <a href="#" class="footer-logo">
+              <img [src]="empresa?.logo" style="width: 30%; border-radius: 50%;" alt="">
+            </a>
+            <p class="mb-3">
+              {{empresa?.nombre}}
+            </p>
+            <ul class="footer-contact">
+              <li>
+                <a [href]="'tel: ' + empresa?.telefono">
+                  <i class="far fa-phone"></i>{{empresa?.telefono}}</a>
+              </li>
+              <li>
+                <i class="far fa-map-marker-alt"></i>
+                {{empresa?.direccion}}
+              </li>
+              <li>
+                <a [href]="'mailto: ' + empresa?.correo">
+                  <i class="far fa-envelope"></i>
+                  {{empresa?.correo}}
+                </a>
+              </li>
+              <!-- <li><i class="far fa-clock"></i>Mon-Fri (9.00AM - 8.00PM)</li> -->
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="footer-widget-box list">
+            <h4 class="footer-widget-title">Menu de Navegación</h4>
+            <ul class="footer-list">
+              <li><a routerLink="">- Inicio</a></li>
+              <li><a routerLink="nosotros">- Nosotros</a></li>
+              <li><a routerLink="tienda">- Tienda</a></li>
+              <li><a routerLink="blog">- Blog</a></li>
+              <li><a routerLink="contacto">- Contacto</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-2">
+          <div class="footer-widget-box list">
+            <h4 class="footer-widget-title">Support Center</h4>
+            <ul class="footer-list">
+              <li><a href="#">FAQ's</a></li>
+              <li><a href="#">How To Buy</a></li>
+              <li><a href="#">Support Center</a></li>
+              <li><a href="#">Track Your Order</a></li>
+              <li><a href="#">Returns Policy</a></li>
+              <li><a href="#">Our Affiliates</a></li>
+              <li><a href="#">Sitemap</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="footer-widget-box list">
+            <h4 class="footer-widget-title">Get Mobile App</h4>
+            <p>Fameo App is now available on App Store & Google Play.</p>
+            <div class="footer-download">
+              <h5>Download Our Mobile App</h5>
+              <div class="footer-download-btn">
+                <a href="#">
+                  <i class="fab fa-google-play"></i>
+                  <div class="download-btn-info">
+                    <span>Get It On</span>
+                    <h6>Google Play</h6>
+                  </div>
+                </a>
+                <a href="#">
+                  <i class="fab fa-app-store"></i>
+                  <div class="download-btn-info">
+                    <span>Get It On</span>
+                    <h6>App Store</h6>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="footer-payment mt-20">
+              <span>We Accept:</span>
+              <img src="assets/img/payment/visa.svg" alt="">
+              <img src="assets/img/payment/mastercard.svg" alt="">
+              <img src="assets/img/payment/amex.svg" alt="">
+              <img src="assets/img/payment/discover.svg" alt="">
+              <img src="assets/img/payment/paypal.svg" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    <div class="container">
+      <div class="copyright-wrap">
+        <div class="row">
+          <div class="col-12 col-lg-6 align-self-center">
+            <p class="copyright-text">
+              &copy; Copyright <span id="date"></span> 
+              <a href="#" style="margin-left: 3px;"> {{empresa?.nombre}} </a>
+              Todos los derechos reservados.
+            </p>
+          </div>
+          <div class="col-12 col-lg-6 align-self-center">
+            <div class="footer-social">
+              <span>Social Media:</span>
+              <a [href]="empresa?.facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+              <a [href]="empresa?.instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+              <a [href]="empresa?.twitter" target="_blank"><i class="fab fa-x-twitter"></i></a>
+              <a [href]="empresa?.linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- footer area end -->
+
+<a href="#" id="scroll-top"><i class="far fa-arrow-up-from-arc"></i></a>

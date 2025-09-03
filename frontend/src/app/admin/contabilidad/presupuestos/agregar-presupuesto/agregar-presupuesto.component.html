@@ -1,0 +1,88 @@
+<div class="content">
+
+    <div class="page-header">
+      <div class="page-title">
+        <h4>Agregar Presupuesto</h4>
+        <h6>Completa el formulario</h6>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-body">
+        <div [formGroup]="presupuestoForm" class="row">
+
+<!--             
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Numero</label>
+              <input id="numero" class="form-control" formControlName="numero" type="number">
+            </div>
+          </div> -->
+
+
+
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input id="nombre" formControlName="nombre" type="text">
+            </div>
+          </div>
+
+
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Fecha de inicio</label>
+              <input id="fecha_inicio" class="form-control" formControlName="fecha_inicio" type="date">
+            </div>
+          </div>
+
+
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Fecha final</label>
+              <input id="fecha_fin" class="form-control" formControlName="fecha_fin" type="date">
+            </div>
+          </div>
+
+
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Monto</label>
+              <input id="monto" class="form-control" formControlName="monto" type="number">
+            </div>
+          </div>
+  
+
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Tipo</label>
+              <ng-multiselect-dropdown formControlName="tipo" [placeholder]="'Selecciona tipo'" [settings]="selectS"
+                [data]="tipos" (onSelect)="onTipoSelect($event)">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+
+          
+          
+
+
+
+
+          <div class="col-12" class="text-end">
+            <a routerLink="../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <a  id="btn_guardar" (click)="postPresupuesto()" [ngClass]="{'disabled': presupuestoForm.invalid}" class="btn btn-submit me-2"
+              permiso="agregar-presupuesto">
+              @if (loading) {
+              <span class="spinner-border spinner-border-sm"></span>
+              } @else {
+              <i class="fas fa-save"></i> Guardar
+              }
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>

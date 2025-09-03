@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Credito #{{credito.id}}</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="invoice-container">
+
+    <header>
+      <div class="row" style="padding-top: 0%">
+        <div class="col-3">
+          <img id="logo"
+            v-bind:src="credito.credito_detalle.categoria.logo ? credito.credito_detalle.categoria.logo : empresa.logo"
+            style="width: 90px">
+        </div>
+        <div class="col-6" style="text-align: center; font-size: 12px;">
+          <h5 class="mb-1" style="text-transform: uppercase;">
+            {{credito.credito_detalle.categoria.nombre}} <br>
+          </h5>
+          {{credito.credito_detalle.municipio}}, {{credito.credito_detalle.departamento}}
+          <p class="lh-base mb-0">{{credito.credito_detalle.proyecto_direccion}}</p>
+          <p class="lh-base mb-0">{{credito.credito_detalle.proyecto_celular}}</p>
+        </div>
+        <div class="col-3" style="text-align: right;">
+          <img id="logo" v-bind:src="empresa.logo" style="width: 90px">
+        </div>
+      </div>
+      <hr>
+    </header>
+
+    <main style="margin-top: 0px;">
+      <div class="row">
+        <div class="col-6">
+          <p class="mb-1"><b>Nombre del asesor de ventas:</b> {{credito.credito_detalle.empleado.nombre}}
+            {{credito.credito_detalle.empleado.apellido}}</p>
+          <p class="mb-1"><b>Nombre del coordinador:</b> {{credito.credito_detalle.coordinador}}</p>
+        </div>
+        <div class="col-6 text-end">
+          <p class="mb-1"><b>Fecha de Compra:</b> {{formatoFecha(credito.credito_detalle.fecha, 'DD/MM/YYYY')}}</p>
+          <p class="mb-1"><b>Calular Asesor:</b> {{credito.credito_detalle.coordinador_celular}}</p>
+        </div>
+        <b class="text-center">DATOS GENERALES DEL PROMITENTE COMPRADOR</b>
+        <table>
+          <thead style="background: #ebebeb">
+            <th style="width: 40%;">Nombre y apellidos</th>
+            <th style="width: 20%;">NIT</th>
+            <th style="width: 20%;">Profesion</th>
+            <th style="width: 20%;">Estado Civil</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{credito.credito_detalle.compr_nombre}}</td>
+              <td>{{credito.credito_detalle.compr_nit}}</td>
+              <td>{{credito.credito_detalle.compr_profesion}}</td>
+              <td>{{credito.credito_detalle.compr_estado_civil}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <thead style="background: #ebebeb">
+            <th style="width: 40%;">Direccion</th>
+            <th style="width: 20%;">Celular</th>
+            <th style="width: 20%;">DPI</th>
+            <th style="width: 20%;">Edad</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{credito.credito_detalle.compr_direccion}}</td>
+              <td>{{credito.credito_detalle.compr_celular}}</td>
+              <td>{{credito.credito_detalle.compr_dpi}}</td>
+              <td>{{credito.credito_detalle.compr_edad}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <thead style="background: #ebebeb">
+            <th style="width: 20%;">Nacionalidad</th>
+            <th style="width: 40%;" colspan="2">Institucion para la que trabajo</th>
+            <th style="width: 40%;">Direccion</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{credito.credito_detalle.compr_nacionalidad}}</td>
+              <td colspan="2">{{credito.credito_detalle.compr_institucion}}</td>
+              <td>{{credito.credito_detalle.compr_inst_direccion}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <thead style="background: #ebebeb">
+            <th style="width: 20%;">Celular</th>
+            <th style="width: 40%;" colspan="2">Puesto que desempeña</th>
+            <th style="width: 40%;">Otros Ingresos</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{credito.credito_detalle.compr_celular}}</td>
+              <td colspan="2">{{credito.credito_detalle.compr_inst_puesto}}</td>
+              <td>{{credito.credito_detalle.otros_ingresos}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <b class="text-center">REFERENCIAS PERSONALES</b>
+        <table>
+          <thead style="background: #ebebeb">
+            <th style="width: 40%;" colspan="2">Nombre</th>
+            <th style="width: 40%;">Parentesco</th>
+            <th style="width: 20%;">Celular</th>
+          </thead>
+          <tbody v-if="credito.credito_detalle.ref1_nombre">
+            <tr>
+              <td colspan="2">{{credito.credito_detalle.ref1_nombre}}</td>
+              <td>{{credito.credito_detalle.ref1_parentesco}}</td>
+              <td>{{credito.credito_detalle.ref1_celular}}</td>
+            </tr>
+          </tbody>
+          <tbody v-if="credito.credito_detalle.ref2_nombre">
+            <tr>
+              <td colspan="2">{{credito.credito_detalle.ref2_nombre}}</td>
+              <td>{{credito.credito_detalle.ref2_parentesco}}</td>
+              <td>{{credito.credito_detalle.ref2_celular}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <b class="text-center">IDENTIFICACION DEL INMUEBLE</b>
+        <table>
+          <thead style="background: #ebebeb">
+            <th style="width: 20%;">No. Lote</th>
+            <th style="width: 20%;">Metros2</th>
+            <th style="width: 20%;">Valor Metro2</th>
+            <th style="width: 40%;">Sector</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{credito.credito_detalle.producto.nombre}}</td>
+              <td>{{credito.credito_detalle.metros2}}</td>
+              <td>{{credito.credito_detalle.valor_metros2}}</td>
+              <td colspan="2">{{credito.credito_detalle.sector}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <thead style="background: #ebebeb">
+            <th style="width: 20%;">No. Finca</th>
+            <th style="width: 20%;">No. Folio</th>
+            <th style="width: 20%;">No. Libro</th>
+            <th style="width: 20%;">Departamento</th>
+            <th style="width: 20%;">Municipio</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{credito.credito_detalle.finca_no}}</td>
+              <td>{{credito.credito_detalle.folio_no}}</td>
+              <td>{{credito.credito_detalle.libro_no}}</td>
+              <td>{{credito.credito_detalle.departamento}}</td>
+              <td>{{credito.credito_detalle.municipio}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <b class="text-center">CONDICIONES DE LA PROMESA</b>
+        <table>
+          <thead style="background: #ebebeb">
+            <tr>
+              <th>Precio</th>
+              <th>Enganche</th>
+              <th>Descuento</th>
+              <th>Saldo</th>
+              <th>Interes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{moneda(credito.total, 'Q. ')}}</td>
+              <td>{{moneda(credito.enganche, 'Q. ')}}</td>
+              <td>{{moneda(credito.descuento, 'Q. ')}}</td>
+              <td>{{moneda(credito.capital, 'Q. ')}}</td>
+              <td>{{credito.interes_anual}}%</td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <tbody>
+            <tr>
+              <th colspan="4" style="text-align: center;">
+                INTEGRACION DE ENGANCHE
+              </th>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <thead style="background: #ebebeb">
+            <tr>
+              <th>Fecha Reserva</th>
+              <th>Monto</th>
+              <th>No. Recibo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                {{credito.credito_detalle.reserva_fecha ? formatoFecha(credito.credito_detalle.reserva_fecha,
+                'DD/MM/YYYY') : '--'}}
+              </td>
+              <td>
+                {{credito.credito_detalle.reserva_monto ? moneda(credito.credito_detalle.reserva_monto, 'Q. ') : 0}}
+              </td>
+              <td>
+                {{credito.credito_detalle.reserva_recibo ? credito.credito_detalle.reserva_recibo : '--'}}
+              </td>
+            </tr>
+          </tbody>
+          <thead style="background: #ebebeb">
+            <tr>
+              <th>Fecha Enganche</th>
+              <th>Monto</th>
+              <th>No. Recibo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                {{credito.credito_detalle.enganche_fecha ? formatoFecha(credito.credito_detalle.enganche_fecha,
+                'DD/MM/YYYY') : '--'}}
+              </td>
+              <td>
+                {{credito.credito_detalle.enganche_monto ? moneda(credito.credito_detalle.enganche_monto, 'Q. ') : 0}}
+              </td>
+              <td>
+                {{credito.credito_detalle.enganche_recibo ? credito.credito_detalle.enganche_recibo : '--'}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="col-12">
+          <p style="text-align: justify;">
+            EL SALDO SE PAGARÁ EN {{credito.plazo_meses}} CUOTAS, PLAZO MEDIANTE CUOTAS NIVELADAS MENSUALES DE
+            <span style="border-bottom: 1px solid;">{{moneda(credito.cuotas[0].cuota, 'Q. ')}}</span>
+            LA PRIMERA CUOTA DEBERÁ PAGARSE EN LA FECHA
+            <span style="border-bottom: 1px solid;">
+              {{formatoFecha(credito.cuotas[0].fecha_inicio, 'DD/MM/yyyy')}}
+            </span>
+            <br>
+            <span style="border-bottom: 1px solid;">OTRAS CONDICIONES DE LA NEGOCIACIÓN:</span>
+            La empresa se compromete a entregarle los servicios de agua, energía elélectrica, drenajes, áreas verdes y
+            calles empedradas, después de los 2 años de la compra.
+            <br>
+            <span style=" border-bottom: 1px solid;">COSTOS ADICIONALES:</span>
+            Precio de la media paja de agua, pago de escrituración, esstos mismos pudiendo ser cancelados durante el
+            financiamiento o al finalizar la totalidad del terreno.
+            <br><br>
+            EN CASO DE QUE EL PROMETIENTE COMPRADOR RECINDA LA PROMESA DE COMPRAVENTA, EL LOTE PERDERÁ A FAVOR DE ABC
+            DESARROLLOS, S.A.
+            EL VALOR DEL 80% DE LO ABONADO Y ESPERAR EL TIEMPO NECESARIO QUE SE LLEVE EL LOTE, AMBOS OTORGANTES ACEPTAN
+            TODAS Y CADA UNA
+            DE LAS CONDICIONES QUE SE ENCUENTRAN EN ESTE DOCUMENTO, EN FÉ DE LOS CUALES FIRMAN DE CONFORMIDAD CON LA
+            FECHA
+            <span style="text-transform: uppercase;">
+              {{formatoFecha(credito.fecha, 'DD [de] MMMM [del] yyyy')}}
+            </span>.
+          </p>
+          <div class="row" style="margin-top: 30px;">
+            <div class="col-5" style="margin-left: 100px;">
+              <p>F._____________________________<br>
+                <span style="margin-left: 45px">COMPRADOR</span>
+              </p>
+            </div>
+            <div class="col-5">
+              <p>F._____________________________<br>
+                <span style="margin-left: 25px; text-transform: uppercase;">
+                  {{credito.credito_detalle.repre_cargo}}
+                </span>
+              </p>
+            </div>
+          </div>
+          <p style="text-align: justify;">
+            EN MAZATENANGO, SUCHITEPEQUEZ A:
+            <span style="text-transform: uppercase;">
+              {{formatoFecha(credito.fecha, 'DD [de] MMMM [del] yyyy')}}
+            </span>
+            <!-- pendiente pasar a letras -->
+            YO EL INFRASCRITO NOTARIO, HAGO CONSTAR QUE LAS FIRMAS QUE ANTECEDEN SON AUTENTICAS
+            POR HABER SIDO PUESTAS EL DIA DE HOY POR:
+            <span style="text-transform: uppercase;">
+              {{credito.credito_detalle.compr_nombre}}
+            </span>
+            QUIEN SE IDENTIFICA CON NO. DPI {{credito.credito_detalle.compr_dpi}} PERSONA DE MI CONOCIMIENTO Y POR:
+            <span style="text-transform: uppercase;">
+              {{credito.credito_detalle.repre_nombre}}
+            </span>
+            QUIEN SE IDENTIFICA CON NO. DPI: {{credito.credito_detalle.repre_dpi}} EN FE DE LO CUAL
+            FIRMAN NUEVAMENTE CONMIGO LA PRESENTE ACEPTAN DE LEGALIZACIÓN.
+          </p>
+          <div class="row" style="margin-top: 30px;">
+            <div class="col-4 text-left">
+              <p>F._____________________________ <br>
+                <span style="margin-left: 45px;">COMPRADOR</span>
+              </p>
+            </div>
+            <div class="col-4 text-center" style="text-align: center;">
+              <p>F._____________________________<br>
+                <span style="margin-left: 10px; text-transform: uppercase">
+                  {{credito.credito_detalle.repre_cargo}}
+                </span>
+              </p>
+            </div>
+            <div class="col-4 text-end">
+              <p>F._____________________________<br>
+                <span style="margin-right: 40px;">LICENCIADO(A)</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="">
+      <div class="text-center">
+        <div class="btn-group btn-group-sm d-print-none">
+          <a href="javascript:window.print()" class="btn btn-light border text-black-50 shadow-none">
+            <i class="fas fa-print"></i>
+            Imprimir y Descargar
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+  
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let credito = ref(___credito)
+        let empresa = ref(___empresa)
+        let cuotas = ref(___cuotas)
+        return {
+          credito,
+          empresa,
+          cuotas,
+        }
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          moment.locale('es')
+          return date ? moment(date).format(format) : moment().format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        getTotalCuotas(campo) {
+          let total = 0;
+          this.cuotas.forEach((c) => {
+            if (campo === 'capital') {
+              total += parseFloat(c.capital);
+            } else if (campo === 'interes') {
+              total += parseFloat(c.interes);
+            } else if (campo === 'cuota') {
+              total += parseFloat(c.cuota);
+            }
+          });
+          return total;
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

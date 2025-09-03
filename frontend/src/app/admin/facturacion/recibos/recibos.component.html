@@ -1,0 +1,213 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Recibos</h4>
+      <h6>Control de recibos</h6>
+    </div>
+    <div class="page-btn">
+      <a class="btn btn-added" (click)="reporteRecibos()">
+        <i class="fa fa-square-list me-2"></i>
+        Reporte de Recibos
+      </a>
+    </div>
+    <div class="page-btn">
+      <a id="btn_agregar" class="btn btn-added" (click)="getDocumentos()" data-bs-toggle="offcanvas"
+        data-bs-target="#documentos" permiso="agregar-recibo">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Recibo
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-top">
+        <div class="search-set">
+          <div class="row">
+            <div class="col-lg-5 col-6">
+              <div class="form-group">
+                <input id="filtro-fecha" class="form-control" type="datetime-local" [(ngModel)]="fecha_inicio"
+                  [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="col-lg-5 col-6">
+              <div class="form-group">
+                <input id="filtro-fecha-fin" class="form-control" type="datetime-local" [(ngModel)]="fecha_fin"
+                  [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="col-lg-2 col-2 order-lg-first">
+              <a class="btn btn-filter" id="filter_search" (click)="getDocumentos()" (click)="getClientes()"
+                (click)="getEmpleados()">
+                <img class="fa-beat" src="assets/img/icons/filter.svg" alt="img">
+                <span>
+                  <img src="assets/img/icons/closes.svg" alt="img">
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <a class="link" (click)="filtros.reset(); busqueda = null" (click)="getRecibos()" style="margin-right: 20px;">
+            <i class="fa-solid fa-eraser fa-3x"></i>
+          </a>
+          <button (click)="getRecibos()" class="btn btn-filters ms-auto" style="float: right; margin-left: 20px;">
+            <img class="fa-beat" src="assets/img/icons/search-whites.svg" alt="img">
+          </button>
+        </div>
+      </div>
+
+      <div class="card" id="filter_inputs">
+        <div class="card-body pb-0">
+          <form [formGroup]="filtros" (ngSubmit)="getRecibos()" class="row">
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="serie" placeholder="Serie">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="correlativo" placeholder="Correlativo">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Estado'" [settings]="selectS" [data]="estados"
+                  formControlName="estado">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Documento'" [settings]="selectS" [data]="documentos"
+                  formControlName="documento_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Cliente'" [settings]="selectS" [data]="clientes"
+                  formControlName="cliente_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="text-start">
+        <p style="margin-bottom: 5px;">
+          {{recibos.length}} registro<span *ngIf="recibos.length != 1">s</span> encontrado<span
+            *ngIf="recibos.length != 1">s</span>
+        </p>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Serie / Correlativo</th>
+              <th>Fecha</th>
+              <!-- <th>Observaciones</th> -->
+              <th>Documento</th>
+              <th>Cliente</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of recibos; track r.id) {
+            <tr>
+              <td>{{r.id}}</td>
+              <td>
+                <a class="text-secondary" (click)="openDoc(r)">
+                  {{r.documento.tipo_documento.nombre}} {{r.serie}}-{{r.correlativo}}
+                </a>
+              </td>
+              <td>{{r.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+              <!-- <td>{{r.observaciones}}</td> -->
+              <td>{{r.documento.nombre}}</td>
+              <td>{{r.cliente.nit}}</td>
+              <td><b style="font-weight: 600;">{{r.total | currency : r.moneda.simbolo : 'symbol' : '.2-2'}}</b></td>
+              <td>
+                <span class="badges"
+                  [ngClass]="{'bg-primary': r.estado == 'VIGENTE', 'bg-danger': r.estado == 'ANULADO'}">{{r.estado}}</span>
+              </td>
+              <td class="text-end">
+                <a class="me-2" (click)="openDoc(r)">
+                  <i class="fas fa-print"></i>
+                </a>
+                <a class="me-2" (click)="anularRecibo(r)" [ngClass]="{'disabled': r.estado == 'ANULADO'}"
+                  permiso="anular-recibo">
+                  <i class="fas fa-cancel"></i>
+                </a>
+                <a class="me-2" (click)="deleteRecibo(r)" permiso="eliminar-recibo">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="9" class="text-center">
+                No se encontraron registros
+              </td>
+            </tr>
+            }
+          </tbody>
+          <thead>
+            <tr>
+              <th colspan="4"></th>
+              <th>TOTAL</th>
+              <th colspan="3">
+                <b style="font-weight: 600;">{{getTotal() | moneda: 'Q. '}}</b>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="documentos">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" style="margin-top: 15px;">Selecciona un Documento</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <hr size="3">
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="row">
+
+      @for (d of documentos; track d.id) {
+      <div class="col-6" [routerLink]="['agregar', d.id]" (click)="closeOC()">
+        <i class="fad fa-file-invoice-dollar fa-6x" [ngStyle]="{'color': d.color}"></i>
+        <br>
+        <p>
+          <span [ngStyle]="{'color': d.color}">{{d.serie}}-{{d.correlativo}}</span>
+          <br>
+          {{d.nombre}}
+        </p>
+        <br>
+      </div>
+      } @empty {
+      <div class="col-12" style="text-align: center; margin-top: 50px;">
+        <h6>No existen documentos creados</h6>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="doc">
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style="text-align: center;">
+    @if (url) {
+    <embed style="width: 100%; height: 100vh;" [src]="url" type="">
+    }
+  </div>
+</div>

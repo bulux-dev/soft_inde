@@ -1,0 +1,164 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Editar Proveedor</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="profile-set">
+        <div class="profile-head">
+
+        </div>
+
+        <div class="profile-top">
+          <div class="profile-content">
+            <div class="profile-contentimg">
+              <img [src]="proveedorForm.value.logo ? proveedorForm.value.logo : 'assets/img/blank.jpg'" alt="img"
+                id="blah">
+              <div class="profileupload edit">
+                <input type="file" id="imgInp" (change)="setImage($event, 'logo')">
+                <a href="javascript:void(0);">
+                  <img src="assets/img/icons/edit-set.svg" alt="img">
+                </a>
+              </div>
+              <div class="profileupload delete">
+                <a (click)="removeImage('logo')" href="javascript:void(0);">
+                  <img src="assets/img/icons/trash.svg" alt="img">
+                </a>
+              </div>
+            </div>
+            <div class="profile-contentname">
+              <h2>{{proveedorForm.value.nombre}}</h2>
+              <h4>{{proveedorForm.value.nit ? proveedorForm.value.nit : proveedorForm.value.cui}}</h4>
+            </div>
+          </div>
+          <div>
+            <a routerLink="../../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <a (click)="putProveedor()" [ngClass]="{'disabled': proveedorForm.invalid}" class="btn btn-submit me-2"
+              permiso="editar-proveedor">
+              @if (loading) {
+              <span class="spinner-border spinner-border-sm"></span>
+              } @else {
+              <i class="fas fa-save"></i> Guardar
+              }
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" [formGroup]="proveedorForm">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <h5>Informacion General</h5>
+            <br><br>
+            <div class="col-lg-8 col-sm-8 col-12">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input id="nombre" formControlName="nombre" type="text">
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <label>NIT</label>
+                <input formControlName="nit" type="text">
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <label>CUI</label>
+                <input formControlName="cui" type="text" id="cui">
+              </div>
+            </div>
+            <div class="col-lg-8 col-sm-6 col-12">
+              <div class="form-group">
+                <label>Direccion</label>
+                <input formControlName="direccion" type="text">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-12">
+              <div class="form-group">
+                <label>Contacto</label>
+                <input formControlName="contacto" type="text">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-12">
+              <div class="form-group">
+                <label>Dias Credito</label>
+                <input formControlName="dias_credito" type="text">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-12">
+              <div class="form-group">
+                <label>Telefono</label>
+                <input formControlName="telefono" type="text">
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-12">
+              <div class="form-group">
+                <label>Correo</label>
+                <input formControlName="correo" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <h6>Ajustes Adicionales</h6>
+            </div>
+            <div class="col-6 text-end">
+              <i class="fa-duotone fa-solid fa-gears fa-3x"></i>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label>Pequeño Contribuyente</label>
+                <div class="status-toggle d-flex justify-content-between align-items-center">
+                  <input id="pequeno_contribuyente" formControlName="pequeno_contribuyente" class="check"
+                    type="checkbox">
+                  <label for="pequeno_contribuyente" class="checktoggle"></label>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label>Tarjeta de Credito</label>
+                <div class="status-toggle d-flex justify-content-between align-items-center">
+                  <input id="tarjeta_credito" formControlName="tarjeta_credito" class="check" type="checkbox">
+                  <label for="tarjeta_credito" class="checktoggle"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12" class="text-end">
+      <a routerLink="../../" class="btn btn-cancel me-2">
+        <i class="fas fa-reply"></i> Regresar
+      </a>
+      <a id="btn-guardar" (click)="putProveedor()" [ngClass]="{'disabled': proveedorForm.invalid}"
+        class="btn btn-submit me-2" permiso="editar-proveedor">
+        @if (loading) {
+        <span class="spinner-border spinner-border-sm"></span>
+        } @else {
+        <i class="fas fa-save"></i> Guardar
+        }
+      </a>
+    </div>
+  </div>
+
+</div>

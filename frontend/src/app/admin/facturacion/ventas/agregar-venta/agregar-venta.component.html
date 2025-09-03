@@ -1,0 +1,543 @@
+<div class="content">
+  <div class="row">
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="ventaForm">
+            <div class="col-5">
+              <h5>Fecha</h5> <br>
+              <div class="form-group">
+                <input class="form-control" type="datetime-local" formControlName="fecha" [min]="fecha_min"
+                  [max]="fecha_max" (input)="fechaMax()">
+              </div>
+            </div>
+            <div class="col-4">
+              <h6>Moneda</h6> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="monedas"
+                  formControlName="moneda_id" (onSelect)="setCambio($event)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-3" [ngClass]="{'disabled': ventaForm.value.moneda_id[0].id == 1}">
+              <h6>Cambio</h6> <br>
+              <div class="form-group">
+                <input class="form-control" type="number" formControlName="tipo_cambio">
+              </div>
+            </div>
+            <div class="col-6">
+              <h5>Vendedor</h5> <br>
+              <div id="seleccionar-vendedor" class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="empleados"
+                  formControlName="empleado_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6">
+              <h6>Etiquetas</h6> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectM" [data]="etiquetas"
+                  formControlName="operaciones_etiquetas">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-12">
+              <h5>Observaciones</h5> <br>
+              <div class="form-group">
+                <textarea formControlName="observaciones"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="clienteForm">
+            <div class="col-6">
+              <h5>Cliente</h5> <br>
+            </div>
+            <div class="col-6 text-end">
+              <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="offcanvas"
+                data-bs-target="#clientes">
+                <i class="fas fa-truck-fast me-2"></i>Mis Clientes
+              </a>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <div class="input-group">
+                  <input id="mis-clientes" formControlName="nit" type="text" class="form-control" placeholder="NIT"
+                    (keyup.enter)="getInfoNit()" SinEspacios>
+                  <button class="btn btn-primary" type="button" (click)="getInfoNit()">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="direccion" type="text" class="form-control" placeholder="Direccion">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" [formGroup]="ventaForm" id="seleccionar-otro">
+            <div class="col-6">
+              <h6>Impuesto</h6> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="booleanos"
+                  formControlName="gravable" (onSelect)="ventaForm.controls['libro'].setValue([$event])">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6 disabled">
+              <h6>Libro Ventas</h6> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="booleanos"
+                  formControlName="libro">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6">
+              <h5>Pedido</h5> <br>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" type="text" formControlName="pedido" readonly>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#pedidos">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <h5>Cotizacion</h5> <br>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" type="text" formControlName="cotizacion" readonly>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas"
+                    data-bs-target="#cotizaciones">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12">
+      <div class="card card-order dynamic-card">
+
+        <div class="split-card"></div>
+
+        @if (view_carrito) {
+        <app-carrito [sucursal_id]="ventaForm.value.sucursal_id[0].id" [bodega_id]="ventaForm.value.bodega_id[0].id"
+          [documento_id]="documento_id" [documento]="documento" (newItemEvent)="updateCarrito()"
+          [moneda_id]="ventaForm.value.moneda_id[0].id" [tipo_cambio]="ventaForm.value.tipo_cambio"
+          [moneda_simbolo]="moneda_simbolo" [carrito_temp]="ventas_detalles" [cuenta_id]="cuenta_id"
+          [gravable]="ventaForm.value.gravable[0].id" [ngClass]="{'disabled': cuenta_id}">
+        </app-carrito>
+        }
+
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="ventaForm">
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.sucursal}">
+              <h5>Sucursal</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="sucursales"
+                  formControlName="sucursal_id" (onSelect)="getBodegasBySucursal($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.bodega}">
+              <h5>Bodega</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="bodegas"
+                  formControlName="bodega_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <h5>Tipo de Pago</h5>
+          <br>
+          <div class="setvaluecash" [ngClass]="{'disabled': credito_id}">
+            <ul id="seleccionar-pago">
+              <li>
+                <a (click)="ventaForm.controls['tipo_pago'].setValue('CONTADO'); pagos = []" class="paymentmethod"
+                  [ngClass]="{'active': ventaForm.controls['tipo_pago'].value == 'CONTADO'}">
+                  <img src="assets/img/icons/cash.svg" alt="img" class="me-2">
+                  CONTADO
+                </a>
+              </li>
+              <li>
+                <a (click)="ventaForm.controls['tipo_pago'].setValue('CREDITO'); pagos = []" href="javascript:void(0);"
+                  class="paymentmethod" [ngClass]="{'active': ventaForm.controls['tipo_pago'].value == 'CREDITO'}">
+                  <img src="assets/img/icons/debitcard.svg" alt="img" class="me-2">
+                  CREDITO
+                </a>
+              </li>
+            </ul>
+          </div>
+          @if (ventaForm.value.tipo_pago == 'CREDITO' && !credito_id) {
+          <div class="col-lg-6 col-sm-12 col-12" [formGroup]="ventaForm">
+            <div class="form-group">
+              <label>Dias Credito</label>
+              <input class="form-control" type="number" formControlName="dias_credito">
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body pt-0">
+          <div class="setvalue">
+            <div class="row">
+              <div class="col">
+                <ul>
+                  <li>
+                    <h5>Subtotal </h5>
+                    <h6>{{getSubtotal() | number: '.2-2'}}</h6>
+                  </li>
+                  <li>
+                    <h5>Impuesto </h5>
+                    <h6>{{getImpuesto() | number: '.2-2'}}</h6>
+                  </li>
+                  <li>
+                    <h5>Pagado </h5>
+                    <h6>{{getPagado() | number: '.2-2'}}</h6>
+                  </li>
+                  @if (getCambio() > 0) {
+                  <li>
+                    <h5>Cambio </h5>
+                    <h6>{{getCambio() | number: '.2-2'}}</h6>
+                  </li>
+                  }
+                  @if (getCambio() < 0) { <li>
+                    <h5>Pendiente </h5>
+                    <h6>{{getCambio() | number: '.2-2'}}</h6>
+                    </li>
+                    }
+                    <li class="total-value">
+                      <h5>Total </h5>
+                      <h6>{{getTotal() | number: '.2-2'}}</h6>
+                    </li>
+                </ul>
+              </div>
+              @if (ventaForm.value.moneda_id[0].id != 1) {
+              <div class="col-6">
+                <ul>
+                  <li>
+                    <h5>Subtotal Ext.</h5>
+                    <h6>{{getSubtotal(true) | moneda: moneda_simbolo}}</h6>
+                  </li>
+                  <li>
+                    <h5>Impuesto Ext.</h5>
+                    <h6>{{getImpuesto(true) | moneda: moneda_simbolo}}</h6>
+                  </li>
+                  <li>
+                    <h5>Pagado Ext.</h5>
+                    <h6>{{getPagado() | moneda: moneda_simbolo}}</h6>
+                  </li>
+                  @if (getCambio() > 0) {
+                  <li>
+                    <h5>Cambio Ext.</h5>
+                    <h6>{{getCambio() | moneda: moneda_simbolo}}</h6>
+                  </li>
+                  }
+                  @if (getCambio() < 0) { <li>
+                    <h5>Pendiente Ext.</h5>
+                    <h6>{{getCambio() | moneda: moneda_simbolo}}</h6>
+                    </li>
+                    }
+                    <li class="total-value">
+                      <h5>Total Ext.</h5>
+                      <h6>{{getTotal(true) | moneda: moneda_simbolo}}</h6>
+                    </li>
+                </ul>
+              </div>
+              }
+            </div>
+          </div>
+          <div class="split-card"></div>
+          @if (documento?.cambiaria) {
+          <h5>Abonos</h5>
+          <br>
+          <div class="row" [formGroup]="abonoForm">
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" type="date" formControlName="fecha">
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" type="number" formControlName="monto" (keyup.enter)="addAbono()"
+                    placeholder="Monto">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class=table-responsive>
+                <table class="table table-bordered" style="margin-bottom: 20px;">
+                  <thead>
+                    <tr>
+                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Monto</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let a of abonos">
+                      <td class="text-center">{{a.fecha}}</td>
+                      <td class="text-center">{{a.monto | number: '.2-2'}}</td>
+                      <td class="text-center">
+                        <a href="javascript:void(0);" class="btn btn-danger btn-sm" (click)="deleteAbono(a)">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          }
+          @if (ventaForm.value.tipo_pago == 'CONTADO') {
+          <h5>Pagos</h5>
+          <br>
+          <div class="row" [formGroup]="pagoForm">
+            <div class="col-6">
+              <div class="form-group" id="seleccionar-metodo">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="metodos"
+                  formControlName="metodo">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <input id="colocar-monto" class="form-control" type="number" formControlName="monto"
+                    (keyup.enter)="addPago()" placeholder="Monto">
+                  <a class="scanner-set input-group-text" (click)="addPago()">
+                    <i class="fa fa-credit-card"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            @if (pagoForm.value.metodo && pagoForm.value.metodo != 'Efectivo') {
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" type="date" formControlName="fecha">
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" type="text" formControlName="autorizacion" placeholder="No. Autorización"
+                    (keyup.enter)="addPago()">
+                </div>
+              </div>
+            </div>
+            }
+            <div class="col-12">
+              <div class=table-responsive>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Metodo</th>
+                      <th class="text-center">Monto</th>
+                      <th class="text-center" [hidden]="pagoForm.value.metodo == 'Efectivo'">No. Autorización</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let p of pagos">
+                      <td class="text-center">{{p.fecha}}</td>
+                      <td class="text-center">{{p.metodo}}</td>
+                      <td class="text-center">{{p.monto | number: '.2-2'}}</td>
+                      <td class="text-center" [hidden]="pagoForm.value.metodo == 'Efectivo'">{{p.autorizacion}}</td>
+                      <td class="text-center">
+                        <a href="javascript:void(0);" class="btn btn-danger btn-sm" (click)="deletePago(p)">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="text-end">
+          <a routerLink="../../" class="btn btn-cancel me-2">
+            <i class="fas fa-reply"></i> Regresar
+          </a>
+          <button id="btn_guardar" (click)="postVenta()" class="btn btn-submit btn-block"
+            [ngClass]="{'disabled': ventaForm.invalid || getTotal() == 0}" permiso="agregar-venta">
+            <i class="fas fa-save"></i> Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="clientes">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title"></h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <app-clientes [oc]="true" (newItemEvent)="addCliente($event)"></app-clientes>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="cotizaciones">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Seleccionar Cotizacion</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="table-responsive">
+      <div class="card">
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Serie / Correlativo</th>
+                <th>Fecha</th>
+                <!-- <th>Observaciones</th> -->
+                <th>Tipo de Pago</th>
+                <th>Documento</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (c of cotizaciones; track c.id) {
+              <tr (click)="setCotizacion(c)">
+                <td>{{c.id}}</td>
+                <td>
+                  <a class="text-secondary">
+                    {{c.documento.tipo_documento.nombre}} {{c.serie}}-{{c.correlativo}}
+                  </a>
+                </td>
+                <td>{{c.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <!-- <td>{{c.observaciones}}</td> -->
+                <td>{{c.tipo_pago}}</td>
+                <td>{{c.documento.nombre}}</td>
+                <td>{{c.cliente.nit}}</td>
+                <td><b style="font-weight: 600;">{{c.total | currency : c.moneda.simbolo : 'symbol' : '.2-2'}}</b></td>
+                <td>
+                  <span class="badges"
+                    [ngClass]="{'bg-warning': c.estado == 'PENDIENTE', 'bg-primary': c.estado == 'VIGENTE', 'bg-danger': c.estado == 'ANULADA'}">{{c.estado}}</span>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="pedidos">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Seleccionar Pedido</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="table-responsive">
+      <div class="card">
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Serie / Correlativo</th>
+                <th>Fecha</th>
+                <!-- <th>Observaciones</th> -->
+                <th>Tipo de Pago</th>
+                <th>Documento</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of pedidos; track p.id) {
+              <tr (click)="setPedido(p)">
+                <td>{{p.id}}</td>
+                <td>
+                  <a class="text-secondary">
+                    {{p.documento.tipo_documento.nombre}} {{p.serie}}-{{p.correlativo}}
+                  </a>
+                </td>
+                <td>{{p.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <!-- <td>{{c.observaciones}}</td> -->
+                <td>{{p.tipo_pago}}</td>
+                <td>{{p.documento.nombre}}</td>
+                <td>{{p.cliente.nit}}</td>
+                <td><b style="font-weight: 600;">{{p.total | currency : p.moneda.simbolo : 'symbol' : '.2-2'}}</b></td>
+                <td>
+                  <span class="badges"
+                    [ngClass]="{'bg-warning': p.estado == 'PENDIENTE', 'bg-primary': p.estado == 'VIGENTE', 'bg-danger': p.estado == 'ANULADA'}">{{p.estado}}</span>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

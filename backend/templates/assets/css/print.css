@@ -1,0 +1,39 @@
+@media print {
+  footer {
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+
+  .subtotal {
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  /* Forza un salto de página después de cada página */
+  div.page {
+    page-break-after: always;
+  }
+
+  /* Excepto la ultima pagina */
+  div.page:last-child {
+    page-break-after: auto;
+  }
+
+  /* Oculta los elementos que no desees que se impriman */
+  .no-print {
+    display: none;
+  }
+
+  .main {
+    display: none;
+  }
+}

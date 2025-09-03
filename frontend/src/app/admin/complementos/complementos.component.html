@@ -1,0 +1,26 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Complementos</h4>
+      <h6>Recursos Adicionales</h6>
+    </div>
+  </div>
+
+  <div class="row">
+    @for (c of complementos; track c.id) {
+    <div class="col-lg-3 col-md-4 col-12">  
+      <div class="card flex-fill bg-white">
+        <a class="card-header" (click)="descargarComplemento(c)">
+          <div class="text-center">
+            <img class="img-fluid" [src]="urlAPI + c.image" style="height: 100px;">
+          </div>
+          <h5 class="card-title mb-0">{{c.nombre}}</h5>
+          <p class="card-text">{{c.descripcion}}</p>
+        </a>
+      </div>
+    </div>
+    }
+  </div>
+
+</div>

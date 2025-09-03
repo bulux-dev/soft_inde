@@ -1,0 +1,85 @@
+<div class="main-wrapper">
+  <div class="account-content">
+    @if (ajustes) {
+    <div class="login-wrapper">
+      <div class="login-content">
+        <div class="login-userset">
+          <div class="login-logo logo-normal text-center">
+            <img [src]="ajustes.logo">
+          </div>
+          <div class="login-logo logo-white">
+            <img [src]="ajustes.logo">
+          </div>
+          <div class="login-userheading">
+            <h3>{{ajustes.nombre}}</h3>
+            <h4>Accede con tus credenciales</h4>
+          </div>
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-login">
+                  <label>Usuario</label>
+                  <div class="form-addons">
+                    <input id="usuario" formControlName="usuario" type="text" placeholder="Usuario">
+                    <i class="fas fa-key"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-login">
+                  <label>Clave</label>
+                  <div class="pass-group">
+                    <input id="clave" formControlName="clave" type="password" class="pass-input" placeholder="Clave">
+                    <i class="fas toggle-password fa-eye-slash" (click)="showPassword($event.target)"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-login">
+                  <div class="alreadyuser">
+                    <h4>
+                      <a id="recuperar" routerLink="/recuperar" class="hover-a">¿Olvidaste tu clave?</a>
+                    </h4>
+                  </div>
+                </div>
+                <div class="form-login">
+                  <button id="btn-login" type="submit" class="btn btn-login" [disabled]="loading">
+                    <span>Iniciar Sesion</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <br>
+          <div class="form-setlogin">
+            <h4>¿Necitas ayuda?
+              <a routerLink="/tickets" class="hover-a">Soporte Tecnico</a>
+            </h4>
+          </div>
+          <!-- <div class="form-sociallink">
+            <ul>
+              <li>
+                <a href="javascript:void(0);">
+                  <img src="assets/img/icons/google.png" class="me-2" alt="google">
+                  Iniciar Sesion con Google
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0);">
+                  <img src="assets/img/icons/facebook.png" class="me-2" alt="google">
+                  Iniciar Sesion con Facebook
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+      <div class="login-img bg-primary">
+        @if (ajustes.portada) {
+        <img [src]="ajustes.portada" alt="img">
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>

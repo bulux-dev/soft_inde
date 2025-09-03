@@ -1,0 +1,115 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Comercios</h4>
+      <h6>Control de comercios</h6>
+    </div>
+    <div class="page-btn">
+      <button class="btn btn-added" data-bs-toggle="offcanvas" data-bs-target="#agregar-comercio"
+        permiso="agregar-comercio">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Comercio
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    @for (c of comercios; track c) {
+    <div class="col-lg-4 col-12">
+      <div class="card flex-fill">
+        <div [routerLink]="c.id" class="card-header d-flex align-items-center justify-content-between">
+          <h4 class="card-title mb-0" style="flex: 1; margin-right: 10px;">{{c.nombre}}</h4>
+          <i class="fad fa-house fa-4x text-primary"></i>
+        </div>
+        <div class="card-body" style="font-size: 20px;">
+          <a class="card-link" data-bs-toggle="offcanvas" data-bs-target="#editar-comercio" permiso="editar-comercio"
+            (click)="setComercio(c)">
+            <i class="fas fa-pencil-alt"></i>
+          </a>
+          <a class="card-link" (click)="deleteComercio(c)" permiso="eliminar-comercio">
+            <i class="fas fa-trash-alt"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    } @empty {
+    @if(!loading) {
+    <div class="col-12" style="text-align: center; margin-top: 50px;">
+      <img class="fa-bounce" id="robot" src="https://api.kairosgt.com/public/robots/busqueda.png" width="100">
+      <h4>No existen items</h4>
+    </div>
+    }
+    }
+    @if(loading) {
+    <div class="text-center">
+      <i class="fad fa-spinner-third fa-spin fa-4x text-primary"></i>
+    </div>
+    }
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="agregar-comercio">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Comercio</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="card">
+      <div class="card-body">
+        <div [formGroup]="comercioForm" class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input formControlName="nombre" type="text">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label>Operador</label>
+              <input formControlName="operador" type="text">
+            </div>
+          </div>
+          <div class="col-12" class="text-end">
+            <a (click)="postComercio()" [ngClass]="{'disabled': comercioForm.invalid}" class="btn btn-submit me-2"
+              permiso="agregar-comercio">
+              <i class="fas fa-save"></i> Guardar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="editar-comercio">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Editar Comercio</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="card">
+      <div class="card-body">
+        <div [formGroup]="comercioForm" class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input formControlName="nombre" type="text">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label>Operador</label>
+              <input formControlName="operador" type="text">
+            </div>
+          </div>
+          <div class="col-12" class="text-end">
+            <a (click)="putComercio()" [ngClass]="{'disabled': comercioForm.invalid}" class="btn btn-submit me-2"
+              permiso="editar-comercio">
+              <i class="fas fa-save"></i> Guardar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

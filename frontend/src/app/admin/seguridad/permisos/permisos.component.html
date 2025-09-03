@@ -1,0 +1,108 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Permisos</h4>
+      <h6>Control de permisos</h6>
+    </div>
+    <div class="page-btn">
+
+    </div>
+  </div>
+
+  <div class="card">
+
+    <div class="card-body">
+      <div class="row">
+        <!-- <div class="col-lg-3 col-sm-12">
+          <div class="form-group">
+            <label>Modulo</label>
+            <div class="form-group">
+              <ng-multiselect-dropdown [(ngModel)]="modulo_id" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Selecciona modulo'" [settings]="selectS" [data]="modulos" (onSelect)="getMenus()">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-lg-3 col-sm-12">
+          <div class="form-group">
+            <label>Rol</label>
+            <div class="form-group">
+              <ng-multiselect-dropdown [(ngModel)]="rol_id" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Selecciona rol'" [settings]="selectS" [data]="roles" (onSelect)="getPermisos()"
+                (onSelect)="getUsuarios()" id="seleccionar">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-12">
+          <div class="form-group">
+            <label>Usuario</label>
+            <div class="form-group">
+              <ng-multiselect-dropdown [(ngModel)]="usuario_id" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Selecciona usuario'" [settings]="selectS" [data]="usuarios" (onSelect)="getPermisos()"
+                id="seleccionar_usuario">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-12 mb-3">
+          <div class="input-checkset">
+            <ul>
+              <li>
+                <label class="inputcheck">Seleccionar Todos
+                  <input type="checkbox" id="select-all" (change)="setAllPermisos()">
+                  <span class="checkmark"></span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div> -->
+        <div class="row">
+          <div class="col-12">
+
+            <div class="productdetails product-respon" [ngClass]="{'disabled': rol_id ? rol_id[0].id == 1 : true}">
+              <ul>
+                @for (m of modulos; track m.id) {
+                <li *ngIf="getPermisoAdmin(m)">
+                  <h4 style="width: 250px;">
+                    <label class="inputcheck"> {{m.nombre}}
+                      <input type="checkbox" (change)="setPermiso(m)" [checked]="getPermiso(m)">
+                      <span class="checkmark"></span>
+                    </label>
+                  </h4>
+                </li>
+                @for (me of m.menus; track me.id) {
+                <li *ngIf="getPermisoAdmin(m)" [ngClass]="{'disabled': !getPermiso(m)}">
+                  <h4 style="width: 250px;">
+                    <label class="inputcheck ml-1"> {{me.nombre}}
+                      <input type="checkbox" (change)="setPermiso(m, me)" [checked]="getPermiso(m, me)">
+                      <span class="checkmark"></span>
+                    </label>
+                  </h4>
+                  <div class="input-checkset" [ngClass]="{'disabled': !getPermiso(m, me)}">
+                    <div class="row">
+                      @for (a of me.acciones; track a.id) {
+                      <div class="col-lg-3 col-12">
+                        <ul>
+                          <li>
+                            <label class="inputcheck ml-2">{{a.nombre}}
+                              <input type="checkbox" (change)="setPermiso(m, me, a)" [checked]="getPermiso(m, me, a)">
+                              <span class="checkmark"></span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                      }
+
+                    </div>
+                  </div>
+                </li>
+                }
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

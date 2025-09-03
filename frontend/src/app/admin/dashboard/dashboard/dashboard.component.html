@@ -1,0 +1,337 @@
+<div class="content">
+  <div class="row">
+    <div class="col-lg-2 col-sm-6 col-12 d-flex">
+      <div class="dash-count">
+        <div class="dash-counts">
+          <h4>{{seguridad?.usuarios?.count}}</h4>
+          <h5>Usuario{{seguridad?.usuarios?.count == 1 ? '' : 's'}}</h5>
+        </div>
+        <div class="dash-imgs">
+          <i class="fad fa-users"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-sm-6 col-12 d-flex">
+      <div class="dash-count">
+        <div class="dash-counts">
+          <h4>{{seguridad?.roles?.count}}</h4>
+          <h5>Rol{{seguridad?.roles?.count == 1 ? '' : 'es'}}</h5>
+        </div>
+        <div class="dash-imgs">
+          <i class="fad fa-lock-keyhole"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-sm-6 col-12 d-flex">
+      <div class="dash-count">
+        <div class="dash-counts">
+          <h4>{{seguridad?.permisos?.count}}</h4>
+          <h5>Permiso{{seguridad?.permisos?.count == 1 ? '' : 's'}}</h5>
+        </div>
+        <div class="dash-imgs">
+          <i class="fad fa-key"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-sm-6 col-12 d-flex">
+      <div class="dash-count">
+        <div class="dash-counts">
+          <h4>{{personal?.empleados?.count}}</h4>
+          <h5>Empleado{{personal?.empleados?.count == 1 ? '' : 's'}}</h5>
+        </div>
+        <div class="dash-imgs">
+          <i class="fad fa-briefcase"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-sm-6 col-12 d-flex">
+      <div class="dash-count">
+        <div class="dash-counts">
+          <h4>{{personal?.clientes?.count}}</h4>
+          <h5>Cliente{{personal?.clientes?.count == 1 ? '' : 's'}}</h5>
+        </div>
+        <div class="dash-imgs">
+          <i class="fad fa-user-tie"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-sm-6 col-12 d-flex">
+      <div class="dash-count">
+        <div class="dash-counts">
+          <h4>{{personal?.proveedores?.count}}</h4>
+          <h5>Proveedor{{personal?.proveedores?.count == 1 ? '' : 'es'}}</h5>
+        </div>
+        <div class="dash-imgs">
+          <i class="fad fa-truck-fast"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-header" style="margin-bottom: 0px;">
+    <div class="page-title" style="margin-top: -50px;">
+      <h4>Dashboard</h4>
+      <h6>Graficas y Estadísticas</h6>
+    </div>
+
+    <div class="page-btn">
+      <div class="form-group" style="float: left;">
+        <label>Fecha Inicio</label>
+        <input class="form-control" type="datetime-local" [(ngModel)]="fecha_inicio"
+          [ngModelOptions]="{standalone: true}" (input)="getOperaciones()">
+      </div>
+
+      <div class="form-group" style="float: right; margin-left: 10px">
+        <label>Fecha Fin</label>
+        <input class="form-control" type="datetime-local" [(ngModel)]="fecha_fin" [ngModelOptions]="{standalone: true}"
+          (input)="getOperaciones()">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-12 col-sm-9 col-12">
+      <div class="row">
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="dash-widget" routerLink="/admin/facturacion/compras">
+            <div class="dash-widgetimg">
+              <span><i class="fad fa-cart-shopping fa-2x"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+              <h5>
+                <span class="counters">
+                  {{operaciones?.compras?.total | moneda: 'Q. '}}
+                </span>
+              </h5>
+              <h6>{{operaciones?.compras?.count}} Compra{{operaciones?.compras?.count == 1 ? '' : 's'}}</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="dash-widget" routerLink="/admin/facturacion/ventas">
+            <div class="dash-widgetimg">
+              <span><i class="fad fa-bag-shopping fa-2x"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+              <h5>
+                <span class="counters">
+                  {{operaciones?.ventas?.total | moneda: 'Q. '}}
+                </span>
+              </h5>
+              <h6>{{operaciones?.ventas?.count}} Venta{{operaciones?.ventas?.count == 1 ? '' : 's'}}</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="dash-widget" routerLink="/admin/facturacion/cotizaciones">
+            <div class="dash-widgetimg">
+              <span><i class="fad fa-bag-shopping-plus fa-2x"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+              <h5>
+                <span class="counters">
+                  {{operaciones?.cotizaciones?.total | moneda: 'Q. '}}
+                </span>
+              </h5>
+              <h6>{{operaciones?.cotizaciones?.count}} Cotizacion{{operaciones?.cotizaciones?.count == 1 ? '' : 'es'}}
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="dash-widget" routerLink="/admin/facturacion/pedidos">
+            <div class="dash-widgetimg">
+              <span><i class="fad fa-bags-shopping fa-2x"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+              <h5>
+                <span class="counters">
+                  {{operaciones?.pedidos?.total | moneda: 'Q. '}}
+                </span>
+              </h5>
+              <h6>{{operaciones?.pedidos?.count}} Pedido{{operaciones?.pedidos?.count == 1 ? '' : 's'}}</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="dash-widget" routerLink="/admin/facturacion/ordenes-compras">
+            <div class="dash-widgetimg">
+              <span><i class="fad fa-cart-circle-plus fa-2x"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+              <h5>
+                <span class="counters">
+                  {{operaciones?.ordenes_compras?.total | moneda: 'Q. '}}
+                </span>
+              </h5>
+              <h6>{{operaciones?.ordenes_compras?.count}}
+                Orden{{operaciones?.ordenes_compras?.count == 1 ? '' : 'es'}} de Compra
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="dash-widget" routerLink="/admin/facturacion/cargas">
+            <div class="dash-widgetimg">
+              <span><i class="fad fa-arrow-up fa-2x"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+              <h5>
+                <span class="counters">
+                  {{operaciones?.cargas?.total | moneda: 'Q. '}}
+                </span>
+              </h5>
+              <h6>{{operaciones?.cargas?.count}} Carga{{operaciones?.cargas?.count == 1 ? '' : 's'}}
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="dash-widget" routerLink="/admin/facturacion/descargas">
+            <div class="dash-widgetimg">
+              <span><i class="fad fa-arrow-down fa-2x"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+              <h5>
+                <span class="counters">
+                  {{operaciones?.descargas?.total | moneda: 'Q. '}}
+                </span>
+              </h5>
+              <h6>{{operaciones?.descargas?.count}} Descarga{{operaciones?.descargas?.count == 1 ? '' : 's'}}
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="dash-widget" routerLink="/admin/facturacion/traslados">
+            <div class="dash-widgetimg">
+              <span><i class="fad fa-arrow-up-arrow-down fa-2x"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+              <h5>
+                <span class="counters">
+                  {{operaciones?.traslados?.total | moneda: 'Q. '}}
+                </span>
+              </h5>
+              <h6>{{operaciones?.traslados?.count}} Traslado{{operaciones?.traslados?.count == 1 ? '' : 's'}}
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <!-- Operaciones -->
+        <div class="col-lg-6 col-sm-12 col-12 d-flex">
+          <div class="card flex-fill">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">Operaciones del mes</h5>
+              <div class="graph-sets">
+
+                <select class="form-select" [(ngModel)]="serie_type" [ngModelOptions]="{standalone: true}"
+                  (change)="getOperaciones()" style="width: 100px;">
+                  <option value="monto">Monto</option>
+                  <option value="cantidad">Cantidad</option>
+                </select>
+                <select class="form-select" [(ngModel)]="pie_type" [ngModelOptions]="{standalone: true}"
+                  (change)="getOperaciones()" style="width: 100px;">
+                  <option value="pie">Pie</option>
+                  <option value="donut">Dona</option>
+                </select>
+
+              </div>
+
+            </div>
+            <div class="card-body" style="position: relative;">
+              <br><br>
+              @if (g_operaciones) {
+              <div id="g_operaciones">
+                <apx-chart [chart]="g_operaciones.chart" [series]="g_operaciones.series" [labels]="g_operaciones.labels"
+                  [dataLabels]="g_operaciones.dataLabels" [plotOptions]="g_operaciones.plotOptions"
+                  [yaxis]="g_operaciones.yaxis" [xaxis]="g_operaciones.xaxis" [fill]="g_operaciones.fill"
+                  [title]="g_operaciones.title" [colors]="g_operaciones.colors"
+                  [responsive]="g_operaciones.responsive"></apx-chart>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Operacion -->
+        <div class="col-lg-6 col-sm-12 col-12 d-flex">
+          <div class="card flex-fill">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">Operacion del Mes</h5>
+              <div class="graph-sets">
+
+                <select class="form-select" [(ngModel)]="serie_type" [ngModelOptions]="{standalone: true}"
+                  (change)="getOperacionMes()" style="width: 100px;">
+                  <option value="monto">Monto</option>
+                  <option value="cantidad">Cantidad</option>
+                </select>
+                <select class="form-select" [(ngModel)]="op_type" [ngModelOptions]="{standalone: true}"
+                  (change)="getOperacionMes()" style="width: 100px;">
+                  <option value="">--</option>
+                  <option value="0">Compras</option>
+                  <option value="1">Ventas</option>
+                  <option value="2">Cotizaciones</option>
+                  <option value="3">Pedidos</option>
+                  <option value="4">Ordenes Compras</option>
+                  <option value="5">Cargas</option>
+                  <option value="6">Descargas</option>
+                  <option value="7">Traslados</option>
+                </select>
+
+              </div>
+            </div>
+            <div class="card-body" style="position: relative;">
+              @if (g_operacion_mes) {
+              <div id="g_operacion_mes">
+                <apx-chart [chart]="g_operacion_mes.chart" [series]="g_operacion_mes.series"
+                  [labels]="g_operacion_mes.labels" [dataLabels]="g_operacion_mes.dataLabels"
+                  [plotOptions]="g_operacion_mes.plotOptions" [yaxis]="g_operacion_mes.yaxis"
+                  [xaxis]="g_operacion_mes.xaxis" [fill]="g_operacion_mes.fill" [title]="g_operacion_mes.title"
+                  [colors]="g_operacion_mes.colors"></apx-chart>
+              </div>
+              }
+              @if (g_operacion_mes2) {
+              <div id="g_operacion_mes2">
+                <apx-chart [chart]="g_operacion_mes2.chart" [series]="g_operacion_mes2.series"
+                  [labels]="g_operacion_mes2.labels" [dataLabels]="g_operacion_mes2.dataLabels"
+                  [plotOptions]="g_operacion_mes2.plotOptions" [yaxis]="g_operacion_mes2.yaxis"
+                  [xaxis]="g_operacion_mes2.xaxis" [fill]="g_operacion_mes2.fill" [title]="g_operacion_mes2.title"
+                  [colors]="g_operacion_mes2.colors"></apx-chart>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Otro -->
+        <div class="col-lg-12 col-sm-12 col-12 d-flex">
+          <div class="card flex-fill">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">Compras y Ventas del mes</h5>
+              <div class="graph-sets">
+
+              </div>
+
+            </div>
+            <div class="card-body" style="position: relative;">
+              @if (chart) {
+              <div id="chart">
+                <apx-chart [series]="chart.series" [chart]="chart.chart" [dataLabels]="chart.dataLabels"
+                  [plotOptions]="chart.plotOptions" [yaxis]="chart.yaxis" [xaxis]="chart.xaxis" [fill]="chart.fill"
+                  [title]="chart.title"></apx-chart>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

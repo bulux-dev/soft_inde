@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Credito #{{credito_id}}</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid invoice-container">
+
+    <header>
+      <div class="row gy-3">
+        <div class="col-3">
+          <img id="logo"
+            v-bind:src="credito.credito_detalle.categoria.logo ? credito.credito_detalle.categoria.logo : empresa.logo"
+            style="width: 90px">
+        </div>
+        <div class="col-6" style="text-align: center; font-size: 12px;">
+          <h6>{{credito.credito_detalle.categoria.nombre}}</h6>
+          <p class="lh-base mb-0">{{credito.credito_detalle.proyecto_direccion}}</p>
+          <p class="lh-base mb-0">Celular: {{credito.credito_detalle.proyecto_celular}}</p>
+          <br><br>
+          <!-- <p class="lh-base mb-0">CREDITO No.: {{credito.id}}</p> -->
+        </div>
+        <div class="col-3" style="text-align: right;">
+          <img id="logo" v-bind:src="empresa.logo" style="width: 90px">
+        </div>
+        <div class="col-3">
+          <strong>Fecha:</strong>
+          {{formatoFecha(credito.fecha, 'DD/MM/YYYY HH:mm')}} <br>
+        </div>
+        <div class="col-6" style="text-align: center;">
+          <p class="lh-base mb-0" style="font-size: 16px;"><b>COTIZACION</b></p>
+        </div>
+        <div class="col-3" style="text-align: right;">
+          <strong>Estado:</strong>
+          {{credito.estado}} <br>
+        </div>
+      </div>
+      <hr>
+    </header>
+
+    <main>
+      <div class="row gy-4">
+
+        <b class="text-center">DATOS GENERALES DEL PROMITENTE COMPRADOR</b>
+        <table>
+          <thead style="background: #ebebeb">
+            <th style="width: 40%;">Nombre y apellidos</th>
+            <th style="width: 20%;">NIT</th>
+            <th style="width: 20%;">DPI</th>
+            <th style="width: 20%;">Celular</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{credito.credito_detalle.compr_nombre}}</td>
+              <td>{{credito.credito_detalle.compr_nit}}</td>
+              <td>{{credito.credito_detalle.compr_dpi}}</td>
+              <td>{{credito.credito_detalle.compr_celular}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <b class="text-center">IDENTIFICACION DEL INMUEBLE</b>
+        <table>
+          <thead style="background: #ebebeb">
+            <th style="width: 40%;">No. Lote</th>
+            <th style="width: 20%;">Metros2</th>
+            <th style="width: 20%;">Valor Metro2</th>
+            <th style="width: 20%;">Sector</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{credito.credito_detalle.producto.nombre}}</td>
+              <td>{{credito.credito_detalle.metros2}}</td>
+              <td>{{credito.credito_detalle.valor_metros2}}</td>
+              <td>{{credito.credito_detalle.sector}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <div class="col-4">
+          <p class="mb-1"><b>Total:</b> {{moneda(credito.total, 'Q. ')}}</p>
+          <p class="mb-1"><b>Enganche:</b> {{moneda(credito.enganche, 'Q. ')}}</p>
+          <p class="mb-1"><b>Capital:</b> {{moneda(credito.capital, 'Q. ')}}</p>
+        </div>
+        <div class="col-4">
+          <p class="mb-1"><b>Plazo:</b> {{credito.plazo_meses}} meses</p>
+          <p class="mb-1"><b>Fecha Inicio:</b> {{formatoFecha(credito.fecha_inicio, 'DD/MM/yyyy')}}</p>
+          <p class="mb-1"><b>Fecha Fin:</b> {{formatoFecha(credito.fecha_fin, 'DD/MM/yyyy')}}</p>
+        </div>
+        <div class="col-4">
+          <p class="mb-1"><b>Interes:</b> {{credito.interes_anual}}% Anual</p>
+          <p class="mb-1"><b>Cuota Mensual:</b> {{moneda(credito.cuotas[0].cuota, 'Q. ')}}</p>
+        </div>
+      </div>
+      <hr>
+    </main>
+    <footer class="mt-2">
+      <div class="text-center">
+        <div class="btn-group btn-group-sm d-print-none"> <a href="javascript:window.print()"
+            class="btn btn-light border text-black-50 shadow-none"><i class="fas fa-print"></i> Imprimir y Descargar</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+  
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let credito = ref(___credito)
+        let empresa = ref(___empresa)
+        let cuotas = ref(___cuotas)
+        return {
+          credito,
+          empresa,
+          cuotas
+        }
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          moment.locale('es')
+          return moment(date).format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        getTotalCuotas(campo) {
+          let total = 0;
+          this.cuotas.forEach((c) => {
+            if (campo === 'capital') {
+              total += parseFloat(c.capital);
+            } else if (campo === 'interes') {
+              total += parseFloat(c.interes);
+            } else if (campo === 'cuota') {
+              total += parseFloat(c.cuota);
+            }
+          });
+          return total;
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

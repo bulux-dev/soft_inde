@@ -1,0 +1,109 @@
+<div class="main-wrapper">
+  <div class="account-content">
+    <div class="login-wrapper">
+      <div class="login-content">
+        <div class="login-userset">
+          <div class="login-logo logo-normal">
+            <img src="assets/img/logo.png" alt="img">
+          </div>
+          <div class="login-logo logo-white">
+            <img src="assets/img/logo.png" alt="">
+          </div>
+          <div class="login-userheading">
+            <h3>Crea una cuenta</h3>
+            <h4>Completa el formulario para validar tu acceso</h4>
+          </div>
+          <form [formGroup]="registroForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-login">
+                  <label>Nombre</label>
+                  <div class="form-addons">
+                    <input formControlName="nombre" type="text" placeholder="Ingresa tu nombre">
+                    <i class="fas fa-user"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-login">
+                  <label>Apellido</label>
+                  <div class="form-addons">
+                    <input formControlName="apellido" type="text" placeholder="Ingresa tu apellido">
+                    <i class="fas fa-user"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-login">
+                  <label>Correo Electrónico</label>
+                  <div class="form-addons">
+                    <input formControlName="correo" type="text" placeholder="Ingresa tu correo electrónico">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-login">
+                  <label>Usuario</label>
+                  <div class="form-addons">
+                    <input formControlName="usuario" type="text" placeholder="Ingresa tu usuario">
+                    <i class="fas fa-key"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-login">
+                  <label>Clave</label>
+                  <div class="pass-group">
+                    <input formControlName="clave" type="password" class="pass-input" placeholder="Ingresa tu clave">
+                    <span class="fas toggle-password fa-eye-slash"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-login">
+                  <label>Confirma tu Clave</label>
+                  <div class="pass-group">
+                    <input formControlName="clave2" type="password" class="pass-input" placeholder="Ingresa de nuevo tu clave">
+                    <i class="fas toggle-password fa-eye-slash"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="form-login">
+            <button (click)="registro()" class="btn btn-login" [disabled]="loading">
+              <span [hidden]="loading == false" class="spinner-border spinner-border-sm"></span>
+              <span> Crea tu cuenta</span>
+            </button>
+          </div>
+          <div class="signinform text-center">
+            <h4>¿Ya tienes una cuenta? <a routerLink="/login" class="hover-a">Accede aqui</a></h4>
+          </div>
+          <div class="form-setlogin">
+            <h4>o puedes registrarte con</h4>
+          </div>
+          <div class="form-sociallink">
+            <ul>
+              <li>
+                <a href="javascript:void(0);">
+                  <img src="assets/img/icons/google.png" class="me-2" alt="google">
+                  Registrarte con Google
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0);">
+                  <img src="assets/img/icons/facebook.png" class="me-2" alt="google">
+                  Registrarte con Facebook
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="login-img">
+        <img src="assets/img/login.jpg" alt="img">
+      </div>
+    </div>
+  </div>
+</div>

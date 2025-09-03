@@ -1,0 +1,307 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Agregar Producto</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="profile-set">
+        <div class="profile-head">
+
+        </div>
+
+        <div class="profile-top">
+          <div class="profile-content">
+            <div class="profile-contentimg">
+              <img [src]="productoForm.value.logo ? productoForm.value.logo : 'assets/img/blank.jpg'" alt="img"
+                id="blah">
+              <div class="profileupload edit">
+                <input type="file" id="imgInp" (change)="setImage($event, 'logo')">
+                <a href="javascript:void(0);">
+                  <img src="assets/img/icons/edit-set.svg" alt="img">
+                </a>
+              </div>
+              <div class="profileupload delete">
+                <a (click)="removeImage('logo')" href="javascript:void(0);">
+                  <img src="assets/img/icons/trash.svg" alt="img">
+                </a>
+              </div>
+            </div>
+            <div class="profile-contentname">
+              <h2>{{productoForm.value.nombre}}</h2>
+              <h4>{{productoForm.value.sku}}</h4>
+            </div>
+          </div>
+          <div>
+            <a [hidden]="oc" routerLink="../" class="btn btn-cancel me-2">
+              <i class="fas fa-reply"></i> Regresar
+            </a>
+            <a (click)="postProducto()" [ngClass]="{'disabled': productoForm.invalid}" class="btn btn-submit me-2"
+              permiso="agregar-producto">
+              @if (loading) {
+              <span class="spinner-border spinner-border-sm"></span>
+              } @else {
+              <i class="fas fa-save"></i> Guardar
+              }
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul class="nav nav-tabs nav-tabs-solid nav-justified">
+    <li class="nav-item"><a class="nav-link active" href="#info" data-bs-toggle="tab">
+        <i class="fas fa-info-circle"></i> Informacion</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="#fotos" data-bs-toggle="tab">
+        <i class="fas fa-image"></i> Fotografias</a>
+    </li>
+  </ul>
+
+
+  <div class="tab-content" [formGroup]="productoForm">
+    <div class="tab-pane show active" id="info">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>SKU</label>
+                    <input formControlName="sku" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input formControlName="nombre" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Tipo</label>
+                    <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS"
+                      [data]="tipos_productos" formControlName="tipo_producto_id">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Medida</label>
+                    <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="medidas"
+                      formControlName="medida_id">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-12">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea formControlName="descripcion" type="text"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-12">
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label>Costo</label>
+                        <input formControlName="costo" type="text">
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label>Precio</label>
+                        <input formControlName="precio" type="text">
+                      </div>
+                    </div>
+                    <div class="col col-12">
+                      <div class="form-group">
+                        <label>Stock</label>
+                        <div class="status-toggle d-flex justify-content-between align-items-center">
+                          <input id="stock" formControlName="stock" class="check" type="checkbox">
+                          <label for="stock" class="checktoggle"></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col col-12" [ngClass]="{'disabled': productoForm.value.combo}">
+                      <div class="form-group">
+                        <label>Lote</label>
+                        <div class="status-toggle d-flex justify-content-between align-items-center">
+                          <input id="lote" formControlName="lote" class="check" type="checkbox">
+                          <label for="lote" class="checktoggle"></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col col-12" [ngClass]="{'disabled': productoForm.value.combo}">
+                      <div class="form-group">
+                        <label>Produccion</label>
+                        <div class="status-toggle d-flex justify-content-between align-items-center">
+                          <input id="produccion" formControlName="produccion" class="check" type="checkbox">
+                          <label for="produccion" class="checktoggle"></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col col-12"
+                      [ngClass]="{'disabled': productoForm.value.lote || productoForm.value.produccion}">
+                      <div class="form-group">
+                        <label>Combo</label>
+                        <div class="status-toggle d-flex justify-content-between align-items-center">
+                          <input id="combo" formControlName="combo" class="check" type="checkbox">
+                          <label for="combo" class="checktoggle"></label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12" class="text-end">
+                <a [hidden]="oc" routerLink="../" class="btn btn-cancel me-2">
+                  <i class="fas fa-reply"></i> Regresar
+                </a>
+                <a (click)="postProducto()" [ngClass]="{'disabled': productoForm.invalid}" class="btn btn-submit me-2"
+                  permiso="agregar-producto">
+                  @if (loading) {
+                  <span class="spinner-border spinner-border-sm"></span>
+                  } @else {
+                  <i class="fas fa-save"></i> Guardar
+                  }
+                </a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h6>Categorias</h6>
+                </div>
+                <div class="col-6 text-end">
+                  <a class="link" data-bs-toggle="offcanvas" data-bs-target="#categorias">
+                    <i class="fas fa-plus"></i> Nueva
+                  </a>
+                </div>
+                <div class="col-12">
+                  <br>
+                  <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectM" [data]="categorias"
+                    formControlName="productos_categorias">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h6>Marcas</h6>
+                </div>
+                <div class="col-6 text-end">
+                  <a class="link" data-bs-toggle="offcanvas" data-bs-target="#marcas">
+                    <i class="fas fa-plus"></i> Nueva
+                  </a>
+                </div>
+                <div class="col-12">
+                  <br>
+                  <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectM" [data]="marcas"
+                    formControlName="productos_marcas">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <h6>Ajustes Adicionales</h6>
+                </div>
+                <div class="col-6 text-end">
+                  <i class="fa-duotone fa-solid fa-gears fa-3x"></i>
+                </div>
+                <div class="col-12">
+                  <br>
+                  <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Arancel %</label>
+                      <input class="form-control" formControlName="arancel" type="number" min="0" max="100">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="fotos">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="form-group">
+            <div class="image-upload">
+              <input type="file" id="imgInp" (change)="setFoto($event)">
+              <div class="image-uploads">
+                <img src="assets/img/icons/upload.svg" alt="img">
+                <h4> Subir fotografia </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                @for (f of productos_fotos; track f.id) {
+                <div class="col-md-3 mb-2 mb-md-0">
+                  <a href="javascript:void(0);" style="padding: 100%;">
+                    <i class="fas fa-close" (click)="deleteFoto(f)"></i>
+                  </a>
+                  <a [href]="f.foto" class="image-popup">
+                    <img [src]="f.foto" class="img-fluid" alt="image" style="width: 100%;">
+                  </a>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" id="categorias">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Categoria</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <app-agregar-categoria [oc]="true" (newItemEvent)="getCategorias($event)"></app-agregar-categoria>
+
+  </div>
+</div>
+<div class="offcanvas offcanvas-end" id="marcas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Agregar Marca</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <app-agregar-marca [oc]="true" (newItemEvent)="getMarcas($event)"></app-agregar-marca>
+
+  </div>
+</div>

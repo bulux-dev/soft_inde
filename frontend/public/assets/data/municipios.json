@@ -1,0 +1,2042 @@
+[
+  {
+    "id": 1,
+    "codigo": "01",
+    "nombre": "GUATEMALA",
+    "departamento_id": 1
+  },
+  {
+    "id": 2,
+    "codigo": "02",
+    "nombre": "SANTA CATARINA PINULA",
+    "departamento_id": 1
+  },
+  {
+    "id": 3,
+    "codigo": "03",
+    "nombre": "SAN JOSÉ PINULA",
+    "departamento_id": 1
+  },
+  {
+    "id": 4,
+    "codigo": "04",
+    "nombre": "SAN JOSÉ DEL GOLFO",
+    "departamento_id": 1
+  },
+  {
+    "id": 5,
+    "codigo": "05",
+    "nombre": "PALENCIA",
+    "departamento_id": 1
+  },
+  {
+    "id": 6,
+    "codigo": "06",
+    "nombre": "CHINAUTLA",
+    "departamento_id": 1
+  },
+  {
+    "id": 7,
+    "codigo": "07",
+    "nombre": "SAN PEDRO AYAMPUC",
+    "departamento_id": 1
+  },
+  {
+    "id": 8,
+    "codigo": "08",
+    "nombre": "MIXCO",
+    "departamento_id": 1
+  },
+  {
+    "id": 9,
+    "codigo": "09",
+    "nombre": "SAN PEDRO SACATEPÉQUEZ",
+    "departamento_id": 1
+  },
+  {
+    "id": 10,
+    "codigo": "10",
+    "nombre": "SAN JUAN SACATEPÉQUEZ",
+    "departamento_id": 1
+  },
+  {
+    "id": 11,
+    "codigo": "11",
+    "nombre": "SAN RAIMUNDO",
+    "departamento_id": 1
+  },
+  {
+    "id": 12,
+    "codigo": "12",
+    "nombre": "CHUARRANCHO",
+    "departamento_id": 1
+  },
+  {
+    "id": 13,
+    "codigo": "13",
+    "nombre": "FRAIJANES",
+    "departamento_id": 1
+  },
+  {
+    "id": 14,
+    "codigo": "14",
+    "nombre": "AMATITLÁN",
+    "departamento_id": 1
+  },
+  {
+    "id": 15,
+    "codigo": "15",
+    "nombre": "VILLA NUEVA",
+    "departamento_id": 1
+  },
+  {
+    "id": 16,
+    "codigo": "16",
+    "nombre": "VILLA CANALES",
+    "departamento_id": 1
+  },
+  {
+    "id": 17,
+    "codigo": "17",
+    "nombre": "PETAPA",
+    "departamento_id": 1
+  },
+  {
+    "id": 18,
+    "codigo": "01",
+    "nombre": "GUASTATOYA",
+    "departamento_id": 2
+  },
+  {
+    "id": 19,
+    "codigo": "02",
+    "nombre": "MORAZÁN",
+    "departamento_id": 2
+  },
+  {
+    "id": 20,
+    "codigo": "03",
+    "nombre": "SAN AGUSTÍN ACASAGUASTLÁN",
+    "departamento_id": 2
+  },
+  {
+    "id": 21,
+    "codigo": "04",
+    "nombre": "SAN CRISTOBAL ACASAGUASTLÁN",
+    "departamento_id": 2
+  },
+  {
+    "id": 22,
+    "codigo": "05",
+    "nombre": "EL JÍCARO",
+    "departamento_id": 2
+  },
+  {
+    "id": 23,
+    "codigo": "06",
+    "nombre": "SANSARE",
+    "departamento_id": 2
+  },
+  {
+    "id": 24,
+    "codigo": "07",
+    "nombre": "SANARATE",
+    "departamento_id": 2
+  },
+  {
+    "id": 25,
+    "codigo": "08",
+    "nombre": "SAN ANTONIO LA PAZ",
+    "departamento_id": 2
+  },
+  {
+    "id": 26,
+    "codigo": "01",
+    "nombre": "ANTIGUA GUATEMALA",
+    "departamento_id": 3
+  },
+  {
+    "id": 27,
+    "codigo": "02",
+    "nombre": "JOCOTENANGO",
+    "departamento_id": 3
+  },
+  {
+    "id": 28,
+    "codigo": "03",
+    "nombre": "PASTORES",
+    "departamento_id": 3
+  },
+  {
+    "id": 29,
+    "codigo": "04",
+    "nombre": "SUMPANGO",
+    "departamento_id": 3
+  },
+  {
+    "id": 30,
+    "codigo": "05",
+    "nombre": "SANTO DOMINGO XENACOJ",
+    "departamento_id": 3
+  },
+  {
+    "id": 31,
+    "codigo": "06",
+    "nombre": "SANTIAGO SACATEPÉQUEZ",
+    "departamento_id": 3
+  },
+  {
+    "id": 32,
+    "codigo": "07",
+    "nombre": "SAN BARTOLOMÉ MILPAS ALTAS",
+    "departamento_id": 3
+  },
+  {
+    "id": 33,
+    "codigo": "08",
+    "nombre": "SAN LUCAS SACATEPÉQUEZ",
+    "departamento_id": 3
+  },
+  {
+    "id": 34,
+    "codigo": "09",
+    "nombre": "SANTA LUCIA MILPAS ALTAS",
+    "departamento_id": 3
+  },
+  {
+    "id": 35,
+    "codigo": "10",
+    "nombre": "MAGDALENA MILPAS ALTAS",
+    "departamento_id": 3
+  },
+  {
+    "id": 36,
+    "codigo": "11",
+    "nombre": "SANTA MARÍA DE JESUS",
+    "departamento_id": 3
+  },
+  {
+    "id": 37,
+    "codigo": "12",
+    "nombre": "CIUDAD VIEJA",
+    "departamento_id": 3
+  },
+  {
+    "id": 38,
+    "codigo": "13",
+    "nombre": "SAN MIGUEL DUEÑAS",
+    "departamento_id": 3
+  },
+  {
+    "id": 39,
+    "codigo": "14",
+    "nombre": "ALOTENANGO",
+    "departamento_id": 3
+  },
+  {
+    "id": 40,
+    "codigo": "15",
+    "nombre": "SAN ANTONIO AGUAS CALIENTES",
+    "departamento_id": 3
+  },
+  {
+    "id": 41,
+    "codigo": "16",
+    "nombre": "SANTA CATALINA BARAHONA",
+    "departamento_id": 3
+  },
+  {
+    "id": 42,
+    "codigo": "01",
+    "nombre": "CHIMALTENANGO",
+    "departamento_id": 4
+  },
+  {
+    "id": 43,
+    "codigo": "02",
+    "nombre": "SAN JOSÉ POAQUIL",
+    "departamento_id": 4
+  },
+  {
+    "id": 44,
+    "codigo": "03",
+    "nombre": "SAN MARTÍN JILOTEPEQUE",
+    "departamento_id": 4
+  },
+  {
+    "id": 45,
+    "codigo": "04",
+    "nombre": "COMALAPA",
+    "departamento_id": 4
+  },
+  {
+    "id": 46,
+    "codigo": "05",
+    "nombre": "SANTA APOLONIA",
+    "departamento_id": 4
+  },
+  {
+    "id": 47,
+    "codigo": "06",
+    "nombre": "TECPAN GUATEMALA",
+    "departamento_id": 4
+  },
+  {
+    "id": 48,
+    "codigo": "07",
+    "nombre": "PATZUN",
+    "departamento_id": 4
+  },
+  {
+    "id": 49,
+    "codigo": "08",
+    "nombre": "POCHUTA",
+    "departamento_id": 4
+  },
+  {
+    "id": 50,
+    "codigo": "09",
+    "nombre": "PATZICÍA",
+    "departamento_id": 4
+  },
+  {
+    "id": 51,
+    "codigo": "10",
+    "nombre": "SANTA CRUZ BALANYA",
+    "departamento_id": 4
+  },
+  {
+    "id": 52,
+    "codigo": "11",
+    "nombre": "ACATENANGO",
+    "departamento_id": 4
+  },
+  {
+    "id": 53,
+    "codigo": "12",
+    "nombre": "YEPOCAPA",
+    "departamento_id": 4
+  },
+  {
+    "id": 54,
+    "codigo": "13",
+    "nombre": "SAN ANDRÉS ITZAPA",
+    "departamento_id": 4
+  },
+  {
+    "id": 55,
+    "codigo": "14",
+    "nombre": "PARRAMOS",
+    "departamento_id": 4
+  },
+  {
+    "id": 56,
+    "codigo": "15",
+    "nombre": "ZARAGOZA",
+    "departamento_id": 4
+  },
+  {
+    "id": 57,
+    "codigo": "16",
+    "nombre": "EL TEJAR",
+    "departamento_id": 4
+  },
+  {
+    "id": 58,
+    "codigo": "01",
+    "nombre": "ESCUINTLA",
+    "departamento_id": 5
+  },
+  {
+    "id": 59,
+    "codigo": "02",
+    "nombre": "SANTA LUCÍA COTZUMALGUAPA",
+    "departamento_id": 5
+  },
+  {
+    "id": 60,
+    "codigo": "03",
+    "nombre": "LA DEMOCRACIA",
+    "departamento_id": 5
+  },
+  {
+    "id": 61,
+    "codigo": "04",
+    "nombre": "SIQUINALA",
+    "departamento_id": 5
+  },
+  {
+    "id": 62,
+    "codigo": "05",
+    "nombre": "MASAGUA",
+    "departamento_id": 5
+  },
+  {
+    "id": 63,
+    "codigo": "06",
+    "nombre": "TIQUISATE",
+    "departamento_id": 5
+  },
+  {
+    "id": 64,
+    "codigo": "07",
+    "nombre": "LA GOMERA",
+    "departamento_id": 5
+  },
+  {
+    "id": 65,
+    "codigo": "08",
+    "nombre": "GUANAGAZAPA",
+    "departamento_id": 5
+  },
+  {
+    "id": 66,
+    "codigo": "09",
+    "nombre": "SAN JOSÉ",
+    "departamento_id": 5
+  },
+  {
+    "id": 67,
+    "codigo": "10",
+    "nombre": "IZTAPA",
+    "departamento_id": 5
+  },
+  {
+    "id": 68,
+    "codigo": "11",
+    "nombre": "PALÍN",
+    "departamento_id": 5
+  },
+  {
+    "id": 69,
+    "codigo": "12",
+    "nombre": "SAN VICENTE PACAYA",
+    "departamento_id": 5
+  },
+  {
+    "id": 70,
+    "codigo": "13",
+    "nombre": "NUEVA CONCEPCIÓN",
+    "departamento_id": 5
+  },
+  {
+    "id": 71,
+    "codigo": "14",
+    "nombre": "SIPACATE",
+    "departamento_id": 5
+  },
+  {
+    "id": 72,
+    "codigo": "01",
+    "nombre": "CUILAPA",
+    "departamento_id": 6
+  },
+  {
+    "id": 73,
+    "codigo": "02",
+    "nombre": "BARBERENA",
+    "departamento_id": 6
+  },
+  {
+    "id": 74,
+    "codigo": "03",
+    "nombre": "SANTA ROSA DE LIMA",
+    "departamento_id": 6
+  },
+  {
+    "id": 75,
+    "codigo": "04",
+    "nombre": "CASILLAS",
+    "departamento_id": 6
+  },
+  {
+    "id": 76,
+    "codigo": "05",
+    "nombre": "SAN RAFAEL LAS FLORES",
+    "departamento_id": 6
+  },
+  {
+    "id": 77,
+    "codigo": "06",
+    "nombre": "ORATORIO",
+    "departamento_id": 6
+  },
+  {
+    "id": 78,
+    "codigo": "07",
+    "nombre": "SAN JUAN TECUACO",
+    "departamento_id": 6
+  },
+  {
+    "id": 79,
+    "codigo": "08",
+    "nombre": "CHIQUIMULILLA",
+    "departamento_id": 6
+  },
+  {
+    "id": 80,
+    "codigo": "09",
+    "nombre": "TAXISCO",
+    "departamento_id": 6
+  },
+  {
+    "id": 81,
+    "codigo": "10",
+    "nombre": "SANTA MARÍA IXHUATAN",
+    "departamento_id": 6
+  },
+  {
+    "id": 82,
+    "codigo": "11",
+    "nombre": "GUAZACAPAN",
+    "departamento_id": 6
+  },
+  {
+    "id": 83,
+    "codigo": "12",
+    "nombre": "SANTA CRUZ NARANJO",
+    "departamento_id": 6
+  },
+  {
+    "id": 84,
+    "codigo": "13",
+    "nombre": "PUEBLO NUEVO VIÑAS",
+    "departamento_id": 6
+  },
+  {
+    "id": 85,
+    "codigo": "14",
+    "nombre": "NUEVA SANTA ROSA",
+    "departamento_id": 6
+  },
+  {
+    "id": 86,
+    "codigo": "01",
+    "nombre": "SOLOLÁ",
+    "departamento_id": 7
+  },
+  {
+    "id": 87,
+    "codigo": "02",
+    "nombre": "SAN JOSÉ CHACAYÁ",
+    "departamento_id": 7
+  },
+  {
+    "id": 88,
+    "codigo": "03",
+    "nombre": "SANTA MARÍA VISITACIÓN",
+    "departamento_id": 7
+  },
+  {
+    "id": 89,
+    "codigo": "04",
+    "nombre": "SANTA LUCÍA UTATLAN",
+    "departamento_id": 7
+  },
+  {
+    "id": 90,
+    "codigo": "05",
+    "nombre": "NAHUALA",
+    "departamento_id": 7
+  },
+  {
+    "id": 91,
+    "codigo": "06",
+    "nombre": "SANTA CATARINA IXTAHUACAN",
+    "departamento_id": 7
+  },
+  {
+    "id": 92,
+    "codigo": "07",
+    "nombre": "SANTA CLARA LA LAGUNA",
+    "departamento_id": 7
+  },
+  {
+    "id": 93,
+    "codigo": "08",
+    "nombre": "CONCEPCIÓN",
+    "departamento_id": 7
+  },
+  {
+    "id": 94,
+    "codigo": "09",
+    "nombre": "SAN ANDRÉS SEMETABAJ",
+    "departamento_id": 7
+  },
+  {
+    "id": 95,
+    "codigo": "10",
+    "nombre": "PANAJACHEL",
+    "departamento_id": 7
+  },
+  {
+    "id": 96,
+    "codigo": "11",
+    "nombre": "SANTA CATARINA PALOPÓ",
+    "departamento_id": 7
+  },
+  {
+    "id": 97,
+    "codigo": "12",
+    "nombre": "SAN ANTONIO PALOPÓ",
+    "departamento_id": 7
+  },
+  {
+    "id": 98,
+    "codigo": "13",
+    "nombre": "SAN LUCAS TOLIMÁN",
+    "departamento_id": 7
+  },
+  {
+    "id": 99,
+    "codigo": "14",
+    "nombre": "SANTA CRUZ LA LAGUNA",
+    "departamento_id": 7
+  },
+  {
+    "id": 100,
+    "codigo": "15",
+    "nombre": "SAN PABLO LA LAGUNA",
+    "departamento_id": 7
+  },
+  {
+    "id": 101,
+    "codigo": "16",
+    "nombre": "SAN MARCOS LA LAGUNA",
+    "departamento_id": 7
+  },
+  {
+    "id": 102,
+    "codigo": "17",
+    "nombre": "SAN JUAN LA LAGUNA",
+    "departamento_id": 7
+  },
+  {
+    "id": 103,
+    "codigo": "18",
+    "nombre": "SAN PEDRO LA LAGUNA",
+    "departamento_id": 7
+  },
+  {
+    "id": 104,
+    "codigo": "19",
+    "nombre": "SANTIAGO ATITLÁN",
+    "departamento_id": 7
+  },
+  {
+    "id": 105,
+    "codigo": "01",
+    "nombre": "TOTONICAPÁN",
+    "departamento_id": 8
+  },
+  {
+    "id": 106,
+    "codigo": "02",
+    "nombre": "SAN CRISTÓBAL TOTONICAPAN",
+    "departamento_id": 8
+  },
+  {
+    "id": 107,
+    "codigo": "03",
+    "nombre": "SAN FRANCISCO EL ALTO",
+    "departamento_id": 8
+  },
+  {
+    "id": 108,
+    "codigo": "04",
+    "nombre": "SAN ANDRÉS XECUL",
+    "departamento_id": 8
+  },
+  {
+    "id": 109,
+    "codigo": "05",
+    "nombre": "MOMOSTENANGO",
+    "departamento_id": 8
+  },
+  {
+    "id": 110,
+    "codigo": "06",
+    "nombre": "SANTA MARÍA CHIQUIMULA",
+    "departamento_id": 8
+  },
+  {
+    "id": 111,
+    "codigo": "07",
+    "nombre": "SANTA LUCÍA LA REFORMA",
+    "departamento_id": 8
+  },
+  {
+    "id": 112,
+    "codigo": "08",
+    "nombre": "SAN BARTOLO",
+    "departamento_id": 8
+  },
+  {
+    "id": 113,
+    "codigo": "01",
+    "nombre": "QUETZALTENANGO",
+    "departamento_id": 9
+  },
+  {
+    "id": 114,
+    "codigo": "02",
+    "nombre": "SALCAJÁ",
+    "departamento_id": 9
+  },
+  {
+    "id": 115,
+    "codigo": "03",
+    "nombre": "OLINTEPEQUE",
+    "departamento_id": 9
+  },
+  {
+    "id": 116,
+    "codigo": "04",
+    "nombre": "SAN CARLOS SIJA",
+    "departamento_id": 9
+  },
+  {
+    "id": 117,
+    "codigo": "05",
+    "nombre": "SIBILIA",
+    "departamento_id": 9
+  },
+  {
+    "id": 118,
+    "codigo": "06",
+    "nombre": "CABRICÁN",
+    "departamento_id": 9
+  },
+  {
+    "id": 119,
+    "codigo": "07",
+    "nombre": "CAJOLÁ",
+    "departamento_id": 9
+  },
+  {
+    "id": 120,
+    "codigo": "08",
+    "nombre": "SAN MIGUEL SIGUILÁ",
+    "departamento_id": 9
+  },
+  {
+    "id": 121,
+    "codigo": "09",
+    "nombre": "OSTUNCALCO",
+    "departamento_id": 9
+  },
+  {
+    "id": 122,
+    "codigo": "10",
+    "nombre": "SAN MATEO",
+    "departamento_id": 9
+  },
+  {
+    "id": 123,
+    "codigo": "11",
+    "nombre": "CONCEPCIÓN CHIQUIRICHAPA",
+    "departamento_id": 9
+  },
+  {
+    "id": 124,
+    "codigo": "12",
+    "nombre": "SAN MARTÍN SACATEPÉQUEZ",
+    "departamento_id": 9
+  },
+  {
+    "id": 125,
+    "codigo": "13",
+    "nombre": "ALMOLONGA",
+    "departamento_id": 9
+  },
+  {
+    "id": 126,
+    "codigo": "14",
+    "nombre": "CANTEL",
+    "departamento_id": 9
+  },
+  {
+    "id": 127,
+    "codigo": "15",
+    "nombre": "HUITÁN",
+    "departamento_id": 9
+  },
+  {
+    "id": 128,
+    "codigo": "16",
+    "nombre": "ZUNIL",
+    "departamento_id": 9
+  },
+  {
+    "id": 129,
+    "codigo": "17",
+    "nombre": "COLOMBA",
+    "departamento_id": 9
+  },
+  {
+    "id": 130,
+    "codigo": "18",
+    "nombre": "SAN FRANCISCO LA UNIÓN",
+    "departamento_id": 9
+  },
+  {
+    "id": 131,
+    "codigo": "19",
+    "nombre": "EL PALMAR",
+    "departamento_id": 9
+  },
+  {
+    "id": 132,
+    "codigo": "20",
+    "nombre": "COATEPEQUE",
+    "departamento_id": 9
+  },
+  {
+    "id": 133,
+    "codigo": "21",
+    "nombre": "GÉNOVA",
+    "departamento_id": 9
+  },
+  {
+    "id": 134,
+    "codigo": "22",
+    "nombre": "FLORES COSTA CUCA",
+    "departamento_id": 9
+  },
+  {
+    "id": 135,
+    "codigo": "23",
+    "nombre": "LA ESPERANZA",
+    "departamento_id": 9
+  },
+  {
+    "id": 136,
+    "codigo": "24",
+    "nombre": "PALESTINA DE LOS ALTOS",
+    "departamento_id": 9
+  },
+  {
+    "id": 137,
+    "codigo": "01",
+    "nombre": "MAZATENANGO",
+    "departamento_id": 10
+  },
+  {
+    "id": 138,
+    "codigo": "02",
+    "nombre": "CUYOTENANGO",
+    "departamento_id": 10
+  },
+  {
+    "id": 139,
+    "codigo": "03",
+    "nombre": "SAN FRANCISCO ZAPOTITLÁN",
+    "departamento_id": 10
+  },
+  {
+    "id": 140,
+    "codigo": "04",
+    "nombre": "SAN BERNARDINO",
+    "departamento_id": 10
+  },
+  {
+    "id": 141,
+    "codigo": "05",
+    "nombre": "SAN JOSÉ EL IDOLO",
+    "departamento_id": 10
+  },
+  {
+    "id": 142,
+    "codigo": "06",
+    "nombre": "SANTO DOMINGO SUCHITEPÉQUEZ",
+    "departamento_id": 10
+  },
+  {
+    "id": 143,
+    "codigo": "07",
+    "nombre": "SAN LORENZO",
+    "departamento_id": 10
+  },
+  {
+    "id": 144,
+    "codigo": "08",
+    "nombre": "SAMAYAC",
+    "departamento_id": 10
+  },
+  {
+    "id": 145,
+    "codigo": "09",
+    "nombre": "SAN PABLO JOCOPILAS",
+    "departamento_id": 10
+  },
+  {
+    "id": 146,
+    "codigo": "10",
+    "nombre": "SAN ANTONIO SUCHITEPÉQUEZ",
+    "departamento_id": 10
+  },
+  {
+    "id": 147,
+    "codigo": "11",
+    "nombre": "SAN MIGUEL PANÁN",
+    "departamento_id": 10
+  },
+  {
+    "id": 148,
+    "codigo": "12",
+    "nombre": "SAN GABRIEL",
+    "departamento_id": 10
+  },
+  {
+    "id": 149,
+    "codigo": "13",
+    "nombre": "CHICACAO",
+    "departamento_id": 10
+  },
+  {
+    "id": 150,
+    "codigo": "14",
+    "nombre": "PATULUL",
+    "departamento_id": 10
+  },
+  {
+    "id": 151,
+    "codigo": "15",
+    "nombre": "SANTA BARBARA",
+    "departamento_id": 10
+  },
+  {
+    "id": 152,
+    "codigo": "16",
+    "nombre": "SAN JUAN BAUTISTA",
+    "departamento_id": 10
+  },
+  {
+    "id": 153,
+    "codigo": "17",
+    "nombre": "SANTO TOMßS LA UNIÓN",
+    "departamento_id": 10
+  },
+  {
+    "id": 154,
+    "codigo": "18",
+    "nombre": "ZUNILITO",
+    "departamento_id": 10
+  },
+  {
+    "id": 155,
+    "codigo": "19",
+    "nombre": "PUEBLO NUEVO",
+    "departamento_id": 10
+  },
+  {
+    "id": 156,
+    "codigo": "20",
+    "nombre": "RÍO BRAVO",
+    "departamento_id": 10
+  },
+  {
+    "id": 157,
+    "codigo": "21",
+    "nombre": "SAN JOSE LA MAQUINA",
+    "departamento_id": 10
+  },
+  {
+    "id": 158,
+    "codigo": "01",
+    "nombre": "RETALHULEU",
+    "departamento_id": 11
+  },
+  {
+    "id": 159,
+    "codigo": "02",
+    "nombre": "SAN SEBASTIÁN",
+    "departamento_id": 11
+  },
+  {
+    "id": 160,
+    "codigo": "03",
+    "nombre": "SANTA CRUZ MULUÁ",
+    "departamento_id": 11
+  },
+  {
+    "id": 161,
+    "codigo": "04",
+    "nombre": "SAN MARTÍN ZAPOTITLÁN",
+    "departamento_id": 11
+  },
+  {
+    "id": 162,
+    "codigo": "05",
+    "nombre": "SAN FELIPE",
+    "departamento_id": 11
+  },
+  {
+    "id": 163,
+    "codigo": "06",
+    "nombre": "SAN ANDRÉS VILLA SECA",
+    "departamento_id": 11
+  },
+  {
+    "id": 164,
+    "codigo": "07",
+    "nombre": "CHAMPERICO",
+    "departamento_id": 11
+  },
+  {
+    "id": 165,
+    "codigo": "08",
+    "nombre": "NUEVO SAN CARLOS",
+    "departamento_id": 11
+  },
+  {
+    "id": 166,
+    "codigo": "09",
+    "nombre": "EL ASINTAL",
+    "departamento_id": 11
+  },
+  {
+    "id": 167,
+    "codigo": "01",
+    "nombre": "SAN MARCOS",
+    "departamento_id": 12
+  },
+  {
+    "id": 168,
+    "codigo": "02",
+    "nombre": "SAN PEDRO SACATEPÉQUEZ",
+    "departamento_id": 12
+  },
+  {
+    "id": 169,
+    "codigo": "03",
+    "nombre": "SAN ANTONIO SACATEPÉQUEZ",
+    "departamento_id": 12
+  },
+  {
+    "id": 170,
+    "codigo": "04",
+    "nombre": "COMITANCILLO",
+    "departamento_id": 12
+  },
+  {
+    "id": 171,
+    "codigo": "05",
+    "nombre": "SAN MIGUEL IXTAHUACÁN",
+    "departamento_id": 12
+  },
+  {
+    "id": 172,
+    "codigo": "06",
+    "nombre": "CONCEPCIÓN TUTUAPA",
+    "departamento_id": 12
+  },
+  {
+    "id": 173,
+    "codigo": "07",
+    "nombre": "TACANÁ",
+    "departamento_id": 12
+  },
+  {
+    "id": 174,
+    "codigo": "08",
+    "nombre": "SIBINAL",
+    "departamento_id": 12
+  },
+  {
+    "id": 175,
+    "codigo": "09",
+    "nombre": "TAJUMULCO",
+    "departamento_id": 12
+  },
+  {
+    "id": 176,
+    "codigo": "10",
+    "nombre": "TEJUTLA",
+    "departamento_id": 12
+  },
+  {
+    "id": 177,
+    "codigo": "11",
+    "nombre": "SAN RAFAEL PIE DE LA CUESTA",
+    "departamento_id": 12
+  },
+  {
+    "id": 178,
+    "codigo": "12",
+    "nombre": "NUEVO PROGRESO",
+    "departamento_id": 12
+  },
+  {
+    "id": 179,
+    "codigo": "13",
+    "nombre": "EL TUMBADOR",
+    "departamento_id": 12
+  },
+  {
+    "id": 180,
+    "codigo": "14",
+    "nombre": "EL RODEO",
+    "departamento_id": 12
+  },
+  {
+    "id": 181,
+    "codigo": "15",
+    "nombre": "MALACATÁN",
+    "departamento_id": 12
+  },
+  {
+    "id": 182,
+    "codigo": "16",
+    "nombre": "CATARINA",
+    "departamento_id": 12
+  },
+  {
+    "id": 183,
+    "codigo": "17",
+    "nombre": "AYUTLA",
+    "departamento_id": 12
+  },
+  {
+    "id": 184,
+    "codigo": "18",
+    "nombre": "OCÓS",
+    "departamento_id": 12
+  },
+  {
+    "id": 185,
+    "codigo": "19",
+    "nombre": "SAN PABLO",
+    "departamento_id": 12
+  },
+  {
+    "id": 186,
+    "codigo": "20",
+    "nombre": "EL QUETZAL",
+    "departamento_id": 12
+  },
+  {
+    "id": 187,
+    "codigo": "21",
+    "nombre": "LA REFORMA",
+    "departamento_id": 12
+  },
+  {
+    "id": 188,
+    "codigo": "22",
+    "nombre": "PAJAPITA",
+    "departamento_id": 12
+  },
+  {
+    "id": 189,
+    "codigo": "23",
+    "nombre": "IXCHIGUÁN",
+    "departamento_id": 12
+  },
+  {
+    "id": 190,
+    "codigo": "24",
+    "nombre": "SAN JOSÉ OJETENAM",
+    "departamento_id": 12
+  },
+  {
+    "id": 191,
+    "codigo": "25",
+    "nombre": "SAN CRISTÓBAL CUCHO",
+    "departamento_id": 12
+  },
+  {
+    "id": 192,
+    "codigo": "26",
+    "nombre": "SIPACAPA",
+    "departamento_id": 12
+  },
+  {
+    "id": 193,
+    "codigo": "27",
+    "nombre": "ESQUIPULAS PALO GORDO",
+    "departamento_id": 12
+  },
+  {
+    "id": 194,
+    "codigo": "28",
+    "nombre": "RÍO BLANCO",
+    "departamento_id": 12
+  },
+  {
+    "id": 195,
+    "codigo": "29",
+    "nombre": "SAN LORENZO",
+    "departamento_id": 12
+  },
+  {
+    "id": 196,
+    "codigo": "30",
+    "nombre": "LA BLANCA",
+    "departamento_id": 12
+  },
+  {
+    "id": 197,
+    "codigo": "01",
+    "nombre": "HUEHUETENANGO",
+    "departamento_id": 13
+  },
+  {
+    "id": 198,
+    "codigo": "02",
+    "nombre": "CHIANTLA",
+    "departamento_id": 13
+  },
+  {
+    "id": 199,
+    "codigo": "03",
+    "nombre": "MALACATANCITO",
+    "departamento_id": 13
+  },
+  {
+    "id": 200,
+    "codigo": "04",
+    "nombre": "CUILCO",
+    "departamento_id": 13
+  },
+  {
+    "id": 201,
+    "codigo": "05",
+    "nombre": "NENTÓN",
+    "departamento_id": 13
+  },
+  {
+    "id": 202,
+    "codigo": "06",
+    "nombre": "SAN PEDRO NECTA",
+    "departamento_id": 13
+  },
+  {
+    "id": 203,
+    "codigo": "07",
+    "nombre": "JACALTENANGO",
+    "departamento_id": 13
+  },
+  {
+    "id": 204,
+    "codigo": "08",
+    "nombre": "SOLOMA",
+    "departamento_id": 13
+  },
+  {
+    "id": 205,
+    "codigo": "09",
+    "nombre": "IXTAHUACÁN",
+    "departamento_id": 13
+  },
+  {
+    "id": 206,
+    "codigo": "10",
+    "nombre": "SANTA BÁRBARA",
+    "departamento_id": 13
+  },
+  {
+    "id": 207,
+    "codigo": "11",
+    "nombre": "LA LIBERTAD",
+    "departamento_id": 13
+  },
+  {
+    "id": 208,
+    "codigo": "12",
+    "nombre": "LA DEMOCRACIA",
+    "departamento_id": 13
+  },
+  {
+    "id": 209,
+    "codigo": "13",
+    "nombre": "SAN MIGUEL ACATÁN",
+    "departamento_id": 13
+  },
+  {
+    "id": 210,
+    "codigo": "14",
+    "nombre": "SAN RAFAEL LA INDEPENDENCIA",
+    "departamento_id": 13
+  },
+  {
+    "id": 211,
+    "codigo": "15",
+    "nombre": "TODOS SANTOS CUCHUMATÁNES",
+    "departamento_id": 13
+  },
+  {
+    "id": 212,
+    "codigo": "16",
+    "nombre": "SAN JUAN ATITÁN",
+    "departamento_id": 13
+  },
+  {
+    "id": 213,
+    "codigo": "17",
+    "nombre": "SANTA EULALIA",
+    "departamento_id": 13
+  },
+  {
+    "id": 214,
+    "codigo": "18",
+    "nombre": "SAN MATEO IXTATÁN",
+    "departamento_id": 13
+  },
+  {
+    "id": 215,
+    "codigo": "19",
+    "nombre": "COLOTENANGO",
+    "departamento_id": 13
+  },
+  {
+    "id": 216,
+    "codigo": "20",
+    "nombre": "SAN SEBASTIÁN HUEHETENANGO",
+    "departamento_id": 13
+  },
+  {
+    "id": 217,
+    "codigo": "21",
+    "nombre": "TECTITÁN",
+    "departamento_id": 13
+  },
+  {
+    "id": 218,
+    "codigo": "22",
+    "nombre": "CONCEPCIÓN HUISTA",
+    "departamento_id": 13
+  },
+  {
+    "id": 219,
+    "codigo": "23",
+    "nombre": "SAN JUAN IXCOY",
+    "departamento_id": 13
+  },
+  {
+    "id": 220,
+    "codigo": "24",
+    "nombre": "SAN ANTONIO HUISTA",
+    "departamento_id": 13
+  },
+  {
+    "id": 221,
+    "codigo": "25",
+    "nombre": "SAN SEBASTIÁN COATÁN",
+    "departamento_id": 13
+  },
+  {
+    "id": 222,
+    "codigo": "26",
+    "nombre": "BARILLAS",
+    "departamento_id": 13
+  },
+  {
+    "id": 223,
+    "codigo": "27",
+    "nombre": "AGUACATÁN",
+    "departamento_id": 13
+  },
+  {
+    "id": 224,
+    "codigo": "28",
+    "nombre": "SAN RAFAEL PETZAL",
+    "departamento_id": 13
+  },
+  {
+    "id": 225,
+    "codigo": "29",
+    "nombre": "SAN GASPAR IXCHIL",
+    "departamento_id": 13
+  },
+  {
+    "id": 226,
+    "codigo": "30",
+    "nombre": "SANTIAGO CHIMALTENANGO",
+    "departamento_id": 13
+  },
+  {
+    "id": 227,
+    "codigo": "31",
+    "nombre": "SANTA ANA HUISTA",
+    "departamento_id": 13
+  },
+  {
+    "id": 228,
+    "codigo": "32",
+    "nombre": "UNION CANTINIL",
+    "departamento_id": 13
+  },
+  {
+    "id": 229,
+    "codigo": "33",
+    "nombre": "PETATAN",
+    "departamento_id": 13
+  },
+  {
+    "id": 230,
+    "codigo": "01",
+    "nombre": "SANTA CRUZ DEL QUICHÉ",
+    "departamento_id": 14
+  },
+  {
+    "id": 231,
+    "codigo": "02",
+    "nombre": "CHICHÉ",
+    "departamento_id": 14
+  },
+  {
+    "id": 232,
+    "codigo": "03",
+    "nombre": "CHINIQUE",
+    "departamento_id": 14
+  },
+  {
+    "id": 233,
+    "codigo": "04",
+    "nombre": "ZACUALPA",
+    "departamento_id": 14
+  },
+  {
+    "id": 234,
+    "codigo": "05",
+    "nombre": "CHAJUL",
+    "departamento_id": 14
+  },
+  {
+    "id": 235,
+    "codigo": "06",
+    "nombre": "CHICHICASTENANGO",
+    "departamento_id": 14
+  },
+  {
+    "id": 236,
+    "codigo": "07",
+    "nombre": "PATZITÉ",
+    "departamento_id": 14
+  },
+  {
+    "id": 237,
+    "codigo": "08",
+    "nombre": "SAN ANTONIO ILOTENANGO",
+    "departamento_id": 14
+  },
+  {
+    "id": 238,
+    "codigo": "09",
+    "nombre": "SAN PEDRO JOCOPILAS",
+    "departamento_id": 14
+  },
+  {
+    "id": 239,
+    "codigo": "10",
+    "nombre": "CUNÉN",
+    "departamento_id": 14
+  },
+  {
+    "id": 240,
+    "codigo": "11",
+    "nombre": "SAN JUAN COTZAL",
+    "departamento_id": 14
+  },
+  {
+    "id": 241,
+    "codigo": "12",
+    "nombre": "JOYABAJ",
+    "departamento_id": 14
+  },
+  {
+    "id": 242,
+    "codigo": "13",
+    "nombre": "NEBAJ",
+    "departamento_id": 14
+  },
+  {
+    "id": 243,
+    "codigo": "14",
+    "nombre": "SAN ANDRÉS SAJCABAJÁ",
+    "departamento_id": 14
+  },
+  {
+    "id": 244,
+    "codigo": "15",
+    "nombre": "USPANTÁN",
+    "departamento_id": 14
+  },
+  {
+    "id": 245,
+    "codigo": "16",
+    "nombre": "SACAPULAS",
+    "departamento_id": 14
+  },
+  {
+    "id": 246,
+    "codigo": "17",
+    "nombre": "SAN BARTOLOMÉ JOCOTENANGO",
+    "departamento_id": 14
+  },
+  {
+    "id": 247,
+    "codigo": "18",
+    "nombre": "CANILLÁ",
+    "departamento_id": 14
+  },
+  {
+    "id": 248,
+    "codigo": "19",
+    "nombre": "CHICAMÁN",
+    "departamento_id": 14
+  },
+  {
+    "id": 249,
+    "codigo": "20",
+    "nombre": "IXCÁN",
+    "departamento_id": 14
+  },
+  {
+    "id": 250,
+    "codigo": "21",
+    "nombre": "PACHALUM",
+    "departamento_id": 14
+  },
+  {
+    "id": 251,
+    "codigo": "01",
+    "nombre": "SALAMÁ",
+    "departamento_id": 15
+  },
+  {
+    "id": 252,
+    "codigo": "02",
+    "nombre": "SAN MIGUEL CHICAJ",
+    "departamento_id": 15
+  },
+  {
+    "id": 253,
+    "codigo": "03",
+    "nombre": "RABINAL",
+    "departamento_id": 15
+  },
+  {
+    "id": 254,
+    "codigo": "04",
+    "nombre": "CUBULCO",
+    "departamento_id": 15
+  },
+  {
+    "id": 255,
+    "codigo": "05",
+    "nombre": "GRANADOS",
+    "departamento_id": 15
+  },
+  {
+    "id": 256,
+    "codigo": "06",
+    "nombre": "EL CHOL",
+    "departamento_id": 15
+  },
+  {
+    "id": 257,
+    "codigo": "07",
+    "nombre": "SAN JERÓNIMO",
+    "departamento_id": 15
+  },
+  {
+    "id": 258,
+    "codigo": "08",
+    "nombre": "PURULA",
+    "departamento_id": 15
+  },
+  {
+    "id": 259,
+    "codigo": "01",
+    "nombre": "COBÁN",
+    "departamento_id": 16
+  },
+  {
+    "id": 260,
+    "codigo": "02",
+    "nombre": "SANTA CRUZ VERAPAZ",
+    "departamento_id": 16
+  },
+  {
+    "id": 261,
+    "codigo": "03",
+    "nombre": "SAN CRISTÓBAL VERAPAZ",
+    "departamento_id": 16
+  },
+  {
+    "id": 262,
+    "codigo": "04",
+    "nombre": "TACTIC",
+    "departamento_id": 16
+  },
+  {
+    "id": 263,
+    "codigo": "05",
+    "nombre": "TAMAHÙ",
+    "departamento_id": 16
+  },
+  {
+    "id": 264,
+    "codigo": "06",
+    "nombre": "TUCURÚ",
+    "departamento_id": 16
+  },
+  {
+    "id": 265,
+    "codigo": "07",
+    "nombre": "PANZÓS",
+    "departamento_id": 16
+  },
+  {
+    "id": 266,
+    "codigo": "08",
+    "nombre": "SENAHÚ",
+    "departamento_id": 16
+  },
+  {
+    "id": 267,
+    "codigo": "09",
+    "nombre": "SAN PEDRO CARCHÁ",
+    "departamento_id": 16
+  },
+  {
+    "id": 268,
+    "codigo": "10",
+    "nombre": "SAN JUAN CHAMELCO",
+    "departamento_id": 16
+  },
+  {
+    "id": 269,
+    "codigo": "11",
+    "nombre": "LANQUÍN",
+    "departamento_id": 16
+  },
+  {
+    "id": 270,
+    "codigo": "12",
+    "nombre": "CAHABÓN",
+    "departamento_id": 16
+  },
+  {
+    "id": 271,
+    "codigo": "13",
+    "nombre": "CHISEC",
+    "departamento_id": 16
+  },
+  {
+    "id": 272,
+    "codigo": "14",
+    "nombre": "CHAHAL",
+    "departamento_id": 16
+  },
+  {
+    "id": 273,
+    "codigo": "15",
+    "nombre": "FRAY BARTOLOMÉ DE LAS CASAS",
+    "departamento_id": 16
+  },
+  {
+    "id": 274,
+    "codigo": "16",
+    "nombre": "SANTA CATALINA LA TINTA",
+    "departamento_id": 16
+  },
+  {
+    "id": 275,
+    "codigo": "17",
+    "nombre": "RAXRUHA",
+    "departamento_id": 16
+  },
+  {
+    "id": 276,
+    "codigo": "01",
+    "nombre": "FLORES",
+    "departamento_id": 17
+  },
+  {
+    "id": 277,
+    "codigo": "02",
+    "nombre": "SAN JOSÉ",
+    "departamento_id": 17
+  },
+  {
+    "id": 278,
+    "codigo": "03",
+    "nombre": "SAN BENITO",
+    "departamento_id": 17
+  },
+  {
+    "id": 279,
+    "codigo": "04",
+    "nombre": "SAN ANDRÉS",
+    "departamento_id": 17
+  },
+  {
+    "id": 280,
+    "codigo": "05",
+    "nombre": "LA LIBERTAD",
+    "departamento_id": 17
+  },
+  {
+    "id": 281,
+    "codigo": "06",
+    "nombre": "SAN FRANCISCO",
+    "departamento_id": 17
+  },
+  {
+    "id": 282,
+    "codigo": "07",
+    "nombre": "SANTA ANA",
+    "departamento_id": 17
+  },
+  {
+    "id": 283,
+    "codigo": "08",
+    "nombre": "DOLORES",
+    "departamento_id": 17
+  },
+  {
+    "id": 284,
+    "codigo": "09",
+    "nombre": "SAN LUIS",
+    "departamento_id": 17
+  },
+  {
+    "id": 285,
+    "codigo": "10",
+    "nombre": "SAYAXCHÉ",
+    "departamento_id": 17
+  },
+  {
+    "id": 286,
+    "codigo": "11",
+    "nombre": "MELCHOR DE MENCOS",
+    "departamento_id": 17
+  },
+  {
+    "id": 287,
+    "codigo": "12",
+    "nombre": "POPTÚN",
+    "departamento_id": 17
+  },
+  {
+    "id": 288,
+    "codigo": "13",
+    "nombre": "LAS CRUCES",
+    "departamento_id": 17
+  },
+  {
+    "id": 289,
+    "codigo": "14",
+    "nombre": "EL CHAL",
+    "departamento_id": 17
+  },
+  {
+    "id": 290,
+    "codigo": "01",
+    "nombre": "PUERTO BARRIOS",
+    "departamento_id": 18
+  },
+  {
+    "id": 291,
+    "codigo": "02",
+    "nombre": "LÍVINGSTON",
+    "departamento_id": 18
+  },
+  {
+    "id": 292,
+    "codigo": "03",
+    "nombre": "EL ESTOR",
+    "departamento_id": 18
+  },
+  {
+    "id": 293,
+    "codigo": "04",
+    "nombre": "MORALES",
+    "departamento_id": 18
+  },
+  {
+    "id": 294,
+    "codigo": "05",
+    "nombre": "LOS AMATES",
+    "departamento_id": 18
+  },
+  {
+    "id": 295,
+    "codigo": "01",
+    "nombre": "ZACAPA",
+    "departamento_id": 19
+  },
+  {
+    "id": 296,
+    "codigo": "02",
+    "nombre": "ESTANZUELA",
+    "departamento_id": 19
+  },
+  {
+    "id": 297,
+    "codigo": "03",
+    "nombre": "RÍO HONDO",
+    "departamento_id": 19
+  },
+  {
+    "id": 298,
+    "codigo": "04",
+    "nombre": "GUALÁN",
+    "departamento_id": 19
+  },
+  {
+    "id": 299,
+    "codigo": "05",
+    "nombre": "TECULUTÁN",
+    "departamento_id": 19
+  },
+  {
+    "id": 300,
+    "codigo": "06",
+    "nombre": "USUMATLÁN",
+    "departamento_id": 19
+  },
+  {
+    "id": 301,
+    "codigo": "07",
+    "nombre": "CABAÑAS",
+    "departamento_id": 19
+  },
+  {
+    "id": 302,
+    "codigo": "08",
+    "nombre": "SAN DIEGO",
+    "departamento_id": 19
+  },
+  {
+    "id": 303,
+    "codigo": "09",
+    "nombre": "LA UNIÓN",
+    "departamento_id": 19
+  },
+  {
+    "id": 304,
+    "codigo": "10",
+    "nombre": "HUITÉ",
+    "departamento_id": 19
+  },
+  {
+    "id": 305,
+    "codigo": "11",
+    "nombre": "SAN JORGE",
+    "departamento_id": 19
+  },
+  {
+    "id": 306,
+    "codigo": "01",
+    "nombre": "CHIQUIMULA",
+    "departamento_id": 20
+  },
+  {
+    "id": 307,
+    "codigo": "02",
+    "nombre": "SAN JOSÉ LA ARADA",
+    "departamento_id": 20
+  },
+  {
+    "id": 308,
+    "codigo": "03",
+    "nombre": "SAN JUAN ERMITA",
+    "departamento_id": 20
+  },
+  {
+    "id": 309,
+    "codigo": "04",
+    "nombre": "JOCOTÁN",
+    "departamento_id": 20
+  },
+  {
+    "id": 310,
+    "codigo": "05",
+    "nombre": "CAMOTÁN",
+    "departamento_id": 20
+  },
+  {
+    "id": 311,
+    "codigo": "06",
+    "nombre": "OLOPA",
+    "departamento_id": 20
+  },
+  {
+    "id": 312,
+    "codigo": "07",
+    "nombre": "ESQUIPULAS",
+    "departamento_id": 20
+  },
+  {
+    "id": 313,
+    "codigo": "08",
+    "nombre": "CONCEPCIÓN LAS MINAS",
+    "departamento_id": 20
+  },
+  {
+    "id": 314,
+    "codigo": "09",
+    "nombre": "QUETZALTEPEQUE",
+    "departamento_id": 20
+  },
+  {
+    "id": 315,
+    "codigo": "10",
+    "nombre": "SAN JACINTO",
+    "departamento_id": 20
+  },
+  {
+    "id": 316,
+    "codigo": "11",
+    "nombre": "IPALA",
+    "departamento_id": 20
+  },
+  {
+    "id": 317,
+    "codigo": "01",
+    "nombre": "JALAPA",
+    "departamento_id": 21
+  },
+  {
+    "id": 318,
+    "codigo": "02",
+    "nombre": "SAN PEDRO PINULA",
+    "departamento_id": 21
+  },
+  {
+    "id": 319,
+    "codigo": "03",
+    "nombre": "SAN LUIS JILOTEPEQUE",
+    "departamento_id": 21
+  },
+  {
+    "id": 320,
+    "codigo": "04",
+    "nombre": "SAN MANUEL CHAPARRÓN",
+    "departamento_id": 21
+  },
+  {
+    "id": 321,
+    "codigo": "05",
+    "nombre": "SAN CARLOS ALZATATE",
+    "departamento_id": 21
+  },
+  {
+    "id": 322,
+    "codigo": "06",
+    "nombre": "MONJAS",
+    "departamento_id": 21
+  },
+  {
+    "id": 323,
+    "codigo": "07",
+    "nombre": "MATAQUESCUINTLA",
+    "departamento_id": 21
+  },
+  {
+    "id": 324,
+    "codigo": "01",
+    "nombre": "JUTIAPA",
+    "departamento_id": 22
+  },
+  {
+    "id": 325,
+    "codigo": "02",
+    "nombre": "EL PROGRESO",
+    "departamento_id": 22
+  },
+  {
+    "id": 326,
+    "codigo": "03",
+    "nombre": "SANTA CATARINA MITA",
+    "departamento_id": 22
+  },
+  {
+    "id": 327,
+    "codigo": "04",
+    "nombre": "AGUA BLANCA",
+    "departamento_id": 22
+  },
+  {
+    "id": 328,
+    "codigo": "05",
+    "nombre": "ASUNCIÓN MITA",
+    "departamento_id": 22
+  },
+  {
+    "id": 329,
+    "codigo": "06",
+    "nombre": "YUPILTEPEQUE",
+    "departamento_id": 22
+  },
+  {
+    "id": 330,
+    "codigo": "07",
+    "nombre": "ATESCATEMPA",
+    "departamento_id": 22
+  },
+  {
+    "id": 331,
+    "codigo": "08",
+    "nombre": "JEREZ",
+    "departamento_id": 22
+  },
+  {
+    "id": 332,
+    "codigo": "09",
+    "nombre": "EL ADELANTO",
+    "departamento_id": 22
+  },
+  {
+    "id": 333,
+    "codigo": "10",
+    "nombre": "ZAPOTITLÁN",
+    "departamento_id": 22
+  },
+  {
+    "id": 334,
+    "codigo": "11",
+    "nombre": "COMAPA",
+    "departamento_id": 22
+  },
+  {
+    "id": 335,
+    "codigo": "12",
+    "nombre": "JALPATAGUA",
+    "departamento_id": 22
+  },
+  {
+    "id": 336,
+    "codigo": "13",
+    "nombre": "CONGUACO",
+    "departamento_id": 22
+  },
+  {
+    "id": 337,
+    "codigo": "14",
+    "nombre": "MOYUTA",
+    "departamento_id": 22
+  },
+  {
+    "id": 338,
+    "codigo": "15",
+    "nombre": "PASACO",
+    "departamento_id": 22
+  },
+  {
+    "id": 339,
+    "codigo": "16",
+    "nombre": "SAN JOSÉ ACATEMPA",
+    "departamento_id": 22
+  },
+  {
+    "id": 340,
+    "codigo": "17",
+    "nombre": "QUESADA",
+    "departamento_id": 22
+  }
+]

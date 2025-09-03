@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Reporte de Notas Debitos</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="d-print-none text-center mt-2">
+    <div class="btn-group">
+      <input class="form-control" v-model="letra" type="number" placeholder="Letra"
+        style="width: 100px; margin-right: 5px;">
+      <input class="form-control" v-model="interlineado" type="number" placeholder="Interlineado"
+        style="width: 100px; margin-right: 5px;">
+      <a v-on:click="print()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-print"></i> Imprimir
+      </a>
+      <a v-on:click="download()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-file-pdf"></i> PDF
+      </a>
+      <a v-on:click="excel()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-file-excel"></i> Excel
+      </a>
+    </div>
+  </div>
+
+  <div id="excel">
+    <div class="container-fluid invoice-container" id="pdf" contentEditable="true"
+      :style="{ 'max-width': ancho + 'cm' }">
+
+      <header>
+        <div class="row">
+          <div class="col-3">
+            <img id="logo" v-bind:src="empresa.logo" style="width: 100px">
+          </div>
+          <div class="col-6" style="text-align: center; font-size: 12px;">
+            <p class="lh-base mb-0">
+              <b class="mb-1" style="text-transform: uppercase; font-size: 20px;">{{empresa.nombre}}</b> <br>
+              NIT: {{empresa.nit}} <br>
+              REPORTE DE NOTAS DE DEBITO <br>
+              Del {{formatoFecha(notas_debitos.fecha_inicio)}} al {{formatoFecha(notas_debitos.fecha_fin)}} <br>
+              (Expresado en Quetzales)
+            </p>
+          </div>
+          <div class="col-3" style="text-align: right;">
+            <b>Fecha:</b>
+            {{formatoFecha()}} <br>
+          </div>
+          <hr>
+      </header>
+
+      <main>
+        <div class="text-start">
+          <p style="margin-bottom: 0px;">
+            {{notas_debitos.data.length}} registro<span v-if="notas_debitos.data.length != 1">s</span> encontrado<span
+              v-if="notas_debitos.data.length != 1">s</span>
+          </p>
+        </div>
+        <div class="table-responsive">
+          <table class="table border mb-0" :style="{ 'font-size': letra + 'px' }">
+            <thead>
+              <tr>
+                <td style="background: #000; color: white;">Fecha</td>
+                <td style="background: #000; color: white;">Documento</td>
+                <td style="background: #000; color: white;">Serie/Correlativo</td>
+                <td style="background: #000; color: white;">No. ND</td>
+                <td style="background: #000; color: white;">No. Cuenta</td>
+                <td style="background: #000; color: white;">Proveedor</td>
+                <td style="background: #000; color: white;">Estado</td>
+                <td style="background: #000; color: white;" class="text-end">Total</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="i in notas_debitos.data" :style="{ 'line-height': interlineado + 'px' }">
+                <td>{{formatoFecha(i.fecha, 'DD/MM/YYYY HH:mm')}}</td>
+                <td>{{i.documento.nombre}}</td>
+                <td>{{i.serie}}-{{i.correlativo}}</td>
+                <td>{{i.no_nd}}</td>
+                <td>{{i.cuenta_bancaria.no_cuenta}} - {{i.cuenta_bancaria.banco.siglas}}</td>
+                <td>{{i.proveedor.nit}} - {{i.proveedor.nombre}}</td>
+                <td>{{i.estado}}</td>
+                <td class="text-end"><b>{{moneda(i.total, 'Q. ')}}</b></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td style="background: #000; color: white;" colspan="7"><b>TOTALES:</b></td>
+                <td style="background: #000; color: white;" class="text-end"><b>{{moneda(getTotal('total'), 'Q. ')}}</b></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </main>
+
+      <footer class="mt-2">
+        <p class="text-center">
+          {{empresa.nombre}} <br>
+          {{empresa.direccion}} <br>
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+  <script src="/api/assets/js/jspdf.umd.min.js"></script>
+  <script src="/api/assets/js/html2canvas.min.js"></script>
+
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let notas_debitos = ref(___notas_debitos);
+        let empresa = ref(___empresa);
+        let letra = ref('8');
+        let interlineado = ref('14');
+        return {
+          notas_debitos,
+          empresa,
+          letra,
+          interlineado
+        }
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          return moment(date).format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        getTotal(campo = '') {
+          let total = 0
+          this.notas_debitos.data.forEach(i => {
+            if (i.estado != 'ANULADO') {
+              if (campo == 'subtotal') {
+                total += parseFloat(i.subtotal)
+              }
+              if (campo == 'impuesto') {
+                total += parseFloat(i.impuesto)
+              }
+              if (campo == 'total') {
+                total += parseFloat(i.total)
+              }
+            }
+          });
+          return total
+        },
+        print() {
+          window.print();
+        },
+        download() {
+          const { jsPDF } = window.jspdf;
+          const content = document.getElementById('pdf');
+
+          html2canvas(content, { scale: 3 }).then(canvas => {
+            const imgWidth = 216;
+            const pageHeight = 279;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'letter');
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            pdf.save(`Reporte Notas Debito ${moment(this.notas_debitos.fecha_inicio).format('DD-MM-YYYY HH:mm')} al ${moment(this.notas_debitos.fecha_fin).format('DD-MM-YYYY HH:mm')}.pdf`);
+          });
+        },
+        excel() {
+          var downloadLink;
+          var dataType = 'application/vnd.ms-excel';
+          var tableSelect = document.getElementById('excel');
+          var tableHTML = tableSelect.outerHTML.replace(/<img[^>]*>/g, '').replace(/ /g, '%20');
+          let filename = `Reporte Notas Debito ${moment(this.notas_debitos.fecha_inicio).format('DD-MM-YYYY HH:mm')} al ${moment(this.notas_debitos.fecha_fin).format('DD-MM-YYYY HH:mm')}.xls`;
+          downloadLink = document.createElement("a");
+          document.body.appendChild(downloadLink);
+          if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHTML], {
+              type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+          } else {
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+            downloadLink.download = filename;
+            downloadLink.click();
+          }
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

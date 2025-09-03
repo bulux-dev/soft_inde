@@ -1,0 +1,279 @@
+<div class="main-wrapper">
+  <div class="header">
+
+    <div class="header-left active">
+      @if (ajustes) {
+      <a routerLink="./" class="logo logo-normal">
+        <img [src]="ajustes.logo" alt="">
+      </a>
+      <a routerLink="./" class="logo logo-white">
+        <img [src]="ajustes.logo" alt="">
+      </a>
+      <a routerLink="./" class="logo-normal logo-small">
+        <img style="border-radius: 50%;" [src]="ajustes.logo" alt="">
+      </a>
+      }
+      <a id="toggle_btn" href="javascript:void(0);">
+        <i data-feather="chevrons-left" class="feather-16"></i>
+      </a>
+    </div>
+
+    <a class="mobile_btn" (click)="toggleSidebar()">
+      <span class="bar-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </a>
+
+    <ul class="nav user-menu">
+
+      <li class="nav-item nav-searchinputs">
+        <div class="top-nav-search">
+
+          <a href="javascript:void(0);" class="responsive-search">
+            <i class="fa fa-search"></i>
+          </a>
+          <form action="#">
+            <div class="searchinputs">
+              <input [(ngModel)]="busqueda" [ngModelOptions]="{standalone: true}" type="text" placeholder="Buscar..." (input)="search()">
+              <div class="search-addon">
+                <span><i data-feather="search" class="feather-14"></i></span>
+              </div>
+            </div>
+            <!-- <a class="btn"  id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a> -->
+          </form>
+        </div>
+      </li>
+
+      <!-- <li class="nav-item nav-item-box">
+        <a href="javascript:void(0);" id="btnFullscreen">
+          <i [class]="icon" class="fa-expand"></i>
+        </a>
+      </li> -->
+
+      <li class="nav-item nav-item-box">
+        <a routerLink="guias">
+          <i [class]="icon" class="fa-book-open"></i>
+        </a>
+      </li>
+      <li class="nav-item nav-item-box">
+        <a routerLink="tickets">
+          <i [class]="icon" class="fa-ticket"></i>
+        </a>
+      </li>
+      <li class="nav-item nav-item-box">
+        <a routerLink="complementos">
+          <i [class]="icon" class="fa-download"></i>
+        </a>
+      </li>
+      <li class="nav-item dropdown nav-item-box">
+        <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+          <i [class]="icon" class="fa-bells"></i>
+          @if (notificaciones.length > 0) {
+            <span class="badge rounded-pill">{{notificaciones.length}}</span>
+          }
+        </a>
+        <div class="dropdown-menu notifications">
+          <div class="topnav-dropdown-header">
+            <span class="notification-title">Notificaciones</span>
+            <a href="javascript:void(0)" class="clear-noti"> Limpiar Todo </a>
+          </div>
+          <div class="noti-content">
+            <ul class="notification-list">
+              @for (n of notificaciones; track n) {
+              <li class="notification-message">
+                <a [routerLink]="n.url">
+                  <div class="media d-flex">
+                    <span class="avatar flex-shrink-0" [ngClass]="{'bg-danger': n.type == 'error'}">
+                      <i class="fa fa-xmark"></i>
+                    </span>
+                    <div class="media-body flex-grow-1">
+                      <p class="noti-details">
+                        <span class="noti-title">{{n.text}}</span>
+                      </p>
+                      <p class="noti-time"><span class="notification-time">{{timeFromNow()}}</span></p>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              }
+            </ul>
+          </div>
+          <div class="topnav-dropdown-footer">
+            <a>Ver Todas</a>
+          </div>
+        </div>
+      </li>
+      @if (rol_id == 1) {
+      <li class="nav-item nav-item-box">
+        <a routerLink="ajustes">
+          <i [class]="icon" class="fa-gears"></i>
+        </a>
+      </li>
+      }
+
+      <li class="nav-item dropdown has-arrow main-drop">
+        <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+          <span class="user-info">
+            @if (usuario) {
+            <span class="user-letter">
+              <img [src]="usuario.logo ? usuario.logo : 'assets/img/blank.jpg'" alt="" class="img-fluid">
+            </span>
+            <span class="user-detail">
+              <span class="user-name">{{usuario.nombre}} {{usuario.apellido}}</span>
+              <span class="user-role">{{usuario.rol.nombre}}</span>
+            </span>
+            }
+          </span>
+        </a>
+        <div class="dropdown-menu menu-drop-user">
+          <div class="profilename">
+            <div class="profileset">
+              @if (usuario) {
+              <span class="user-img">
+                <img [src]="usuario.logo ? usuario.logo : 'assets/img/blank.jpg'" alt="">
+                <span class="status online"></span>
+              </span>
+              <div class="profilesets">
+                <h6>{{usuario.nombre}} {{usuario.apellido}}</h6>
+                <h5>{{usuario.rol.nombre}}</h5>
+              </div>
+              }
+            </div>
+            <hr class="m-0">
+            <a class="dropdown-item" routerLink="perfil">
+              <i [class]="icon" class="fa-user-circle me-2"></i> Perfil
+            </a>
+            @if (rol_id == 1) {
+            <a class="dropdown-item" routerLink="ajustes">
+              <i [class]="icon" class="fa-gears me-2"></i> Ajustes
+            </a>
+            }
+            <hr class="m-0">
+            <a class="dropdown-item pb-0" (click)="logout()">
+              <i [class]="icon" class="fa-right-to-bracket me-2"></i> Cerrar Sesion
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="dropdown mobile-user-menu">
+      <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" routerLink="perfil">
+          <i [class]="icon" class="fa-user-circle me-2"></i> Perfil
+        </a>
+        @if (rol_id == 1) {
+        <a class="dropdown-item" routerLink="ajustes">
+          <i [class]="icon" class="fa-gears me-2"></i> Ajustes
+        </a>
+        }
+        <hr class="m-0">
+        <a class="dropdown-item pb-0" (click)="logout()">
+          <i [class]="icon" class="fa-right-to-bracket me-2"></i> Cerrar Sesion
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+      <div id="sidebar-menu" class="sidebar-menu">
+        <ul>
+
+          <!-- <li class="submenu-open">
+            <h6 class="submenu-hdr">Dashboard</h6>
+            <ul>
+              <li>
+                <a routerLink="dashboard" routerLinkActive="active" (click)="toggleSidebar()">
+                  <i [class]="icon" class="fa-chart-mixed-up-circle-dollar"></i>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+            </ul>
+          </li> -->
+
+          @for (m of modulos; track m.id) {
+          <li class="submenu-open" [hidden]="!getPermiso(m.id)">
+            <h6 class="submenu-hdr">{{m.nombre}}</h6>
+            <ul>
+              @for (me of m.menus; track me.id) {
+              <li [hidden]="!getPermiso(m.id, me.id)" [id]="'m_' + me.slug">
+                <a [routerLink]="[m.slug, me.slug]" routerLinkActive="active" (click)="toggleSidebar()"
+                  (click)="setModuloMenu(m.id, me.id)" [id]="'m_' + me.slug">
+                  <i [class]="[icon, me.icono]"></i>
+                  <span class="mobile-margin">{{me.nombre}}</span>
+                </a>
+              </li>
+              }
+            </ul>
+          </li>
+          }
+
+          <li class="submenu-open">
+            <h6 class="submenu-hdr">Mi Cuenta</h6>
+            <ul>
+              <li>
+                <a routerLink="perfil" routerLinkActive="active" (click)="toggleSidebar()">
+                  <i [class]="icon" class="fa-user-circle"></i>
+                  <span>Perfil</span>
+                </a>
+              </li>
+              @if (rol_id == 1) {
+              <li>
+                <a routerLink="ajustes" routerLinkActive="active" (click)="toggleSidebar()">
+                  <i [class]="icon" class="fa-gear"></i>
+                  <span>Ajustes</span>
+                </a>
+              </li>
+              }
+            </ul>
+          </li>
+
+          <li class="submenu-open">
+            <h6 class="submenu-hdr">Soporte Tecnico</h6>
+            <ul>
+              <li>
+                <a routerLink="guias" routerLinkActive="active" (click)="toggleSidebar()">
+                  <i [class]="icon" class="fa-book-open"></i>
+                  <span>Guias</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="tickets" routerLinkActive="active" (click)="toggleSidebar()">
+                  <i [class]="icon" class="fa-ticket"></i>
+                  <span>Tickets</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="impresoras" routerLinkActive="active" (click)="toggleSidebar()">
+                  <i [class]="icon" class="fa-print"></i>
+                  <span>Impresoras</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="complementos" routerLinkActive="active" (click)="toggleSidebar()">
+                  <i [class]="icon" class="fa-download"></i>
+                  <span>Complementos</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrapper pagehead">
+    @defer (on timer(1500)) {
+    <router-outlet></router-outlet>
+    }
+  </div>
+
+</div>

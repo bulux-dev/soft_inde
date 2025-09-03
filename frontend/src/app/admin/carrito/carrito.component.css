@@ -1,0 +1,15 @@
+.movido {
+  background-color: var(--primary-color);
+}
+
+.movido td {
+  color: white !important;
+}
+
+.movido button {
+  color: white !important;
+}
+
+.movido:hover {
+  background-color: var(--primary-color);
+}

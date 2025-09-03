@@ -1,0 +1,735 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Productos</h4>
+      <h6>Control de productos</h6>
+    </div>
+    <div class="page-btn">
+      <a class="btn btn-added text-end" data-bs-toggle="offcanvas" data-bs-target="#importar-productos"
+        permiso="importar-productos">
+        <i class="fa fa-arrow-up me-2"></i>
+        Importar productos
+      </a>
+    </div>
+    <div class="page-btn">
+      <a class="btn btn-added" routerLink="agregar" permiso="agregar-producto">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Producto
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-top">
+        <div class="search-set">
+          <div class="row">
+            <div class="col-lg-6 col-8">
+              <div class="form-group">
+                <input class="form-control" [(ngModel)]="busqueda" [ngModelOptions]="{standalone: true}"
+                  (keyup.enter)="searchByNombre()" placeholder="Buscar por Nombre...">
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <button (click)="searchByNombre()" class="btn btn-primary">
+                <i class="fa-solid fa-magnifying-glass"></i> Buscar
+              </button>
+            </div>
+            <div class="col-lg-2 col-2 order-lg-first">
+              <a class="btn btn-filter" id="filter_search">
+                <img src="assets/img/icons/filter.svg" alt="img">
+                <span>
+                  <img src="assets/img/icons/closes.svg" alt="img">
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="filter-set">
+          @if (rol_id == '1') {
+          <a class="btn btn-primary text-end" data-bs-toggle="offcanvas" data-bs-target="#productos-precios"
+            permiso="agregar-producto" (click)="getProductosPrecios()">
+            <i class="fa fa-tag me-2"></i>
+            Lista de Precios
+          </a>
+          }
+        </div>
+      </div>
+
+      <div class="card" id="filter_inputs">
+        <div class="card-body pb-0">
+          <form [formGroup]="filtros" (ngSubmit)="getProductos()" class="row">
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown formControlName="categoria_id" [placeholder]="'Selecciona categoria'"
+                  [settings]="selectS" [data]="categorias" (onSelect)="getProductosByCategoria($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown formControlName="marca_id" [placeholder]="'Selecciona marca'"
+                  [settings]="selectS" [data]="marcas" (onSelect)="getProductosByMarca($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown formControlName="medida_id" [placeholder]="'Selecciona medida'"
+                  [settings]="selectS" [data]="medidas" (onSelect)="getProductosByMedida($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="sku" placeholder="SKU">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="nombre" placeholder="Nombre">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="descripcion" placeholder="Descripción">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="costo" placeholder="Costo">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="precio" placeholder="Precio">
+              </div>
+            </div>
+            <div class="col" class="text-end">
+              <div class="form-group" style="float: right; margin-left: 10px;">
+                <button type="submit" class="btn btn-filters ms-auto">
+                  <img src="assets/img/icons/search-whites.svg" alt="img">
+                </button>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-filters ms-auto" (click)="filtros.reset()"
+                  (click)="getProductos()">
+                  <i class="fa-solid fa-broom-wide"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <h5>{{productos.length}} Resultados</h5>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>SKU</th>
+              <th>Tipo</th>
+              <th>Medida</th>
+              <th>Costo</th>
+              <th>Precio</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of productos; track p.id) {
+            <tr>
+              <td>
+                <a class="product-img" [routerLink]="['editar', p.id]">
+                  <div class="avatar">
+                    @if (p.logo) {
+                    <img [src]="p.logo" alt="">
+                    } @else {
+                    <span class="avatar-title rounded-circle border border-white">{{iniciales(p.nombre)}}</span>
+                    }
+                  </div>
+                  {{p.nombre}} <b style="font-weight: 600;">{{p.combo ? ' (COMBO)' : ''}}</b>
+                </a>
+              </td>
+              <td>{{p.sku}}</td>
+              <td>
+                <span class="badge bg-primary">{{p.tipo_producto.nombre}}</span>
+              </td>
+              <td>{{p.medida.nombre}} ({{p.medida.simbolo}})</td>
+              <td>{{p.costo | moneda: ''}}</td>
+              <td>{{p.precio | moneda: ''}}</td>
+              <td class="text-end">
+                <a class="me-2" [routerLink]="['editar', p.id]" permiso="editar-producto">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a class="me-2" (click)="deleteProducto(p)" permiso="eliminar-producto">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="10" class="text-center">
+                <img id="" class="fa-bounce mt-3" width="100"
+                  src="https://api.kairosgt.com/public/robots/inventario.png">
+                <br>
+                <h4 class="mb-3">No se encontraron registros</h4>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="importar-productos">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" style="margin-top: 15px;">Importar Productos</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <hr size="3">
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="row">
+      <div class="col-9">
+        <div class="row">
+          <div class="col-3">
+            <div class="dash-count">
+              <div class="dash-counts">
+                <h4>{{importacion.length}}</h4>
+                <h5>Productos</h5>
+              </div>
+              <div class="dash-imgs">
+                <i class="fa fa-shop fa-2x"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="dash-count">
+              <div class="dash-counts">
+                <h4>{{errores.length}}</h4>
+                <h5>Errores</h5>
+              </div>
+              <div class="dash-imgs">
+                <i class="fa fa-shop fa-2x"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="dash-count">
+              <div class="dash-counts">
+                <h4>{{importados.length}}</h4>
+                <h5>Importados</h5>
+              </div>
+              <div class="dash-imgs">
+                <i class="fa fa-shop fa-2x"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="dash-count">
+              <div class="dash-counts">
+                <h4>{{rechazados.length}}</h4>
+                <h5>Rechazados</h5>
+              </div>
+              <div class="dash-imgs">
+                <i class="fa fa-shop fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Categoria</h5>
+                <ng-multiselect-dropdown [(ngModel)]="categoria" [ngModelOptions]="{standalone: true}"
+                  [placeholder]="'Selecciona categoria'" [settings]="selectS" [data]="categorias">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Marca</h5>
+                <ng-multiselect-dropdown [(ngModel)]="marca" [ngModelOptions]="{standalone: true}"
+                  [placeholder]="'Selecciona marca'" [settings]="selectS" [data]="marcas">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Descargar Plantilla</h5>
+                <button class="btn btn-primary" (click)="downloadPlantilla()">Descargar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Importar Productos</h5>
+                <div class="image-upload">
+                  <input type="file" (input)="onFileChange($event)">
+                  <div class="image-uploads">
+                    <img src="assets/img/icons/upload.svg" alt="img">
+                    <h4>Subir Archivo Excel (*.xls)</h4>
+                  </div>
+                </div>
+                <button (click)="getImportesProductos()" class="btn btn-primary" data-bs-toggle="offcanvas"
+                  data-bs-target="#historial-importes">
+                  <i class="fa-solid fa-clock-rotate-left"></i> Historial
+                </button>
+                <button class="btn btn-primary" (click)="importarProductos()" style="margin-left: 10px;"
+                  [ngClass]="{'disabled': importacion.length == 0 || errores.length > 0}">Importar Productos</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12 col-12">
+        <div class="card">
+          <div class="card-body">
+
+            @if (errores.length > 0) {
+            <h6>{{errores.length}} Errores</h6>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-start" style="width: 3%;">Logo</th>
+                    <th class="text-start" style="width: 8%;">SKU</th>
+                    <th class="text-start" style="width: 30%;">Nombre</th>
+                    <th class="text-start" style="width: 10%;">Tipo</th>
+                    <th class="text-start" style="width: 10%;">Medida</th>
+                    <th class="text-end" style="width: 10%;">Costo</th>
+                    <th class="text-end" style="width: 10%;">Precio</th>
+                    <th class="text-start" style="width: 4%;">Lote</th>
+                    <th class="text-start" style="width: 4%;">Stock</th>
+                    <th class="text-end" style="width: 10%;">Existencias</th>
+                    <th class="text-end">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of errores; track p[0]) {
+                  <tr style="background-color: #ffefef;">
+                    <td>
+                      <a class="product-img">
+                        <div class="avatar">
+                          <span class="avatar-title rounded-circle border border-white">{{iniciales(p[1])}}</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td class="text-end">
+                      <input type="text" [(ngModel)]="p[0]" [ngModelOptions]="{standalone: true}" class="form-control">
+                    </td>
+                    <td class="text-start">
+                      <input type="text" [(ngModel)]="p[1]" [ngModelOptions]="{standalone: true}" class="form-control">
+                    </td>
+                    <td>
+                      <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS"
+                        [data]="tipos_productos" [(ngModel)]="p[2]" [ngModelOptions]="{standalone: true}">
+                      </ng-multiselect-dropdown>
+                    </td>
+                    <td>
+                      <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="medidas"
+                        [(ngModel)]="p[3]" [ngModelOptions]="{standalone: true}">
+                      </ng-multiselect-dropdown>
+                    </td>
+                    <td class="text-end">
+                      <input type="number" [(ngModel)]="p[5]" [ngModelOptions]="{standalone: true}" class="form-control"
+                        style="text-align: right;">
+                    </td>
+                    <td class="text-end">
+                      <input type="number" [(ngModel)]="p[6]" [ngModelOptions]="{standalone: true}" class="form-control"
+                        style="text-align: right;">
+                    </td>
+                    <td>
+                      <div class="status-toggle d-flex justify-content-between align-items-center">
+                        <input [id]="'stock' + p[0]" [(ngModel)]="p[7]" [ngModelOptions]="{standalone: true}"
+                          class="check" type="checkbox" [checked]="p[7]">
+                        <label [for]="'stock' + p[0]" class="checktoggle"></label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="status-toggle d-flex justify-content-between align-items-center">
+                        <input [id]="'lote' + p[0]" [(ngModel)]="p[8]" [ngModelOptions]="{standalone: true}"
+                          class="check" type="checkbox" [checked]="p[8]">
+                        <label [for]="'lote' + p[0]" class="checktoggle"></label>
+                      </div>
+                    </td>
+                    <td class="text-end">
+                      <input type="number" [(ngModel)]="p[9]" [ngModelOptions]="{standalone: true}" class="form-control"
+                        style="text-align: right;">
+                    </td>
+
+                    <td class="text-end">
+                      <button type="button" class="btn btn-primary ms-auto" (click)="setProducto(p)">
+                        <i class="fa fa-save"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <br><br>
+            }
+
+            <h6>{{importacion.length}} Productos</h6>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-start" style="width: 3%;">Logo</th>
+                    <th class="text-start" style="width: 8%;">SKU</th>
+                    <th class="text-start" style="width: 30%;">Nombre</th>
+                    <th class="text-start" style="width: 10%;">Tipo</th>
+                    <th class="text-start" style="width: 10%;">Medida</th>
+                    <th class="text-end" style="width: 10%;">Costo</th>
+                    <th class="text-end" style="width: 10%;">Precio</th>
+                    <th class="text-start" style="width: 4%;">Lote</th>
+                    <th class="text-start" style="width: 4%;">Stock</th>
+                    <th class="text-end" style="width: 10%;">Existencias</th>
+                    @if (importe_producto) {
+                    <th class="text-end" style="width: 10%;">Error</th>
+                    }
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of importacion; track p[0]) {
+                  <tr>
+                    <td>
+                      <a class="product-img">
+                        <div class="avatar">
+                          <span class="avatar-title rounded-circle border border-white">{{iniciales(p[1])}}</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td class="text-end">
+                      <input type="text" [(ngModel)]="p[0]" [ngModelOptions]="{standalone: true}" class="form-control">
+                    </td>
+                    <td class="text-start">
+                      <input type="text" [(ngModel)]="p[1]" [ngModelOptions]="{standalone: true}" class="form-control">
+                    </td>
+                    <td>
+                      <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS"
+                        [data]="tipos_productos" [(ngModel)]="p[2]" [ngModelOptions]="{standalone: true}">
+                      </ng-multiselect-dropdown>
+                    </td>
+                    <td>
+                      <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="medidas"
+                        [(ngModel)]="p[3]" [ngModelOptions]="{standalone: true}">
+                      </ng-multiselect-dropdown>
+                    </td>
+                    <td class="text-end">
+                      <input type="number" [(ngModel)]="p[5]" [ngModelOptions]="{standalone: true}" class="form-control"
+                        style="text-align: right;">
+                    </td>
+                    <td class="text-end">
+                      <input type="number" [(ngModel)]="p[6]" [ngModelOptions]="{standalone: true}" class="form-control"
+                        style="text-align: right;">
+                    </td>
+                    <td>
+                      <div class="status-toggle d-flex justify-content-between align-items-center">
+                        <input [id]="'stock' + p[0]" [(ngModel)]="p[7]" [ngModelOptions]="{standalone: true}"
+                          class="check" type="checkbox" [checked]="p[7]">
+                        <label [for]="'stock' + p[0]" class="checktoggle"></label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="status-toggle d-flex justify-content-between align-items-center">
+                        <input [id]="'lote' + p[0]" [(ngModel)]="p[8]" [ngModelOptions]="{standalone: true}"
+                          class="check" type="checkbox" [checked]="p[8]">
+                        <label [for]="'lote' + p[0]" class="checktoggle"></label>
+                      </div>
+                    </td>
+                    <td class="text-end">
+                      <input type="number" [(ngModel)]="p[9]" [ngModelOptions]="{standalone: true}" class="form-control"
+                        style="text-align: right;">
+                    </td>
+
+                    @if (importe_producto) {
+                    <td class="text-end">
+                      {{p[11]}}
+                    </td>
+                    }
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            @if (importados.length > 0) {
+            <h6>{{importados.length}} Importados</h6>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-start" style="width: 3%;">Logo</th>
+                    <th class="text-start" style="width: 8%;">SKU</th>
+                    <th class="text-start" style="width: 30%;">Nombre</th>
+                    <th class="text-start" style="width: 10%;">Tipo</th>
+                    <th class="text-start" style="width: 10%;">Medida</th>
+                    <th class="text-end" style="width: 10%;">Costo</th>
+                    <th class="text-end" style="width: 10%;">Precio</th>
+                    <th class="text-start" style="width: 4%;">Lote</th>
+                    <th class="text-start" style="width: 4%;">Stock</th>
+                    <th class="text-end" style="width: 10%;">Existencias</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of importados; track p[0]) {
+                  <tr style="background-color: #e8fade;">
+                    <td>
+                      <a class="product-img">
+                        <div class="avatar">
+                          <span class="avatar-title rounded-circle border border-white">{{iniciales(p[1])}}</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td class="text-start">
+                      {{p[0]}}
+                    </td>
+                    <td class="text-start">
+                      {{p[1]}}
+                    </td>
+
+                    <td>
+                      <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS"
+                        [data]="tipos_productos" [(ngModel)]="p[2]" [ngModelOptions]="{standalone: true}">
+                      </ng-multiselect-dropdown>
+                    </td>
+
+                    <td>
+                      <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="medidas"
+                        [(ngModel)]="p[3]" [ngModelOptions]="{standalone: true}">
+                      </ng-multiselect-dropdown>
+                    </td>
+
+                    <td class="text-end">
+                      {{p[5] | moneda: ''}}
+                    </td>
+                    <td class="text-end">
+                      {{p[6] | moneda: ''}}
+                    </td>
+                    <td>
+                      <div class="status-toggle d-flex justify-content-between align-items-center">
+                        <input id="stock" [(ngModel)]="p[7]" class="check disabled" type="checkbox" [checked]="p[7]">
+                        <label for="stock" class="checktoggle"></label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="status-toggle d-flex justify-content-between align-items-center">
+                        <input id="lote" [(ngModel)]="p[8]" class="check disabled" type="checkbox" [checked]="p[8]">
+                        <label for="lote" class="checktoggle"></label>
+                      </div>
+                    </td>
+                    <td class="text-end">
+                      {{p[9]}}
+                    </td>
+
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            }
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="productos-precios">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" style="margin-top: 15px;">Lista de Precios</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <hr size="3">
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="row">
+
+      <div class="col-lg-12 col-12">
+        <div class="card">
+          <div class="card-body">
+
+            <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#agregar-producto-precio">
+              <i class="fa fa-plus me-2"></i> Agregar
+            </button>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-start">Nombre</th>
+                    <th class="text-start">Tipo</th>
+                    <th class="text-end">Valor</th>
+                    <th class="text-end">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of productos_precios; track p) {
+                  <tr>
+                    <td class="text-start">
+                      <input type="text" [(ngModel)]="p.nombre" [ngModelOptions]="{standalone: true}"
+                        class="form-control">
+                    </td>
+                    <td class="text-start">
+                      <ng-multiselect-dropdown [(ngModel)]="p.tipo" [ngModelOptions]="{standalone: true}"
+                        [placeholder]="'Selecciona tipo'" [settings]="selectS" [data]="['PORCENTAJE', 'MONTO']">
+                      </ng-multiselect-dropdown>
+                    </td>
+                    <td class="text-end">
+                      <input type="number" [(ngModel)]="p.valor" [ngModelOptions]="{standalone: true}"
+                        class="form-control" style="text-align: right;">
+                    </td>
+                    <td class="text-end">
+                      <button (click)="putProductoPrecio(p)" type="button" class="btn btn-primary ms-auto">
+                        <i class="fa fa-save"></i>
+                      </button>
+                      <button (click)="deleteProductoPrecio(p)" type="button" class="btn btn-danger"
+                        style="margin-left: 5px;">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="agregar-producto-precio">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" style="margin-top: 15px;">Agregar Lista de Precio</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <hr size="3">
+  <div class="offcanvas-body">
+    <form [formGroup]="productoPrecioForm">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre">
+      </div>
+      <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <ng-multiselect-dropdown formControlName="tipo" [placeholder]="'Selecciona tipo'" [settings]="selectS"
+          [data]="['PORCENTAJE', 'MONTO']">
+        </ng-multiselect-dropdown>
+      </div>
+      <div class="form-group">
+        <label for="valor">Valor</label>
+        <input type="number" id="valor" formControlName="valor" class="form-control" placeholder="Valor">
+      </div>
+      <div class="form-group text-end" (click)="postProductoPrecio()">
+        <button type="submit" class="btn btn-primary">Agregar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="historial-importes">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" style="margin-top: 15px;">Historial de Importes</h5>
+    <button type="button" class="btn-close" data-bs-toggle="offcanvas" data-bs-target="#importar-productos"
+      aria-label="Close"></button>
+  </div>
+  <hr size="3">
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <td>Categoria</td>
+                <th>Productos Importados</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (i of importes_productos; track i.id) {
+              <tr>
+                <td>{{i.fecha | fecha: 'DD/MM/YYYY HH:mm'}}</td>
+                <td>{{i.categoria.nombre}}</td>
+                <td>{{i.productos.length}}</td>
+                <td class="text-end">
+                  <a class="me-2" (click)="productos_importes = i.productos" data-bs-toggle="offcanvas" data-bs-target="#productos-importes">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <a class="me-2" (click)="deleteImportacion(i)">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="productos-importes">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" style="margin-top: 15px;">Productos Importados</h5>
+    <button type="button" class="btn-close" data-bs-toggle="offcanvas" data-bs-target="#historial-importes"
+      aria-label="Close"></button>
+  </div>
+  <hr size="3">
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Nombre</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of productos_importes; track p.id) {
+              <tr>
+                <td>{{p.sku}}</td>
+                <td>{{p.nombre}}</td>
+                <td class="text-end">
+                  <a class="me-2" (click)="deleteProducto(p)">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

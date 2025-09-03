@@ -1,0 +1,56 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Agregar Bodega</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div [formGroup]="bodegaForm" class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input formControlName="nombre" type="text">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label>Número</label>
+            <input formControlName="numero" type="text">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label>Teléfono</label>
+            <input formControlName="telefono" type="text">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label>Dirección</label>
+            <input formControlName="direccion" type="text">
+          </div>
+        </div>
+        <div class="col-12" class="text-end">
+          @if (!oc) {
+          <a routerLink="../" class="btn btn-cancel me-2">
+            <i class="fas fa-reply"></i> Regresar
+          </a>
+          }
+          <a (click)="postBodega()" [ngClass]="{'disabled': bodegaForm.invalid}" class="btn btn-submit btn-sm me-2"
+            permiso="agregar-bodega">
+            @if (loading) {
+            <span class="spinner-border spinner-border-sm"></span>
+            } @else {
+            <i class="fas fa-save"></i> Guardar
+            }
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

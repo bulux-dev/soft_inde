@@ -1,0 +1,248 @@
+<div class="content">
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Envios</h4>
+      <h6>Control de envios</h6>
+    </div>
+    <div class="page-btn">
+      <a class="btn btn-added" (click)="reporteEnvios()">
+        <i class="fa fa-square-list me-2"></i>
+        Reporte Envios
+      </a>
+    </div>
+    <div class="page-btn">
+      <a id="btn_agregar" class="btn btn-added" (click)="getDocumentos()" data-bs-toggle="offcanvas"
+        data-bs-target="#documentos" permiso="agregar-envio">
+        <i class="fa fa-plus me-2"></i>
+        Agregar Envio
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-top">
+        <div class="search-set">
+          <div class="row">
+            <div class="col-lg-5 col-6">
+              <div class="form-group">
+                <input id="filtro-fecha" class="form-control" type="datetime-local" [(ngModel)]="fecha_inicio"
+                  [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="col-lg-5 col-6">
+              <div class="form-group">
+                <input id="filtro-fecha-fin" class="form-control" type="datetime-local" [(ngModel)]="fecha_fin"
+                  [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="col-lg-2 col-2 order-lg-first">
+              <a class="btn btn-filter" id="filter_search" (click)="getDocumentos()" (click)="getClientes()"
+                (click)="getEmpleados()">
+                <img class="fa-beat" src="assets/img/icons/filter.svg" alt="img">
+                <span>
+                  <img src="assets/img/icons/closes.svg" alt="img">
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <a class="link" (click)="filtros.reset(); busqueda = null" (click)="getEnvios()" style="margin-right: 20px;">
+            <i class="fa-solid fa-eraser fa-3x"></i>
+          </a>
+          <button (click)="getEnvios()" class="btn btn-filters ms-auto" style="float: right; margin-left: 20px;">
+            <img class="fa-beat" src="assets/img/icons/search-whites.svg" alt="img">
+          </button>
+        </div>
+      </div>
+
+      <div class="card" id="filter_inputs">
+        <div class="card-body pb-0">
+          <form [formGroup]="filtros" (ngSubmit)="getEnvios()" class="row">
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="serie" placeholder="Serie">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <input type="text" formControlName="correlativo" placeholder="Correlativo">
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Estado'" [settings]="selectS" [data]="estados"
+                  formControlName="estado">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Documento'" [settings]="selectS" [data]="documentos"
+                  formControlName="documento_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Cliente'" [settings]="selectS" [data]="clientes"
+                  formControlName="cliente_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Vendedor'" [settings]="selectS" [data]="empleados"
+                  formControlName="empleado_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row mb-0">
+        <div class="col-9">
+          <p style="margin-top: 20px;">
+            {{envios.length}} registro<span *ngIf="envios.length != 1">s</span> encontrado<span
+              *ngIf="envios.length != 1">s</span>
+          </p>
+        </div>
+        <div class="col-3 text-end">
+          <div class="form-group searchinputs">
+            <input class="form-control" [(ngModel)]="busqueda" [ngModelOptions]="{standalone: true}" (input)="search()"
+              placeholder="Busqueda rapida..." type="search">
+            <div class="search-addon">
+              <span>
+                <i class="fa fa-search mt-1"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Serie / Correlativo</th>
+              <th>Fecha</th>
+              <!-- <th>Observaciones</th> -->
+              <th>Documento</th>
+              <th>Cliente</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of envios; track c.id) {
+            <tr>
+              <td>{{c.id}}</td>
+              <td>
+                <a class="text-secondary" (click)="openDoc(c)">
+                  {{c.documento.tipo_documento.nombre}} {{c.serie}}-{{c.correlativo}}
+                </a>
+              </td>
+              <td>{{c.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+              <!-- <td>{{c.observaciones}}</td> -->
+              <td>{{c.documento.nombre}}</td>
+              <td>{{c.cliente.nit}} - {{c.cliente.nombre}}</td>
+              <td><b style="font-weight: 600;">{{c.total | moneda: 'Q. '}}</b></td>
+              <td>
+                <span class="badges"
+                  [ngClass]="{'bg-warning': c.estado == 'PENDIENTE', 'bg-primary': c.estado == 'VIGENTE', 'bg-danger': c.estado == 'ANULADO'}">{{c.estado}}</span>
+              </td>
+              <td class="text-end">
+                <a class="me-2" (click)="openTicket(c)">
+                  <i class="fas fa-receipt"></i>
+                </a>
+                <a id="btn_imprimir" class="me-2" (click)="openDoc(c)">
+                  <i class="fas fa-print"></i>
+                </a>
+                <!-- <a id="btn_editar" class="me-2" [routerLink]="['editar', c.id]"
+                  [ngClass]="{'disabled': c.estado == 'ANULADO'}" permiso="editar-envio">
+                  <i class="fas fa-pencil"></i>
+                </a> -->
+                <a id="btn_anular" class="me-2" (click)="anularEnvio(c)" [ngClass]="{'disabled': c.estado == 'ANULADO'}"
+                  permiso="anular-envio">
+                  <i class="fas fa-cancel"></i>
+                </a>
+                <a id="btn_eliminar" class="me-2" (click)="deleteEnvio(c)" permiso="eliminar-envio">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="10" class="text-center">
+                <img id="robot" class="fa-bounce mt-3" width="100"
+                  src="https://api.kairosgt.com/public/robots/busqueda.png">
+                <br>
+                <h4 class="mb-3">No se encontraron registros</h4>
+              </td>
+            </tr>
+            }
+          </tbody>
+          <thead>
+            <tr>
+              <th colspan="5"></th>
+              <th>TOTAL</th>
+              <th colspan="3">
+                <b style="font-weight: 600;">{{getTotal() | moneda: 'Q. '}}</b>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="documentos">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Selecciona un Documento</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style="text-align: center;">
+    <div class="row">
+
+      @for (d of documentos; track d.id) {
+      <div id="seleccionar-documento" class="col-6" [routerLink]="['agregar', d.id]" (click)="closeOC()">
+        <i class="fad fa-file-invoice-dollar fa-6x" [ngStyle]="{'color': d.color}"></i>
+        <br>
+        <p>
+          <span [ngStyle]="{'color': d.color}">{{d.serie}}-{{d.correlativo}}</span>
+          <br>
+          {{d.nombre}}
+        </p>
+        <br>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="doc">
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style="text-align: center;">
+    @if (url) {
+    <embed style="width: 100%; height: 100vh;" [src]="url" type="">
+    }
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="ticket">
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style="text-align: center; margin: 0px 82px">
+    @if (url) {
+    <embed style="width: 100%; height: 100vh;" [src]="url" type="">
+    }
+  </div>
+</div>

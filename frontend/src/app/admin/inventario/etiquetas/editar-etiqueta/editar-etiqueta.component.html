@@ -1,0 +1,177 @@
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">
+      <h4>Editar Etiqueta</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div [formGroup]="etiquetaForm" class="row">
+        <div class="col-lg-3 col-sm-6 col-12">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input formControlName="nombre" type="text">
+          </div>
+        </div>
+        <hr>
+        @if (compras.length > 0) {
+        <div class="col-lg-12">
+          <h5>Compras</h5>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Serie / Correlativo</th>
+                  <th>Fecha</th>
+                  <th>No. Doc</th>
+                  <th>Tipo de Pago</th>
+                  <th>Proveedor</th>
+                  <th>Total</th>
+                  <th>Saldo</th>
+                  <th>Estado</th>
+                  <th class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (c of compras; track c.compra.id) {
+                <tr>
+                  <td>
+                    <a class="text-secondary">
+                      {{c.compra.serie}}-{{c.compra.correlativo}}
+                    </a>
+                  </td>
+                  <td>{{c.compra.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                  <td>{{c.compra.no_doc}}</td>
+                  <td>{{c.compra.tipo_pago}}</td>
+                  <td>{{c.compra.proveedor.nit}} - {{c.compra.proveedor.nombre}}</td>
+                  <td><b style="font-weight: 600;">{{c.compra.total | currency : c.compra.moneda.simbolo : 'symbol' :
+                      '.2-2' }}</b></td>
+                  <td><b style="font-weight: 600;">
+                      {{(c.compra.saldos.length > 0 ? c.compra.saldos[0].saldo_final : 0) | moneda:
+                      c.compra.moneda.simbolo}}
+                    </b></td>
+                  <td>
+                    <span class="badges"
+                      [ngClass]="{'bg-primary': c.compra.estado == 'VIGENTE', 'bg-danger': c.compra.estado == 'ANULADA'}">{{c.compra.estado}}</span>
+                  </td>
+                  <td class="text-end">
+                    <a id="btn_eliminar" class="me-2">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                  </td>
+                </tr>
+                } @empty {
+                <tr>
+                  <td colspan="10" class="text-center">
+                    <img id="robot" class="fa-bounce mt-3" width="100"
+                      src="https://api.kairosgt.com/public/robots/busqueda.png">
+                    <br>
+                    <h4 class="mb-3">No se encontraron registros</h4>
+                  </td>
+                </tr>
+                }
+              </tbody>
+              <thead>
+                <tr>
+                  <th colspan="4"></th>
+                  <th>TOTAL</th>
+                  <th colspan="4">
+                    <b style="font-weight: 600;">{{getTotalCompra() | moneda: 'Q. '}}</b>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+        }
+        @if (ventas.length > 0) {
+        <div class="col-lg-12 mt-5">
+          <h5>Ventas</h5>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Serie / Correlativo</th>
+                  <th>Fecha</th>
+                  <th>No. Doc</th>
+                  <th>Tipo de Pago</th>
+                  <th>Cliente</th>
+                  <th>Total</th>
+                  <th>Saldo</th>
+                  <th>Estado</th>
+                  <th class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (c of ventas; track c.venta.id) {
+                <tr>
+                  <td>
+                    <a class="text-secondary">
+                      {{c.venta.serie}}-{{c.venta.correlativo}}
+                    </a>
+                  </td>
+                  <td>{{c.venta.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                  <td>{{c.venta.fel_numero}}</td>
+                  <td>{{c.venta.tipo_pago}}</td>
+                  <td>{{c.venta.cliente.nit}} - {{c.venta.cliente.nombre}}</td>
+                  <td><b style="font-weight: 600;">{{c.venta.total | currency : c.venta.moneda.simbolo : 'symbol' :
+                      '.2-2' }}</b></td>
+                  <td><b style="font-weight: 600;">
+                      {{(c.venta.saldos.length > 0 ? c.venta.saldos[0].saldo_final : 0) | moneda:
+                      c.venta.moneda.simbolo}}
+                    </b></td>
+                  <td>
+                    <span class="badges"
+                      [ngClass]="{'bg-primary': c.venta.estado == 'VIGENTE', 'bg-danger': c.venta.estado == 'ANULADA'}">{{c.venta.estado}}</span>
+                  </td>
+                  <td class="text-end">
+                    <a id="btn_eliminar" class="me-2">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                  </td>
+                </tr>
+                } @empty {
+                <tr>
+                  <td colspan="10" class="text-center">
+                    <img id="robot" class="fa-bounce mt-3" width="100"
+                      src="https://api.kairosgt.com/public/robots/busqueda.png">
+                    <br>
+                    <h4 class="mb-3">No se encontraron registros</h4>
+                  </td>
+                </tr>
+                }
+              </tbody>
+              <thead>
+                <tr>
+                  <th colspan="4"></th>
+                  <th>TOTAL</th>
+                  <th colspan="4">
+                    <b style="font-weight: 600;">{{getTotalVenta() | moneda: 'Q. '}}</b>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+        }
+        <div class="col-12 mt-5 text-end">
+          <a routerLink="../../" class="btn btn-cancel me-2">
+            <i class="fas fa-reply"></i> Regresar
+          </a>
+          <a (click)="putEtiqueta()" [ngClass]="{'disabled': etiquetaForm.invalid}" class="btn btn-submit me-2"
+            permiso="editar-etiqueta">
+            @if (loading) {
+            <span class="spinner-border spinner-border-sm"></span>
+            } @else {
+            <i class="fas fa-save"></i> Guardar
+            }
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

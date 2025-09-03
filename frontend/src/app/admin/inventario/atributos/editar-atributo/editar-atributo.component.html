@@ -1,0 +1,105 @@
+<div class="content">
+
+  <div [hidden]="oc" class="page-header">
+    <div class="page-title">
+      <h4>Editar Atributo</h4>
+      <h6>Completa el formulario</h6>
+    </div>
+  </div>
+
+  <div class="row">
+    <div [hidden]="oc" class="col-lg-6 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div [formGroup]="atributoForm" class="row">
+            <div class="col-lg-12 col-sm-12 col-12">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input formControlName="nombre" type="text">
+              </div>
+            </div>
+            <div [hidden]="oc" class="col-12" class="text-end">
+              <a routerLink="../../" class="btn btn-cancel me-2">
+                <i class="fas fa-reply"></i> Regresar
+              </a>
+              <a (click)="putAtributo()" [ngClass]="{'disabled': atributoForm.invalid}" class="btn btn-submit me-2"
+                permiso="editar-atributo">
+                @if (loading) {
+                <span class="spinner-border spinner-border-sm"></span>
+                } @else {
+                <i class="fas fa-save"></i> Guardar
+                }
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div [hidden]="oc" class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12 col-sm-6 col-12">
+              <a routerLink="./">Lista de valores</a>
+              <br><br>
+              <div class="table-responsive">
+                <table class="table datanew">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th class="text-end">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (v of valores; track v.id) {
+                    <tr>
+                      <td>
+                        <a class="link" (click)="setValor(v)">
+                          {{v.nombre}}
+                        </a>
+                      </td>
+                      <td class="text-end">
+                        <a class="me-2">
+                          <i class="fas fa-pencil-alt" (click)="setValor(v)"></i>
+                        </a>
+                        <a class="me-2" (click)="deleteValor(v)">
+                          <i class="fas fa-trash-alt"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg col-sm col-12">
+      <div class="card">
+        <div class="card-body" style="margin-bottom: 6%;">
+          <div [formGroup]="valorForm" class="row">
+            <div class="col-lg-12 col-sm-12 col-12">
+              <div class="form-group">
+                <label>
+                  <span *ngIf="!valor_id">Agregar</span>
+                  <span *ngIf="valor_id">Editar</span>
+                  {{atributoForm.value.nombre}}</label>
+                <input formControlName="nombre" type="text">
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-12">
+              <a (click)="valor_id ? putValor() : postValor()" class="btn btn-primary me-2" permiso="editar-atributo">
+                <i class="fas fa-save"></i> Guardar
+              </a>
+              <a *ngIf="valor_id" (click)="valor_id = null; valorForm.controls['nombre'].setValue(null)"
+                class="btn btn-danger me-2">
+                <i class="fas fa-cancel"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

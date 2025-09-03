@@ -1,0 +1,104 @@
+<div class="content">
+
+  <div class="row">
+    <div class="col-md-8 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="profile-set">
+            <div class="profile-head">
+
+            </div>
+
+            <div class="profile-top">
+              <div class="profile-content">
+                <div class="profile-contentimg">
+                  <img [src]="usuarioForm.value.logo ? usuarioForm.value.logo : 'assets/img/blank.jpg'" alt="img"
+                    id="blah">
+                  <div class="profileupload edit">
+                    <input type="file" id="imgInp" (change)="setImage($event, 'logo')">
+                    <a href="javascript:void(0);">
+                      <img src="assets/img/icons/edit-set.svg" alt="img">
+                    </a>
+                  </div>
+                  <div class="profileupload delete">
+                    <a (click)="removeImage('logo')" href="javascript:void(0);">
+                      <img src="assets/img/icons/trash.svg" alt="img">
+                    </a>
+                  </div>
+                </div>
+                <div class="profile-contentname">
+                  <h2>{{usuarioForm.value.nombre}} {{usuarioForm.value.apellido}}</h2>
+                  <h4>&#64;{{usuarioForm.value.usuario}}</h4>
+                </div>
+              </div>
+              <div>
+                <a (click)="putUsuario()" [ngClass]="{'disabled': usuarioForm.invalid}" class="btn btn-submit me-2">
+                  @if (loading) {
+                  <span class="spinner-border spinner-border-sm"></span>
+                  } @else {
+                  <i class="fas fa-save"></i> Guardar
+                  }
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div [formGroup]="usuarioForm" class="row">
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input formControlName="nombre" type="text" readonly>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <label>Apellido</label>
+                <input formControlName="apellido" type="text" readonly>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="form-group">
+                <label>Usuario</label>
+                <input formControlName="usuario" type="text" readonly>
+              </div>
+            </div>
+            <!-- <div class="col-lg-6 col-sm-6 col-12">
+              <div class="form-group">
+                <label>Clave</label>
+                <input formControlName="clave" type="password" readonly>
+              </div>
+            </div> -->
+            <div class="col-lg-6 col-sm-6 col-12">
+              <div class="form-group">
+                <label>Correo Electronico</label>
+                <input formControlName="correo" type="text" readonly>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-12">
+              <div class="form-group">
+                <label>Telefono</label>
+                <input formControlName="telefono" type="text" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 text-end">
+            <a (click)="putUsuario()" [ngClass]="{'disabled': usuarioForm.invalid}" class="btn btn-submit me-2">
+              @if (loading) {
+              <span class="spinner-border spinner-border-sm"></span>
+              } @else {
+              <i class="fas fa-save"></i> Guardar
+              }
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-12 mt-5 text-center">
+      <img id="robot-perfil" src="https://api.kairosgt.com/public/robots/perfil.png" alt="">
+    </div>
+  </div>
+
+</div>

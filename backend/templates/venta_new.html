@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Venta {{venta.serie}}-{{venta.correlativo}}</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/print.css">
+</head>
+
+<body>
+  <div class="main container-fluid invoice-container">
+
+    <div class="table-responsive">
+      <table class="table border mb-0">
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/print.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let venta = ref(___venta)
+        let empresa = ref(___empresa)
+        return {
+          venta,
+          empresa
+        }
+      },
+      mounted() {
+        renderElements(this.venta.ventas_detalles, this.venta, this.empresa);
+      }
+    }).mount('#app')
+
+  </script>
+</body>
+
+</html>

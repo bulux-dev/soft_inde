@@ -1,0 +1,450 @@
+<div class="content">
+
+  <div class="row">
+    <div class="col-lg-8 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="profile-set">
+            <div class="profile-head">
+
+            </div>
+
+            <div class="profile-top">
+              <div class="profile-content">
+                <div class="profile-contentimg">
+                  <img [src]="empresaForm.value.logo ? empresaForm.value.logo : 'assets/img/blank.jpg'" alt="img"
+                    id="blah">
+                  <div class="profileupload edit">
+                    <input type="file" id="imgInp" (change)="setImage($event, 'logo')">
+                    <a href="javascript:void(0);"><img src="assets/img/icons/edit-set.svg" alt="img"></a>
+                  </div>
+                </div>
+                <div class="profile-contentname">
+                  <h2>{{empresaForm.value.nombre}}</h2>
+                  <h4>{{empresaForm.value.nit}}</h4>
+                </div>
+              </div>
+              <div class="ms-auto">
+                <a routerLink="../../" class="btn btn-cancel">
+                  <i class="fas fa-reply"></i> Regresar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <ul class="nav nav-tabs nav-tabs-solid nav-justified" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-bs-toggle="tab" href="#informacion" role="tab">
+            <i class="fas fa-info-circle"></i> Informacion General
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#sitio-web" role="tab">
+            <i class="fas fa-globe"></i> Sitio Web
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="informacion" role="tabpanel">
+
+          <div class="card">
+            <div class="card-body">
+              <div [formGroup]="empresaForm" class="row">
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Nombre Comercial</label>
+                    <input formControlName="nombre" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Razon Social</label>
+                    <input formControlName="razon_social" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Contacto</label>
+                    <input formControlName="contacto" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>NIT</label>
+                    <input formControlName="nit" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Correo Electronico</label>
+                    <input formControlName="correo" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Telefono</label>
+                    <input formControlName="telefono" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Direccion</label>
+                    <input formControlName="direccion" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Sitio Web</label>
+                    <input formControlName="sitio_web" type="text">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Facebook</label>
+                    <div class="input-group">
+                      <a target="_blank" [href]="empresaForm.value.facebook" class="btn btn-outline-primary"
+                        type="button">
+                        <i class="fab fa-facebook"></i>
+                      </a>
+                      <input formControlName="facebook" type="text" class="form-control" placeholder="Facebook URL">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Instagram</label>
+                    <div class="input-group">
+                      <a target="_blank" [href]="empresaForm.value.instagram" class="btn btn-outline-danger"
+                        type="button">
+                        <i class="fab fa-instagram"></i>
+                      </a>
+                      <input formControlName="instagram" type="text" class="form-control" placeholder="Instagram URL">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Twitter</label>
+                    <div class="input-group">
+                      <a target="_blank" [href]="empresaForm.value.twitter" class="btn btn-outline-info" type="button">
+                        <i class="fab fa-twitter"></i>
+                      </a>
+                      <input formControlName="twitter" type="text" class="form-control" placeholder="Twitter URL">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>LinkedIn</label>
+                    <div class="input-group">
+                      <a target="_blank" [href]="empresaForm.value.linkedin" class="btn btn-outline-primary"
+                        type="button">
+                        <i class="fab fa-linkedin"></i>
+                      </a>
+                      <input formControlName="linkedin" type="text" class="form-control" placeholder="LinkedIn URL">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Acceso</label>
+                    <div class="status-toggle d-flex justify-content-between align-items-center">
+                      <input formControlName="acceso" type="checkbox" id="checkacceso" class="check">
+                      <label for="checkacceso" class="checktoggle"></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Color</label>
+                    <input (input)="changeColor()" formControlName="color" type="color">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label> Foto de Portada</label>
+                    <div class="image-upload">
+                      <input type="file" (change)="setImage($event, 'portada')">
+                      <div class="image-uploads">
+                        <img src="assets/img/icons/upload.svg" alt="img">
+                        <h4>Drag and drop a file to upload</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Portada</label>
+                    <img style="width: 400px;"
+                      [src]="empresaForm.value.portada ? empresaForm.value.portada : 'assets/img/blank.jpg'" alt="img">
+                  </div>
+                </div>
+              </div>
+
+              <div class="submit-section text-end">
+                <a (click)="putEmpresa()" [ngClass]="{'disabled': empresaForm.invalid}" class="btn btn-submit me-2">
+                  @if (loading) {
+                  <span class="spinner-border spinner-border-sm"></span>
+                  } @else {
+                  <i class="fas fa-save"></i> Guardar
+                  }
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="sitio-web" role="tabpanel">
+
+          <div class="card">
+            <div class="card-body">
+
+              <div class="accordion" id="accordionMenus">
+                @for(w of web_menus; track w) {
+                <div class="accordion-item">
+                  <h2 class="accordion-header" [id]="'acc-' + w.id">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#id-' + w.id" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseOne">
+                      <b><i class="fas" [class]="w.icono"></i> {{w.nombre}} ({{w.orden}})</b>
+                    </button>
+                  </h2>
+                  <div [id]="'id-' + w.id" class="accordion-collapse collapse" [attr.aria-labelledby]="'acc-' + w.id"
+                    data-bs-parent="#accordionMenus">
+                    <div class="accordion-body">
+                      <div class="row">
+                        <div class="col-12">
+                          @for(s of w.web_secciones; track s) {
+                          <h4>{{s.nombre}}</h4>
+
+                          <div class="row">
+                            @for(i of s.webs; track i) {
+                            <div [class]="i.col">
+                              <div class="form-group">
+                                <label>{{i.nombre}}</label>
+                                @if (i.tipo == 'select') {
+                                <select [(ngModel)]="i.valor" class="form-control">
+                                  @for(o of i.opciones.split(','); track o) {
+                                  <option value="{{o}}">{{o}}</option>
+                                  }
+                                </select>
+                                } @else if (i.tipo == 'textarea') {
+                                <textarea [(ngModel)]="i.valor"></textarea>
+                                } @else {
+                                <input [(ngModel)]="i.valor" [type]="i.tipo" class="form-control">
+                                }
+                              </div>
+                            </div>
+                            }
+                          </div>
+
+                          <div class="submit-section text-end">
+                            <a (click)="putWeb(s)" class="btn btn-submit me-2">
+                              @if (loading) {
+                              <span class="spinner-border spinner-border-sm"></span>
+                              } @else {
+                              <i class="fas fa-save"></i> Guardar
+                              }
+                            </a>
+                          </div>
+
+                          <hr>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                }
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-lg-4 col-12">
+      <div class="row" [formGroup]="empresaForm">
+        <div class="col-12 d-flex" data-bs-toggle="offcanvas" data-bs-target="#permisos" (click)="getPermisos()">
+          <div class="dash-count">
+            <div class="dash-counts">
+              <h4>{{totalModulos()}}</h4>
+              <h5>Modulos</h5>
+            </div>
+            <div class="dash-imgs">
+              <i class="fa fa-layer-group fa-2x"></i>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-6 d-flex" data-bs-toggle="offcanvas" data-bs-target="#permisos" (click)="getPermisos()">
+          <div class="dash-count">
+            <div class="dash-counts">
+              <h4>{{modulos.length - totalModulos()}}</h4>
+              <h5>Tienda</h5>
+            </div>
+            <div class="dash-imgs">
+              <i class="fa fa-shop fa-2x"></i>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="col-12">
+          <div class="dash-widget">
+            <div class="dash-widgetimg">
+              <span><i class="fa fa-credit-card fa-2x" style="color: white;"></i></span>
+            </div>
+            <div class="dash-widgetcontent">
+              <h5>Q. <span>{{totalMembresia()}}</span></h5>
+              <h6>Membresia</h6>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-nowrap mb-0">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Valor</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (v of variables; track v.id) {
+                  <tr>
+                    <td>{{v.nombre}}</td>
+                    <td>
+                      @if (v.opciones) {
+                      <ng-multiselect-dropdown [(ngModel)]="v.valor" [ngModelOptions]="{standalone: true}"
+                        [placeholder]="'Selecciona una opcion'" [settings]="selectS" [data]="v.opciones.split(',')"
+                        (onSelect)="putVariable(v)">
+                      </ng-multiselect-dropdown>
+                      } @else {
+                      <input type="text" [(ngModel)]="v.valor" [ngModelOptions]="{standalone: true}"
+                        [ngModelOptions]="{standalone: true}" class="form-control" (keyup.enter)="putVariable(v)">
+                      }
+                    </td>
+                    <td>
+                      <a class="btn btn-primary me-2">
+                        <i class="fa fa-save" (click)="putVariable(v)"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- <div class="offcanvas offcanvas-end" tabindex="-1" id="permisos" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Tienda de Modulos</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row">
+      <div class="col-lg-8 col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row" id="productos">
+              @for (m of modulos; track m) {
+              <div class="col-lg-4 col-sm-4 col-6 d-flex">
+                <div class="productset">
+                  <div class="productsetimg">
+                    <i [class]="'fad ' + m.icono + ' fa-5x'"></i>
+                    <h6>MODULO</h6>
+                  </div>
+                  <div class="productsetcontent">
+                    <h5>SKU: 0000</h5>
+                    <h4>{{m.nombre}}</h4>
+                    <div class="d-flex align-items-center justify-content-between price">
+                      <p class="text-primary" style="margin: 0;">Q. {{m.membresia | number: '.2-2'}}</p>
+                      <button class="btn btn-sm" (click)="setPermiso(m)"
+                        [ngClass]="{'btn-primary': !getPermiso(m), 'btn-success': getPermiso(m)}">
+                        <i class="fas" [ngClass]="{'fa-plus': !getPermiso(m), 'fa-check': getPermiso(m)}"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              } @empty {
+              <div class="col-12" style="text-align: center; margin-top: 50px;">
+                <h4>No existen productos</h4>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-12">
+
+        <div class="dash-widget">
+          <div class="dash-widgetimg">
+            <span><i class="fa fa-credit-card fa-2x" style="color: white;"></i></span>
+          </div>
+          <div class="dash-widgetcontent">
+            <h5>Q. <span>{{totalMembresia()}}</span></h5>
+            <h6>Membresia</h6>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <div class="text-center">
+                <button (click)="setPermisos()" class="btn btn-sm btn-primary">
+                  <i class="fa fa-play"></i> Switch
+                </button>
+                <br><br>
+                @if(mensaje){
+                <a class="text-center">
+                  <span class="spinner-border spinner-border-sm"></span> {{mensaje}}
+                </a>
+                <br><br>
+                }
+              </div>
+
+              <table class="table table-nowrap mb-0">
+                <thead>
+                  <tr>
+                    <th>Modulo</th>
+                    <th>Permiso</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (m of modulos; track m.id) {
+                  <tr>
+                    <td>{{m.nombre}}</td>
+                    <td>
+                      <div class="status-toggle d-flex justify-content-between align-items-center">
+                        <input type="checkbox" [id]="'m-' + m.id" class="check" [checked]="getPermiso(m)"
+                          (change)="setPermiso(m)">
+                        <label [for]="'m-' + m.id" class="checktoggle">checkbox</label>
+                      </div>
+                    </td>
+                  </tr>
+                  } @empty {
+                  <tr>
+                    <td colspan="8" class="text-center">No existen modulos</td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

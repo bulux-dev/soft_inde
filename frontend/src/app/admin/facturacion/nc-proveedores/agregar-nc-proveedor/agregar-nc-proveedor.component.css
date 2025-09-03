@@ -1,0 +1,23 @@
+.card {
+  height: 90% !important;
+}
+
+.dynamic-card {
+  height: auto !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.dynamic-card .card-body {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+}

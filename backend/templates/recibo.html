@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Recibo {{recibo.serie}}-{{recibo.correlativo}}</title>
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/api/assets/css/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="d-print-none text-center mt-2">
+    <div class="btn-group">
+      <input class="form-control" v-model="letra" type="number" placeholder="Letra"
+        style="width: 100px; margin-right: 5px;">
+      <input class="form-control" v-model="interlineado" type="number" placeholder="Interlineado"
+        style="width: 100px; margin-right: 5px;">
+      <a v-on:click="print()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-print"></i> Imprimir
+      </a>
+      <a v-on:click="download()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-file-pdf"></i> PDF
+      </a>
+      <a v-on:click="excel()" class="btn btn-light border text-black-50 shadow-none" style="margin-right: 5px;">
+        <i class="fas fa-file-excel"></i> Excel
+      </a>
+    </div>
+  </div>
+
+  <div id="excel">
+    <div class="container-fluid invoice-container" id="pdf" contentEditable="true"
+      :style="{ 'max-width': ancho + 'cm' }">
+
+      <header>
+        <div class="row">
+          <div class="col-3">
+            <img id="logo" v-bind:src="empresa.logo" style="width: 100px">
+          </div>
+          <div class="col-6" style="text-align: center; font-size: 12px;">
+            <h6 class="mb-1" style="text-transform: uppercase;">{{empresa.razon_social}}</h6>
+            <p class="lh-base mb-0">NIT: {{empresa.nit}}</p>
+            <p class="lh-base mb-0">PBX: {{empresa.telefono}}</p>
+            <p class="lh-base mb-0">{{empresa.direccion}}</p>
+            <h6 class="lh-base mb-0; text-center" style="margin-top: 6px;">RECIBO DE CAJA</h6>
+          </div>
+          <div class="col-3" style="text-align: right;">
+            <b>Fecha:</b>
+            {{formatoFecha(recibo.fecha, 'DD/MM/YYYY HH:mm')}} <br>
+            <b>Estado:</b>
+            {{recibo.estado}}
+          </div>
+          <hr>
+        </div>
+      </header>
+
+      <main>
+        <div class="row" :style="{ 'font-size': letra + 'px', 'line-height': interlineado + 'px' }">
+          <div class="col-3">
+            <p class="mb-1"><b>Serie:</b> {{recibo.serie}}-{{recibo.correlativo}}</p>
+            <p class="mb-1"><b>Sucursal:</b> {{recibo.sucursal.nombre}}</p>
+            <p class="mb-1"><b>Bodega:</b> {{recibo.bodega.nombre}}</p>
+          </div>
+          <div class="col-6 text-center">
+            <p class="mb-1"><b>Cliente:</b> {{recibo.cliente.nombre}}</p>
+            <p class="mb-1"><b>NIT:</b> {{recibo.cliente.nit}}</p>
+            <p class="mb-1"><b>Direccion:</b> {{recibo.cliente.direccion}}</p>
+          </div>
+          <div class="col-3 text-end">
+            <p v-for="p in recibo.pagos" class="mb-1">
+              <b>{{p.metodo}}:</b> {{moneda(p.monto, 'Q. ')}} - {{p.autorizacion}} <br>
+            </p>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table border mb-0" :style="{ 'font-size': letra + 'px', 'line-height': interlineado + 'px' }">
+            <thead>
+              <tr class="bg-dark" :style="{ 'line-height': interlineado + 'px' }">
+                <td><b>Descripcion</b></td>
+                <td class="text-end"><b>Cantidad</b></td>
+                <td class="text-end"><b>Precio U.</b></td>
+                <td class="text-end" v-if="recibo.descuento"><b>Precio</b></td>
+                <td class="text-end" v-if="recibo.descuento"><b>Descuento</b></td>
+                <td class="text-end"><b>Total</b></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="d in recibo.recibos_detalles" :style="{ 'line-height': interlineado + 'px' }">
+                <td>{{d.descripcion}}</td>
+                <td style="width: 10%;" class="text-end">{{d.cantidad}}</td>
+                <td style="width: 10%;" class="text-end">{{moneda(d.precio_unitario, 'Q. ')}}</td>
+                <td style="width: 10%;" class="text-end" v-if="recibo.descuento">{{moneda(d.precio, 'Q. ')}}</td>
+                <td style="width: 10%;" class="text-end" v-if="recibo.descuento">{{moneda(d.descuento, 'Q. ')}}</td>
+                <td style="width: 10%;" class="text-end">{{moneda(d.total, 'Q. ')}}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="bg-light" style="font-weight: 700;" :style="{ 'line-height': interlineado + 'px' }">
+                <td></td>
+                <td></td>
+                <td class="text-end">TOTAL</td>
+                <td v-if="recibo.descuento"></td>
+                <td v-if="recibo.descuento"></td>
+                <td class="text-end" style="width: 18%;">{{moneda(recibo.total, 'Q. ')}}</td>
+              </tr>
+              <tr class="bg-light">
+                <td colspan="5"><b>TOTAL EN LETRAS:</b> {{letrasMoneda(recibo.total)}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-3"></div>
+          <div class="col-6">
+            <div class="text-center">
+              ___________________________________ <br>
+              COBRADOR:
+            </div>
+          </div>
+          <div class="col-3"></div>
+        </div>
+      </main>
+
+      <footer class="mt-2" :style="{ 'font-size': letra + 'px', 'line-height': interlineado + 'px' }">
+        <p class="text-justify">
+          <b>NOTA:</b> Este recibo es válido únicamnente si lleva firma del cobrador, refrendado por el cajero
+          de la compañía. Articulo 1394 Código Civil (Dto. Ley 106), el pago por medio de cheque, queda sujeto a la
+          condición, de que éste se haga efectivo a su presentación.
+        </p>
+        <p class="text-justify">
+        <div v-if="recibo.observaciones">
+          <b>OBSERVACIONES:</b> {{recibo.observaciones}} <br>
+        </div>
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/api/assets/js/vue.global.prod.js"></script>
+  <script src="/api/assets/js/moment.min.js"></script>
+  <script src="/api/assets/js/axios.min.js"></script>
+  <script src="/api/assets/js/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+  <script src="/api/assets/js/jspdf.umd.min.js"></script>
+  <script src="/api/assets/js/html2canvas.min.js"></script>
+
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let recibo = ref(___recibo)
+        let cliente = ref(___cliente)
+        let empresa = ref(___empresa)
+        let letra = ref('8')
+        let interlineado = ref('14')
+        return {
+          recibo,
+          cliente,
+          empresa,
+          letra,
+          interlineado
+        }
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          return moment(date).format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        letrasMoneda(number) {
+          number = numeroALetrasMoneda(number);
+          number = number.replaceAll('UNO QUETZALES', 'UN QUETZALES');
+          number = number.replaceAll('UNO MIL', 'UN MIL');
+          number = number.replaceAll('UNO CENTAVOS', 'UN CENTAVOS');
+          return number;
+        },
+        print() {
+          window.print();
+        },
+        download() {
+          const { jsPDF } = window.jspdf;
+          const content = document.getElementById('pdf');
+
+          html2canvas(content, { scale: 3 }).then(canvas => {
+            const imgWidth = 216;
+            const pageHeight = 279;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'letter');
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            pdf.save(`Recibo ${this.recibo.serie}-${this.recibo.correlativo}.pdf`);
+          });
+        },
+        excel() {
+          var downloadLink;
+          var dataType = 'application/vnd.ms-excel';
+          var tableSelect = document.getElementById('excel');
+          var tableHTML = tableSelect.outerHTML.replace(/<img[^>]*>/g, '').replace(/ /g, '%20');
+          let filename = `Recibo ${this.recibo.serie}-${this.recibo.correlativo} ${moment(this.recibo.fecha).format('DD-MM-YYYY HH:mm')}.xls`;
+          downloadLink = document.createElement("a");
+          document.body.appendChild(downloadLink);
+          if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHTML], {
+              type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+          } else {
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+            downloadLink.download = filename;
+            downloadLink.click();
+          }
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

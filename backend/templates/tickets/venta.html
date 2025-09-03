@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" id="app">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=500, initial-scale=1">
+  <title>Venta {{venta.serie}}-{{venta.correlativo}}</title>
+  <link rel="stylesheet" type="text/css" href="https://kairosgt.com/assets/factura/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://kairosgt.com/assets/factura/all.min.css">
+  <link rel="stylesheet" type="text/css" href="https://kairosgt.com/assets/factura/stylesheet.css">
+  <link href="https://kit-pro.fontawesome.com/releases/v6.5.1/css/pro.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="d-print-none text-center mt-2">
+    <div class="btn-group btn-group-sm">
+      <a v-on:click="print()" class="btn btn-light border text-black-50 shadow-none">
+        <i class="fas fa-print"></i> Imprimir
+      </a>
+    </div>
+  </div>
+
+  <div class="mt-2" style="background-color: white; line-height: 18px;">
+    <div style="text-align: center;">
+      <img id="logo" v-bind:src="empresa.logo" style="width: 80px">
+      <h6 style="margin: 0; font-size: 14px; font-weight: 600;">{{empresa.nombre}}</h6>
+    </div>
+    <div style="text-align: center;">
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">NIT: {{empresa.nit}}</h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">{{empresa.direccion}}</h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">PBX: {{empresa.telefono}}</h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">Documento Tributario Electrónico FEL</h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">Factura Electronica</h6>
+      <br>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 600">{{venta.serie}}-{{venta.correlativo}}</h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">Fecha: {{formatoFecha(venta.fecha)}}</h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">Vendedor: {{venta.empleado.nombre}}</h6>
+      <br>
+    </div>
+
+    <div style="text-align: center;">
+      <h6 style="margin: 0; font-size: 12px; font-weight: 600">Datos del Cliente</h6>
+      <hr style="margin: 1px; border-top: 2px dotted black; opacity: 1;">
+      <div style="text-align: center; font-weight: 200; font-size: 5px !important">
+        <h6 style="margin: 0; font-size: 12px; font-weight: 300"> NIT: {{venta.cliente.nit}}</h6>
+        <h6 style="margin: 0; font-size: 12px; font-weight: 300">{{venta.cliente.nombre}}</h6>
+        <h6 style="margin: 0; font-size: 12px; font-weight: 300">{{venta.cliente.direccion}}</h6>
+      </div>
+      <br>
+    </div>
+
+    <hr style="margin: 1px; border-top: 2px dotted black; opacity: 1;">
+    <div class="row">
+      <div class="col-8">
+        <h6 style="margin: 0; font-size: 12px; font-weight: 300">CANT&nbsp;&nbsp;PRODUCTO</h6>
+      </div>
+      <div class="col-4" style="text-align: right;">
+        <h6 style="margin: 0; font-size: 12px; font-weight: 300">PRECIO</h6>
+      </div>
+    </div>
+    <hr style="margin: 1px; border-top: 2px dotted black; opacity: 1;">
+    <div class="row" v-for="d of venta.ventas_detalles">
+      <div class="col-8">
+        <h6 style="margin: 0; font-size: 12px; font-weight: 300">{{d.cantidad}} {{d.descripcion}}</h6>
+      </div>
+      <div class="col-4" style="text-align: right;">
+        <h6 style="margin: 0; font-size: 12px; font-weight: 300">{{moneda(d.precio, 'Q.')}}</h6>
+      </div>
+    </div>
+    <hr style="margin: 1px; border-top: 2px dotted black; opacity: 1;">
+    <div style="text-align: right;">
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">SUB TOTAL: <b>{{moneda(venta.subtotal, 'Q.')}}</b> </h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">IVA: <b>{{moneda(venta.impuesto, 'Q.')}}</b></h6>
+      <!-- PROPINA: Q0.00 <br> -->
+      <h6 style="margin: 0; font-size: 12px; font-weight: 600">TOTAL: <b>{{moneda(venta.total, 'Q.')}}</b></h6>
+    </div>
+    <hr style="margin: 1px; border-top: 2px dotted black; opacity: 1;">
+    <div style="text-align: center;">
+      <br>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">Autorizacion: {{venta.fel_autorizacion}}</h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">Serie: {{venta.fel_serie}}</h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">Número. {{venta.fel_numero}}</h6>
+      <h6 style="margin: 0; font-size: 12px; font-weight: 300">Sujeto a retención definitiva ISR</h6>
+      <br>
+    </div>
+    <hr style="margin: 1px; border-top: 2px dotted black; opacity: 1;">
+    <br>
+    <div style="text-align: center;">
+      <div class="row">
+        <div class="col-12">
+          <h6 style="margin: 0; font-size: 12px; font-weight: 300">
+            Generado por: <b>{{venta.usuario.nombre}}</b>
+          </h6>
+        </div>
+        <div class="col-12">
+          <h6 style="margin: 0; font-size: 12px; font-weight: 300">
+            Fecha: <b>{{formatoFecha(venta.fecha, 'DD/MM/YYYY HH:mm')}}</b>
+          </h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@3.2.20/dist/vue.global.prod.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/api/assets/js/letras-moneda.js"></script>
+
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        let venta = ref(___venta)
+        let empresa = ref(___empresa)
+        return {
+          venta,
+          empresa
+        }
+      },
+      methods: {
+        formatoFecha(date, format = 'DD/MM/YYYY') {
+          return moment(date).format(format)
+        },
+        moneda(valor, simbolo) {
+          valor = parseFloat(valor)
+          let text = valor.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          text = text.replace('$', simbolo)
+          return text;
+        },
+        print() {
+          window.print();
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

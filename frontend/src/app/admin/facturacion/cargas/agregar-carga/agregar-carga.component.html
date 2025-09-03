@@ -1,0 +1,128 @@
+<div class="content">
+  <div class="row">
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="cargaForm">
+            <div class="col-12">
+              <h5>Fecha</h5> <br>
+              <div class="form-group">
+                <input class="form-control" type="datetime-local" formControlName="fecha" [max]="fecha_max"
+                  (input)="fechaMax()">
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <h5>Observaciones</h5> <br>
+                  <div class="form-group">
+                    <textarea formControlName="observaciones"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="card card-order">
+
+        <div class="split-card"></div>
+
+        <div class="card-body" [formGroup]="proveedorForm">
+          <div class="row">
+            <div class="col-6">
+              <h5>Proveedor</h5> <br>
+            </div>
+            <div class="col-6 text-end">
+              <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="offcanvas"
+                data-bs-target="#proveedores">
+                <i class="fas fa-truck-fast me-2"></i>Mis Proveedores
+              </a>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <div class="input-group">
+                  <input id="mis-proveedores" formControlName="nit" type="text" class="form-control" placeholder="NIT"
+                    (keyup.enter)="getInfoNit()">
+                  <button class="btn btn-primary" type="button" (click)="getInfoNit()">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="form-group">
+                <div class="input-group">
+                  <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-card"></div>
+
+        <div class="card-body">
+          <div class="row" [formGroup]="cargaForm">
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.sucursal}">
+              <h5>Sucursal</h5> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="sucursales"
+                  formControlName="sucursal_id" (onSelect)="getBodegasBySucursal($event.id)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-6" [ngClass]="{'disabled': documento && documento.bodega}">
+              <h6>Bodega</h6> <br>
+              <div class="form-group">
+                <ng-multiselect-dropdown [placeholder]="'Sin seleccion'" [settings]="selectS" [data]="bodegas"
+                  formControlName="bodega_id">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-sm-12">
+      <div class="card card-order dynamic-card">
+        <div class="split-card"></div>
+
+        <app-carrito [sucursal_id]="cargaForm.controls['sucursal_id'].value[0].id"
+          [bodega_id]="cargaForm.controls['bodega_id'].value[0].id" [documento_id]="documento_id"
+          [documento]="documento" (newItemEvent)="updateCarrito()" [carrito_temp]="cargas_detalles">
+        </app-carrito>
+
+      </div>
+    </div>
+    <div class="col-lg-12 col-sm-12">
+      <div class="card-body">
+        <div class="text-end">
+          <a routerLink="../../" class="btn btn-cancel me-2">
+            <i class="fas fa-reply"></i> Regresar
+          </a>
+          <button id="btn_guardar" (click)="postCarga()" class="btn btn-submit btn-block" permiso="agregar-carga">
+            <i class="fas fa-save"></i> Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="proveedores">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title"></h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <app-proveedores [oc]="true" (newItemEvent)="addProveedor($event)"></app-proveedores>
+  </div>
+</div>
